@@ -12,11 +12,10 @@ class Questionnaire(db.Model):
     patient_id = db.Column(db.String(20), db.ForeignKey('patient.id'))
     responses = db.Column(db.JSON, nullable=True) # Storing responses as JSON, if applicable
     operation_date = db.Column(db.String(20), nullable=True)
-    status = db.Column(db.String(120), nullable=False, default='pending')
+    status = db.Column(db.String(20), nullable=False, default='pending')
     evaluation_notes = db.Column(db.String(1200), nullable=True)
-    anesthesiologist_notes = db.Column(db.String(1200), nullable=True)
-    surgeon_notes = db.Column(db.String(1200), nullable=True)
-    doctor_notes = db.Column(db.String(1200), nullable=True)
+    anesthesiologist_notes = db.Column(db.String(600), nullable=True)
+    doctor_notes = db.Column(db.String(600), nullable=True)
     submitted_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow) 
 
 
