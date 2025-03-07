@@ -5,6 +5,7 @@ import uuid
 
 def generate_short_uuid():
         return str(uuid.uuid4())[:8]
+        
 class User(db.Model, UserMixin):
     __abstract__ = True
     __tablename__ = 'user'
