@@ -1,16 +1,19 @@
 from App.database import db
 from App.models import Patient
-
+import uuid
+def generate_short_uuid():
+        return str(uuid.uuid4())[:10]
 def create_patient(firstname, lastname, username, password, email, phone_number):
+    uname = generate_short_uuid()
     try:
-        new_patient = Patient(firstname=firstname, lastname=lastname, username=username, password=password, email=email, phone_number=phone_number)
+        new_patient = Patient(firstname=firstname, lastname=lastname, username=uname, password=password, email=email, phone_number=phone_number)
         db.session.add(new_patient)
         db.session.commit()
         return new_patient
     except Exception as e:
         print(e, "Error creating patient")
         return None
-    
+
 def create_medical_history(patient_id,age, blood_type, weight, height, allergies, medical_conditions, medication):
     patient = Patient.query.get(patient_id)
     try:
