@@ -15,7 +15,9 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(1200), nullable=False)
     email = db.Column(db.String(150), nullable = False, unique = True)
     phone_number = db.Column(db.String(60), nullable = False, unique = True)
+    user_type = db.Column (db.String(20), nullable = False) #for doctor/patient/ anwesthesiologist accounts
  
+
     def __init__(self, firstname, lastname, username, password, email, phone_number):
         self.firstname = firstname
         self.lastname = lastname
@@ -23,6 +25,12 @@ class User(db.Model, UserMixin):
         self.set_password(password)
         self.email = email
         self.phone_number = phone_number
+        self.user_type = user_type
+
+
+    patient = db.relationship('Patient', back_populates='user', uselist=False)
+    doctor = db.relationship('Doctor', back_populates='user', uselist=False)
+    anesthesiologist = db.relationship('Anesthesiologist', back_populates='user', uselist=False)
 
     def get_json(self):
         return{
@@ -38,5 +46,15 @@ class User(db.Model, UserMixin):
         """Check hashed password."""
         return check_password_hash(self.password, password)
     
+    def getUserByUsername(username) :
+        user = User.query.filter_by(username= username).first() 
+        return user 
+
+    def getUser(id): 
+        user = User.query.filter_by(id = id).first() 
+        return user 
+
+   # def updateUser(id, username):
+
 
     

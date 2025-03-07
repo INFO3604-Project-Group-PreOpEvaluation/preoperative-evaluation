@@ -31,7 +31,11 @@ Action Routes
 def signin_action():
 
   data = request.form
+  logout_user() #check that user is not logged in 
+
   
+
+'''
   patient = Patient.query.filter_by(email = data['email']).first()    
   if patient and patient.check_password(data['password']):
     logout_user()
@@ -51,7 +55,9 @@ def signin_action():
     login_user(doctor)
     return redirect('/dashboard/doctor')
     # return redirect('/dashboard/doctor')
-  
+  '''
+
+
   flash('Error in email/password.')
   return redirect('/signin')
 
@@ -83,7 +89,7 @@ def identify_page():
   
 @auth_views.route('/logout', methods=['GET'])
 def logout_action():
-    logout()
+    logout_user()
     flash('Logged Out!')
     return redirect('/')
 
