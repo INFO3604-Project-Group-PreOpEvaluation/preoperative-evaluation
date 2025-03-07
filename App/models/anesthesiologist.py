@@ -31,7 +31,7 @@ class Anesthesiologist(User):
                 return questionnaire
             except Exception as e:
                 import logging
-                logging.error(e, "Error updating anesthesiologist notes")
+                logging.error("Error updating anesthesiologist notes: %s", e)
                 return None         
         return None
 
