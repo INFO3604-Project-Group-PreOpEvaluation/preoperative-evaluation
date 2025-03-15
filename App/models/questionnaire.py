@@ -4,9 +4,15 @@ from datetime import datetime
 import uuid
 
 def generate_short_uuid():
-        return str(uuid.uuid4())[:8]
+    """
+    Generates a short random UUID to be used as the primary key for questionnaires.
+    """
+    return str(uuid.uuid4())[:8]
 
 class Questionnaire(db.Model):
+    """
+    Represents a questionnaire submitted by a patient to an anesthesiologist.
+    """
     __tablename__ = 'questionnaire'
     id = db.Column(db.String(20), primary_key=True, default=generate_short_uuid, server_default='gen_random_uuid()')
     patient_id = db.Column(db.String(20), db.ForeignKey('patient.id'))
@@ -21,6 +27,9 @@ class Questionnaire(db.Model):
 
     # Initialization of Questionnaire with JSON fields
     def __init__(self, **kwargs):
+        """
+        Initialize a Questionnaire object with the given parameters.
+        """
         super().__init__(**kwargs)
         # self.questions = kwargs.get('questions', [])
         self.patient_id = kwargs.get('patient_id', None)       
