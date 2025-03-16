@@ -30,7 +30,8 @@ class Anesthesiologist(User):
                 db.session.commit()
                 return questionnaire
             except Exception as e:
-                print(e, "Error updating anesthesiologist notes")
+                import logging
+                logging.error("Error updating anesthesiologist notes: %s", e)
                 return None         
         return None
 
