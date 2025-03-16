@@ -9,7 +9,7 @@ def create_anesthesiologist(firstname, lastname, username, password, email, phon
         db.session.commit()
         return new_anesthesiologist
     except Exception as e:
-        print(f"Error creating anethesiologist: {e}")
+        print(e, "Error creating anesthesiologist")
         return None
 
 def update_questionnaire_anesthesiologist(anesthesiologist_id, questionnaire_id, new_anesthesiologist_notes, status):
