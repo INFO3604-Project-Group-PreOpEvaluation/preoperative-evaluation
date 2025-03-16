@@ -21,6 +21,9 @@ def questionnaire_page():
 @patient_required
 def questionnaire_details_page():
     questionnaire_id = request.args.get('questionnaire_id')
+    if not questionnaire_id:
+        flash('Questionnaire ID is missing')
+        return redirect(url_for('questionnaire_views.questionnaire_page'))
     questionnaire = get_questionnaire(questionnaire_id)
     if not questionnaire:
         flash('Invalid questionnaire ID')
@@ -56,7 +59,7 @@ def submit_questionnaire():
     if questionnaire:
         flash('Questionnaire submitted successfully!')
     else:
-        flash('Error submitting questionnaire!')
+        flash('Error submitting questionnaire! Please try again')
 
     return render_template('questionnaire_view.html', questions=questions,  questionnaire=questionnaire)
     #return jsonify(responses), 200
