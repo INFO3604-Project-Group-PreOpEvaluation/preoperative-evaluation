@@ -9,7 +9,7 @@ def generate_short_uuid():
 class User(db.Model, UserMixin):
     __abstract__ = True
     __tablename__ = 'user'
-    id = db.Column(db.String(20), primary_key=True, default=generate_short_uuid, server_default='gen_random_uuid()') 
+    id = db.Column(db.String(20), primary_key=True, default=generate_short_uuid) 
     firstname = db.Column(db.String(120), nullable=False)
     lastname = db.Column(db.String(120), nullable=False)
     username =  db.Column(db.String(120), nullable=False, unique=True)
@@ -18,6 +18,7 @@ class User(db.Model, UserMixin):
     phone_number = db.Column(db.String(60), nullable = False, unique = True)
  
     def __init__(self, firstname, lastname, username, password, email, phone_number):
+        self.id = generate_short_uuid()
         self.firstname = firstname
         self.lastname = lastname
         self.username = username

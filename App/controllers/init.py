@@ -18,5 +18,4 @@ def initialize_db():
     except Exception as e:
         db.session.rollback()
         print(f"Error initialising database: {e}")
-
-
+        
