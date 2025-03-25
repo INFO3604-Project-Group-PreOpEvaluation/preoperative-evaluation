@@ -61,7 +61,7 @@
                 {% if current_user.questionnaires|length == 0 %}
                     <li class="list-group
                     -item d-flex justify-content-between align-items-center">
-                        No questionnaires found
+                        No Questionnaires Found
                         <a href="/questionnaire" class="btn btn-dark">Fill Out a Questionnaire</a>
                     </li>
                 {% else %}
@@ -99,7 +99,17 @@
                 </div>
                 <div class="col-md-6">
                     <label for="blood_type" class="form-label">Blood Type</label>
-                    <input type="text" class="form-control" id="blood_type" name="blood_type" required>
+                    <select class="form-control" id="blood_type" name="blood_type" required>
+                        <option value="">Select</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
                 </div>
                 <div class="col-md-6">
                     <label for="weight" class="form-label">Weight (kg)</label>
