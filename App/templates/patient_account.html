@@ -46,7 +46,7 @@
 
             </div>
             <div class="card-footer text-end" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                <a href="#" class="btn btn-dark">Edit Medical History</a>
+                <a href="#" class="btn btn-dark">Update Medical History</a>
             </div>
         </div>
     </div>
@@ -62,7 +62,7 @@
                     <li class="list-group
                     -item d-flex justify-content-between align-items-center">
                         No questionnaires found
-                        <a href="/questionnaire" class="btn btn-dark">Create One</a>
+                        <a href="/questionnaire" class="btn btn-dark">Fill Out a Questionnaire</a>
                     </li>
                 {% else %}
                     {% for questionnaire in current_user.questionnaires %}
