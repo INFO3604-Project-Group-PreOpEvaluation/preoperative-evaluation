@@ -103,8 +103,8 @@
                   </div>
                 <div class="col-md-6">
                     <label for="blood_type" class="form-label">Blood Type</label>
-                    <select class="form-control" id="blood_type" name="blood_type" required>
-                        <option value="">Select</option>
+                    <select class="form-select" id="blood_type" name="blood_type" aria-label="Default select example" required>
+                        <option value="" disabled selected><i class="bi bi-chevron-down"></i> Select</option>
                         <option value="A+">A+</option>
                         <option value="A-">A-</option>
                         <option value="B+">B+</option>
@@ -114,14 +114,15 @@
                         <option value="O+">O+</option>
                         <option value="O-">O-</option>
                     </select>
+                    
                 </div>
                 <div class="col-md-6">
                     <label for="weight" class="form-label">Weight (kg)</label>
-                    <input type="number" step="0.01" class="form-control" id="weight" name="weight" required>
+                    <input type="number" step="0.1" min="0.1" class="form-control" id="weight" name="weight" required>
                 </div>
                 <div class="col-md-6">
                     <label for="height" class="form-label">Height (cm)</label>
-                    <input type="number" step="0.01" class="form-control" id="height" name="height" required>
+                    <input type="number" step="0.1" min="0.1" class="form-control" id="height" name="height" required>
                 </div>
                 <div class="col-12">
                     <label for="allergies" class="form-label">Allergies</label>
@@ -136,13 +137,11 @@
                     <input type="text" class="form-control" id="medication" name="medication" required>
                 </div>
                 
-                <div class="col-12">
-                  <button type="submit" class="btn btn-primary">Save</button>
+                <div class="col-12 d-flex justify-content-start">
+                    <button type="submit" class="btn btn-primary me-2">Save</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
               </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>          
         </div>
       </div>
     </div>
