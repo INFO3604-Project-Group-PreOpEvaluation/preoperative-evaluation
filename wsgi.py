@@ -14,7 +14,7 @@ migrate = get_migrate(app)
 
 def run_command():
     os.system("npm install tailwindcss @tailwindcss/cli")
-    os.system(r"npx @tailwindcss/cli -i App\\static\\Css\\input.css -o App\\static\\Css\\output.css")
+    os.system("npx @tailwindcss/cli -i App\\static\\Css\\input.css -o App\\static\\Css\\output.css")
 
 # This command creates and initializes the database
 @app.cli.command("init", help="Creates and initializes the database")
