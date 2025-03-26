@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, jsonify, request, send_from_directory, flash, redirect, url_for
 from flask_jwt_extended import jwt_required, current_user as jwt_current_user
-
+import os 
 from.index import index_views
 
 from App.controllers import (
@@ -38,3 +38,8 @@ def get_users_action():
 @user_views.route('/static/users', methods=['GET'])
 def static_user_page():
   return send_from_directory('static', 'static-user.html')
+
+@user_views.route('/refcss', methods=['GET'])
+def refresh_css():
+    os.system("npx @tailwindcss/cli -i App/static/Css/input.css -o App/static/Css/output.css")
+    return None
