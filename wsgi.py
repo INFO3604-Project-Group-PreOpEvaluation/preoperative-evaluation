@@ -1,7 +1,7 @@
 import click, pytest, sys
 from flask import Flask, render_template
 from flask.cli import with_appcontext, AppGroup
-
+import os
 
 from App.database import db, get_migrate
 from App.main import create_app
