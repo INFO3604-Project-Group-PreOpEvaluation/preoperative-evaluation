@@ -42,4 +42,4 @@ def static_user_page():
 @user_views.route('/refcss', methods=['GET'])
 def refresh_css():
     os.system("npx @tailwindcss/cli -i App/static/Css/input.css -o App/static/Css/output.css")
-    return None
+    return redirect(url_for('index_views.index_page'))
