@@ -3,13 +3,29 @@ from App.database import db
 from App.controllers.notification import create_notification
 
 def create_doctor(firstname, lastname, username, password, email, phone_number):
+    """
+    Creates a new doctor object in the database.
+
+    Returns:
+    Doctor: The newly created doctor object if successful, None otherwise.
+    """
     try:
+        # Create a new Doctor object
         new_doctor = Doctor(firstname=firstname, lastname=lastname, username=username, password=password, email=email, phone_number=phone_number)
+        
+        # Add the new doctor to the database session
         db.session.add(new_doctor)
+        
+        # Commit the session to save the doctor to the database
         db.session.commit()
+        
+        # Return the newly created doctor
         return new_doctor
     except Exception as e:
+        # Print the error message if an exception occurs
         print(e, "Error creating doctor")
+        
+        # Return None to indicate failure
         return None
     
 
