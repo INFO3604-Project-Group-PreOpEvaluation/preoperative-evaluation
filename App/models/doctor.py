@@ -20,7 +20,7 @@ class Doctor(User):
     def get_json(self):
         """
         Returns a json representation of the doctor.
-        :return: A json representation of the doctor
+        :return: A json representation of the doctor.
         """
         return {
             'id': self.id,
