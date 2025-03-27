@@ -1,7 +1,7 @@
 import click, pytest, sys
 from flask import Flask, render_template
 from flask.cli import with_appcontext, AppGroup
-
+import os
 
 from App.database import db, get_migrate
 from App.main import create_app
@@ -12,9 +12,14 @@ from App.controllers import *
 app = create_app()
 migrate = get_migrate(app)
 
+def run_command():
+    os.system("npm install tailwindcss @tailwindcss/cli")
+    os.system("npx @tailwindcss/cli -i App/static/Css/input.css -o App/static/Css/output.css")
+
 # This command creates and initializes the database
 @app.cli.command("init", help="Creates and initializes the database")
-def initialize():    
+def initialize():
+    run_command()    
     initialize_db()
 
 
