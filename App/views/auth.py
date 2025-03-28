@@ -61,7 +61,10 @@ def signup_action():
   try:
     data = request.form     
     print(data)   
-    patient = create_patient(firstname=data['firstname'], lastname=data['lastname'], username=data['username'], password = data['password'], email=data['email'], phone_number=data['phone_number'])
+    uname = ''
+    patient = create_patient(firstname=data['firstname'], lastname=data['lastname'], username=uname, password = data['password'], email=data['email'], phone_number=data['phone_number'])
+    if patient:
+      print("WORKS ")
     login_user(patient)
 
     if patient:
