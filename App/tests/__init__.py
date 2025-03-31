@@ -1,1 +1,1 @@
-from patient_integration_test import *
+from .patient_integration_test import *
