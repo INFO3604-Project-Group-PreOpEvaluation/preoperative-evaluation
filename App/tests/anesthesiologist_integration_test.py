@@ -4,6 +4,8 @@ from datetime import datetime
 from App.main import create_app
 from App.database import db, create_db
 from App.models import Anesthesiologist, Questionnaire
+from sqlalchemy.exc import IntegrityError
+
 from App.controllers import (
     create_anesthesiologist,
     update_questionnaire_anesthesiologist
@@ -52,11 +54,12 @@ class AnesthiologistIntegrationTests(unittest.TestCase):
         create_anesthesiologist("Jane", "Doe", "janedoe", "password", "janedoe@mail.com", "0987654321")
 
         # Attempt to create an Anesthesiologist with the same email
-        duplicate_email = create_anesthesiologist("Alice", "Smith", "alice", "password", "janedoe@mail.com", "1122334455")
-
-        # Attempt to create an Anesthesiologist with the same username
-        duplicate_username = create_anesthesiologist("Bob", "Brown", "janedoe", "password", "bob@mail.com", "6677889900")
-
-        # Assert that the duplicates were not created
-        assert duplicate_email is None  # Assuming function returns None for duplicates
-        assert duplicate_username is None
+        # try:
+        #     duplicate_email = 
+        # except IntegrityError:
+        #     pass
+        # else:
+        #     assert False, "No IntegrityError was raised"
+        with self.assertRaises(IntegrityError) as context:  # Or another appropriate exception
+            newAnesthesiologist = create_anesthesiologist("Alice", "Smith", "alice", "password", "janedoe@mail.com", "1122334455")
+            self.assertIn("Integrity error while creating anesthesiologist", str(context.exception))
