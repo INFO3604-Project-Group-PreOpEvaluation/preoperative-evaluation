@@ -1,5 +1,6 @@
 from App.models import Anesthesiologist
 from App.models import db
+from sqlalchemy.exc import IntegrityError
 from App.controllers.notification import create_notification
 
 def create_anesthesiologist(firstname, lastname, username, password, email, phone_number):
@@ -27,6 +28,8 @@ def create_anesthesiologist(firstname, lastname, username, password, email, phon
         db.session.commit()
         
         return new_anesthesiologist
+    except IntegrityError as e:
+        raise IntegrityError(None, None, "Integrity error while creating anesthesiologist") from e
     except Exception as e:
         # Print the error message if an exception occurs
         print(e, "Error creating anesthesiologist")
