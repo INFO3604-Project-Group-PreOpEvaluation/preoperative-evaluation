@@ -86,6 +86,16 @@ def user_tests_command(type):
         sys.exit(pytest.main(["-k", "UserIntegrationTests"]))
     else:
         sys.exit(pytest.main(["-k", "App"]))
+
+@test.command("patient", help="Run Patient Unit tests")
+@click.argument("type", default="all")
+def patient_tests_command(type):
+    if type == "unit":
+        sys.exit(pytest.main(["-k", "PatientUnitTests"]))
+    elif type == "int":
+        sys.exit(pytest.main(["-k", "PatientIntegrationTests"]))
+    else:
+        sys.exit(pytest.main(["-k", "Patient"]))
     
 
 app.cli.add_command(test)
