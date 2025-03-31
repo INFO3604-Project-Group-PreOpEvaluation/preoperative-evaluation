@@ -1,1 +1,1 @@
-from .test_app import *
+from patient_integration_test import *
