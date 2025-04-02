@@ -19,6 +19,7 @@ class Questionnaire(db.Model):
     responses = db.Column(db.JSON, nullable=True) # Storing responses as JSON, if applicable
     operation_date = db.Column(db.String(20), nullable=True)
     status = db.Column(db.String(20), nullable=False, default='pending')
+    doctor_status = db.Column(db.String(20), nullable=False, default='pending')
     evaluation_notes = db.Column(db.String(1200), nullable=True)
     anesthesiologist_notes = db.Column(db.String(600), nullable=True)
     doctor_notes = db.Column(db.String(600), nullable=True)
