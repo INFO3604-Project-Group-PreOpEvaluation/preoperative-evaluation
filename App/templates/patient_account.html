@@ -20,6 +20,14 @@
         background-position: center;
     }
     
+    .ui-autocomplete {
+        position: relative; /* Change from absolute to relative */
+        z-index: 1051; /* Ensure it's above other elements */
+        background-color: #fff;
+        border: 1px solid #ccc;
+        padding: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      }
     
 
 </style>
@@ -276,22 +284,27 @@
 </script>
 
 <script>
-    $(document).ready(function() {
-      const medicalConditions = [
-        "Diabetes", "Hypertension", "Asthma", "Arthritis", "Cancer", 
-        "Heart Disease", "Allergy", "Migraine", "Depression", 
-        "COPD", "Epilepsy", "Anemia", "HIV/AIDS", "Obesity"
-      ];
-  
-      $("#medical_conditions").autocomplete({
-        source: function(request, response) {
-          const results = $.ui.autocomplete.filter(medicalConditions, request.term);
-          response(results);
-        },
-        minLength: 2 // Suggest after typing at least 2 characters
-      });
-    });
-  </script>
+    $(document).ready(function () {
+        const medicalConditions = [
+          "Diabetes", "Hypertension", "Asthma", "Arthritis", "Cancer",
+          "Heart Disease", "Allergy", "Migraine", "Depression",
+          "COPD", "Epilepsy", "Anemia", "HIV/AIDS", "Obesity"
+        ];
+      
+        $("#medical_conditions").autocomplete({
+          source: medicalConditions, // Provide suggestions
+          appendTo: "#exampleModal", // Append dropdown within the modal
+          minLength: 2, // Trigger suggestions after 2 characters
+          open: function () {
+            // Dynamically add margin to the field below the autocomplete dropdown
+            $("#medical_conditions").next(".ui-helper-hidden-accessible").remove(); // Remove accessibility artifacts
+            $("#medical_conditions").closest(".col-12").css("margin-bottom", $(".ui-autocomplete").low()); //remaining max remember
+      
+          }
+        });
+      });      
+</script>
+    
   
   
 {% endblock %}
