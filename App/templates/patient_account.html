@@ -4,6 +4,7 @@
 
 {% block styles %}
 <!-- Additional styles for the child template -->
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <style>
     /* Your custom styles here */
     .custom-divider {
@@ -201,9 +202,12 @@
 
 {% block scripts %}
 <!-- Additional scripts for the child template -->
-<script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 
+<script>
     // Add this script to your HTML or include it in your existing script file
+
 
     document.addEventListener('DOMContentLoaded', function () {
         // Assuming you have jQuery included for simplicity
@@ -269,6 +273,25 @@
       }
       document.getElementById('age').value = age;
     });
+</script>
+
+<script>
+    $(document).ready(function() {
+      const medicalConditions = [
+        "Diabetes", "Hypertension", "Asthma", "Arthritis", "Cancer", 
+        "Heart Disease", "Allergy", "Migraine", "Depression", 
+        "COPD", "Epilepsy", "Anemia", "HIV/AIDS", "Obesity"
+      ];
+  
+      $("#medical_conditions").autocomplete({
+        source: function(request, response) {
+          const results = $.ui.autocomplete.filter(medicalConditions, request.term);
+          response(results);
+        },
+        minLength: 2 // Suggest after typing at least 2 characters
+      });
+    });
   </script>
+  
   
 {% endblock %}
