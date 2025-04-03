@@ -57,7 +57,7 @@ def add_medical_history_action():
     try:
         # Get the data from the form submission
         data = request.form
-        age = data['age']
+        dateOfBirth = data['dateOfBirth']
         blood_type = data['blood_type']
         weight = data['weight']
         height = data['height']
@@ -66,7 +66,7 @@ def add_medical_history_action():
         medication = data['medication']
 
         # Add the medical history to the database
-        if create_medical_history(current_user.id, age, blood_type, weight, height, allergies, medical_conditions, medication):
+        if create_medical_history(current_user.id, dateOfBirth, blood_type, weight, height, allergies, medical_conditions, medication):
             flash('Medical history added successfully')
         else:
             flash('Error adding medical history')
@@ -76,6 +76,7 @@ def add_medical_history_action():
     except Exception as e:
         # Print the error to the console
         print("Patient Medical History View Error: ",str(e))
+        return redirect(request.referrer)
 
 
 

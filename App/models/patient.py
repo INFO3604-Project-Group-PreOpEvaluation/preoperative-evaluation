@@ -4,7 +4,7 @@ from .user import User
 class Patient(User):
     __tablename__ = 'patient'
     type = db.Column(db.String(120), nullable=False, default='patient')
-    age = db.Column(db.Integer, nullable=True)
+    dateOfBirth = db.Column(db.Date, nullable=True)
     blood_type = db.Column(db.String(8), nullable=True)
     weight = db.Column(db.Float, nullable=True)
     height = db.Column(db.Float, nullable=True)
@@ -30,7 +30,7 @@ class Patient(User):
             'lastname': self.lastname,
             'email': self.email,
             'phone_number': self.phone_number,
-            'age': self.age,
+            'dateOfBirth': self.dateOfBirth,
             'blood_type': self.blood_type,
             'weight': self.weight,
             'height': self.height,
