@@ -55,7 +55,7 @@
 
             </div>
             <div class="card-footer text-end" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                <a href="#" class="btn btn-dark">Edit Medical History</a>
+                <a href="#" class="btn btn-dark">Update Medical History</a>
             </div>
         </div>
     </div>
@@ -71,7 +71,7 @@
                     <li class="list-group
                     -item d-flex justify-content-between align-items-center">
                         No questionnaires found
-                        <a href="/questionnaire" class="btn btn-dark">Create One</a>
+                        <a href="/questionnaire" class="btn btn-dark">Fill Out a Questionnaire</a>
                     </li>
                 {% else %}
                     {% for questionnaire in current_user.questionnaires %}
@@ -103,12 +103,27 @@
         <div class="modal-body">
             <form class="row g-3" action="/patient/medical_history" method="post">
                 <div class="col-md-6">
+                    <label for="birthdate" class="form-label">Birthdate</label>
+                    <input type="date" class="form-control" id="birthdate" name="birthdate" required>
+                  </div>
+                  <div class="col-md-6">
                     <label for="age" class="form-label">Age</label>
-                    <input type="number" class="form-control" id="age" name="age" required>
-                </div>
+                    <input type="number" class="form-control" id="age" name="age" readonly>
+                  </div>
+                  
                 <div class="col-md-6">
                     <label for="blood_type" class="form-label">Blood Type</label>
-                    <input type="text" class="form-control" id="blood_type" name="blood_type" required>
+                    <select class="form-control" id="blodd_type" name="blood_type" required>
+                        <option value="">Select</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
                 </div>
                 <div class="col-md-6">
                     <label for="weight" class="form-label">Weight (kg)</label>
@@ -239,6 +254,21 @@
             localStorage.removeItem('reopenOffcanvas');
         }
     });
+    
 
 </script>
+<!--Birthdate Script-->
+<script>
+    document.getElementById('birthdate').addEventListener('change', function() {
+      const birthdate = new Date(this.value);
+      const today = new Date();
+      let age = today.getFullYear() - birthdate.getFullYear();
+      const monthDiff = today.getMonth() - birthdate.getMonth();
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthdate.getDate())) {
+        age--;
+      }
+      document.getElementById('age').value = age;
+    });
+  </script>
+  
 {% endblock %}
