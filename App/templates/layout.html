@@ -20,14 +20,20 @@
         body {
             padding-top: 5rem;            
             font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
+            background-color: #F9F6EE;
         
         }
         
 
         .navbar{
-         background-color: #0000ff; 
+         background-color: #43C6DB; 
          }
+
+        .navbar-brand,
+        .nav-link {
+            color: black !important; /* This sets the text color to black */
+        }
+
 
          {% block styles %}{% endblock %}
     </style>
@@ -44,11 +50,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
-                <!-- Add navigation links as needed -->
-                <li class="nav-item">
-                    <a class="nav-link" href="/">Home</a>
-                </li>
-               
+
                 {% if current_user.is_authenticated %}
                     {%if current_user.type == 'patient'%}
                         
