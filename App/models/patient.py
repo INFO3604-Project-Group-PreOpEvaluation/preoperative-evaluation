@@ -2,6 +2,10 @@ from App.database import db
 from .user import User
 
 class Patient(User):
+    """
+    A model for a patient user
+    """
+
     __tablename__ = 'patient'
     type = db.Column(db.String(120), nullable=False, default='patient')
     age = db.Column(db.Integer, nullable=True)
@@ -18,11 +22,31 @@ class Patient(User):
 
 
     def __init__(self, firstname, lastname, username, password, email, phone_number):
+        """
+        Initializes a Patient object
+
+        Parameters
+        ----------
+        firstname : str
+            The first name of the patient
+        lastname : str
+            The last name of the patient
+        username : str
+            The username of the patient
+        password : str
+            The password of the patient
+        email : str
+            The email of the patient
+        phone_number : str
+            The phone number of the patient
+        """
         super().__init__(firstname, lastname, username, password, email, phone_number)
         self.type = 'patient'
-
     
     def get_json(self):
+        """
+        Returns a JSON representation of the Patient object
+        """
         return{
             'id': self.id,
             'username': self.username,
