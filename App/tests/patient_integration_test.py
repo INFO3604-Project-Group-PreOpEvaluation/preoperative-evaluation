@@ -133,7 +133,7 @@ def test_create_medical_history(test_app, sample_patient):
     with test_app.app_context():
         # Define test inputs
         patient_id = sample_patient.id
-        dateOfBirth = "15-06-1985"
+        dateOfBirth = "1985-06-15"
         blood_type = "A+"
         weight = 68
         height = 170
@@ -149,7 +149,7 @@ def test_create_medical_history(test_app, sample_patient):
 
         # Assert the patient's medical history is updated correctly
         assert updated_patient is not None
-        assert updated_patient.dateOfBirth == datetime.strptime(dateOfBirth, '%d-%m-%Y').date()
+        assert updated_patient.dateOfBirth == datetime.strptime(dateOfBirth, '%Y-%m-%d').date()
         assert updated_patient.blood_type == blood_type
         assert updated_patient.weight == weight
         assert updated_patient.height == height

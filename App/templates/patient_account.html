@@ -264,19 +264,6 @@
     
 
 </script>
-<!--Birthdate Script-->
-<script>
-    document.getElementById('birthdate').addEventListener('change', function() {
-      const birthdate = new Date(this.value);
-      const today = new Date();
-      let age = today.getFullYear() - birthdate.getFullYear();
-      const monthDiff = today.getMonth() - birthdate.getMonth();
-      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthdate.getDate())) {
-        age--;
-      }
-      document.getElementById('age').value = age;
-    });
-</script>
 
 <script>
     $(document).ready(function () {
@@ -314,7 +301,12 @@
     // Assuming data comes from an API or backend
     const userData = {
       dateOfBirth: "{{ current_user.dateOfBirth|default('', true) }}",
-      bloodType: "{{ current_user.blood_type|default('', true) }}"
+      bloodType: "{{ current_user.blood_type|default('', true) }}",
+      height: "{{ current_user.height|default('', true) }}",
+      weight: "{{ current_user.weight|default('', true) }}",
+      allergies: "{{ current_user.allergies|default('', true) }}",
+      medication: "{{ current_user.medication|default('', true) }}",
+      medicalConditions: "{{ current_user.medical_conditions|default('', true) }}"
     };
   
     // Populate modal fields when opened
@@ -323,6 +315,11 @@
       modal.addEventListener("show.bs.modal", function () {
         document.getElementById("dateOfBirth").value = userData.dateOfBirth;
         document.getElementById("blood_type").value = userData.bloodType;
+        document.getElementById("height").value = userData.height;
+        document.getElementById("weight").value = userData.weight;
+        document.getElementById("allergies").value = userData.allergies;
+        document.getElementById("medication").value = userData.medication;
+        document.getElementById("medical_conditions").value = userData.medicalConditions;
       });
     });
 </script>
