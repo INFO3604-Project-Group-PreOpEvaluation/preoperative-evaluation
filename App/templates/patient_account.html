@@ -308,8 +308,24 @@
       // Set the max attribute for the date input field
       document.getElementById('birthdate').setAttribute('max', today);
     });
-  </script>
+</script>
+
+<script>
+    // Assuming data comes from an API or backend
+    const userData = {
+      dateOfBirth: "{{ current_user.dateOfBirth|default('', true) }}",
+      bloodType: "{{ current_user.blood_type|default('', true) }}"
+    };
   
+    // Populate modal fields when opened
+    document.addEventListener("DOMContentLoaded", function () {
+      const modal = document.getElementById("exampleModal");
+      modal.addEventListener("show.bs.modal", function () {
+        document.getElementById("dateOfBirth").value = userData.dateOfBirth;
+        document.getElementById("blood_type").value = userData.bloodType;
+      });
+    });
+</script>
   
   
 {% endblock %}

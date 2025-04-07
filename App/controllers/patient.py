@@ -16,7 +16,7 @@ def create_medical_history(patient_id, dateOfBirth, blood_type, weight, height, 
     patient = Patient.query.get(patient_id)
     try:
         if dateOfBirth:
-            dateOfBirth = datetime.strptime(dateOfBirth, '%d-%m-%Y').date()
+            dateOfBirth = datetime.strptime(dateOfBirth, '%Y-%m-%d').date()
         patient.dateOfBirth = dateOfBirth
         patient.blood_type = blood_type
         patient.weight = weight
