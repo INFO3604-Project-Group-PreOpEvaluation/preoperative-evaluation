@@ -1,1 +1,1 @@
-from .test_app import *
+from .questionnaire_integration_test import *
