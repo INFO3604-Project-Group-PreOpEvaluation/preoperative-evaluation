@@ -16,7 +16,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(120), nullable=False)
     email = db.Column(db.String(150), nullable = False, unique = True)
     phone_number = db.Column(db.String(20), nullable = False, unique = True)
- 
+
     def __init__(self, firstname, lastname, password, email, phone_number):
         """
         Constructor for User
@@ -41,7 +41,10 @@ class User(db.Model, UserMixin):
         """
         return{
             'id': self.id,
-            'username': self.username
+            'firstname': self.firstname,
+            'lastname': self.lastname,
+            'email': self.email,
+            'phone_number': self.phone_number
         }
 
     def set_password(self, password):
