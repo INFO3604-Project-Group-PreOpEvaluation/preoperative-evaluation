@@ -4,6 +4,7 @@
 
 {% block styles %}
 <!-- Additional styles for the child template -->
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <style>
     /* Your custom styles here */
     .custom-divider {
@@ -19,7 +20,14 @@
         background-position: center;
     }
     
-    
+    .ui-autocomplete {
+        position: relative; /* Change from absolute to relative */
+        z-index: 1051; /* Ensure it's above other elements */
+        background-color: #fff;
+        border: 1px solid #ccc;
+        padding: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
 
 </style>
 {% endblock %}
@@ -32,12 +40,8 @@
             <div class="card-header">
                 <h2 class="text-center">Profile</h2>
             </div>
-            <div class="card-body">
-                <!-- Patient Photo -->
-                <div class="text-center">
-                <!-- <img src="/static/User-Profile-PNG-Image.png" alt="Patient Photo"
-                    class="img-fluid rounded-circle mb-1" style="max-width: 150px;"> -->
-                <!-- <div class="custom-divider"></div> -->
+            <div class="card-body"></div>
+                
                 <!-- Patient Name -->
                 <h4>{{current_user.firstname}} {{current_user.lastname}}</h4>
 
@@ -45,7 +49,7 @@
                 <p class="text-muted">{{current_user.email}}</p>
                 </div>
                 <div class="custom-divider"></div>                               
-                <p class="card-text"><strong>Age:</strong> {{ current_user.age }}</p>
+                <p class="card-text"><strong>Date of Birth:</strong> {{ current_user.dateOfBirth }}</p>
                 <p class="card-text"><strong>Blood Type:</strong> {{ current_user.blood_type }}</p>
                 <p class="card-text"><strong>Weight:</strong> {{ current_user.weight }}</p>
                 <p class="card-text"><strong>Height:</strong> {{ current_user.height }}</p>
@@ -55,7 +59,7 @@
 
             </div>
             <div class="card-footer text-end" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                <a href="#" class="btn btn-dark">Edit Medical History</a>
+                <a href="#" class="btn btn-dark">Update Medical History</a>
             </div>
         </div>
     </div>
@@ -70,12 +74,12 @@
                 {% if current_user.questionnaires|length == 0 %}
                     <li class="list-group
                     -item d-flex justify-content-between align-items-center">
-                        No questionnaires found
-                        <a href="/questionnaire" class="btn btn-dark">Create One</a>
+                        No Questionnaires Found
+                        <a href="/questionnaire" class="btn btn-dark">Fill Out a Questionnaire</a>
                     </li>
                 {% else %}
                     {% for questionnaire in current_user.questionnaires %}
-                   
+
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         Questionnaire ID: {{ questionnaire.id }}
                         | Date: {{ questionnaire.submitted_date.strftime('%Y-%m-%d') }}
@@ -91,24 +95,34 @@
     </div>
 </div>
 
-  
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content">
+        <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Medical History</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Medical History</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
             <form class="row g-3" action="/patient/medical_history" method="post">
                 <div class="col-md-6">
-                    <label for="age" class="form-label">Age</label>
-                    <input type="number" class="form-control" id="age" name="age" required>
-                </div>
+                    <label for="birthdate" class="form-label">Date of Birth</label>
+                    <input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth" required>
+                </div>  
                 <div class="col-md-6">
                     <label for="blood_type" class="form-label">Blood Type</label>
-                    <input type="text" class="form-control" id="blood_type" name="blood_type" required>
+                    <select class="form-control" id="blood_type" name="blood_type" required>
+                        <option value="">Select</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
                 </div>
                 <div class="col-md-6">
                     <label for="weight" class="form-label">Weight (kg)</label>
@@ -132,16 +146,16 @@
                 </div>
                 
                 <div class="col-12">
-                  <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
                 </div>
-              </form>
+            </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>          
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>          
         </div>
-      </div>
+        </div>
     </div>
-  </div>
+</div>
 
 <div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="notificationOffcanvas"
     aria-labelledby="notificationOffcanvasLabel">
@@ -186,9 +200,12 @@
 
 {% block scripts %}
 <!-- Additional scripts for the child template -->
-<script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 
+<script>
     // Add this script to your HTML or include it in your existing script file
+
 
     document.addEventListener('DOMContentLoaded', function () {
         // Assuming you have jQuery included for simplicity
@@ -239,6 +256,44 @@
             localStorage.removeItem('reopenOffcanvas');
         }
     });
+    
 
 </script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const dateInput = document.getElementById("dateOfBirth");
+        const today = new Date().toISOString().split("T")[0];
+        
+        dateInput.setAttribute("max", today);
+    });
+</script>
+
+<script>
+    const userData = {
+        dateOfBirth: "{{ current_user.dateOfBirth|default('', true) }}",
+        bloodType: "{{ current_user.blood_type|default('', true) }}",
+        height: "{{ current_user.height|default('', true) }}",
+        weight: "{{ current_user.weight|default('', true) }}",
+        allergies: "{{ current_user.allergies|default('', true) }}",
+        medication: "{{ current_user.medication|default('', true) }}",
+        medicalConditions: "{{ current_user.medical_conditions|default('', true) }}"
+    };
+
+    // Populate modal fields when opened
+    document.addEventListener("DOMContentLoaded", function () {
+        const modal = document.getElementById("exampleModal");
+        modal.addEventListener("show.bs.modal", function () {
+        document.getElementById("dateOfBirth").value = userData.dateOfBirth;
+        document.getElementById("blood_type").value = userData.bloodType;
+        document.getElementById("height").value = userData.height;
+        document.getElementById("weight").value = userData.weight;
+        document.getElementById("allergies").value = userData.allergies;
+        document.getElementById("medication").value = userData.medication;
+        document.getElementById("medical_conditions").value = userData.medicalConditions;
+        });
+    });
+</script>
+
+
 {% endblock %}
