@@ -87,15 +87,36 @@ def user_tests_command(type):
     else:
         sys.exit(pytest.main(["-k", "App"]))
 
-@test.command("patient", help="Run Patient Unit tests")
+@test.command("anes", help="Run Anesthesiologist tests")
 @click.argument("type", default="all")
-def patient_tests_command(type):
+def anesthesiologist_tests_command(type):
+  if type == "unit":
+    sys.exit(pytest.main(["-k", "AnesthesiologistUnitTests"]))
+  elif type == "int":
+    sys.exit(pytest.main(["-k", "AnesthesiologistIntegrationTests"]))
+  else:
+    sys.exit(pytest.main(["-k", "Anesthesiologist"]))
+
+
+@test.command("patient", help="Run Patient Integration Tests")
+@click.argument("type", default="all")
+def user_tests_command(type):
     if type == "unit":
         sys.exit(pytest.main(["-k", "PatientUnitTests"]))
     elif type == "int":
         sys.exit(pytest.main(["-k", "PatientIntegrationTests"]))
     else:
         sys.exit(pytest.main(["-k", "Patient"]))
-    
+        
+@test.command("question", help="Run Questionnaire Integration Tests")
+@click.argument("type", default="all")
+def user_tests_command(type):
+    if type == "unit":
+        sys.exit(pytest.main(["-k", "QuestionnaireUnitTests"]))
+    elif type == "int":
+        sys.exit(pytest.main(["-k", "QuestionnaireIntegrationTests"]))
+    else:
+        sys.exit(pytest.main(["-k", "Question"]))
+
 
 app.cli.add_command(test)
