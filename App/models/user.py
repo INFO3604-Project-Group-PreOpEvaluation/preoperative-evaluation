@@ -41,7 +41,10 @@ class User(db.Model, UserMixin):
         """
         return{
             'id': self.id,
-            'username': self.username
+            'firstname': self.firstname,
+            'lastname': self.lastname,
+            'email': self.email,
+            'phone_number': self.phone_number
         }
 
     def set_password(self, password):
