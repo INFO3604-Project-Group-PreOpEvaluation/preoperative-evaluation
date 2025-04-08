@@ -1,4 +1,6 @@
 import os, tempfile, pytest, logging, unittest
+
+from datetime import datetime
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from App.main import create_app
@@ -119,16 +121,43 @@ def test_get_patient_by_id(test_app, sample_patient):
         assert retrieved_patient.id == sample_patient.id
 
 def test_create_medical_history(test_app, sample_patient):
+    """
+    Test the creation of medical history for a patient.
+
+    Args:
+        test_app: The Flask test application instance.
+        sample_patient: The sample patient created by the test fixture.
+
+    Asserts:
+        The patient's medical history is successfully updated.
+    """
     with test_app.app_context():
-        updated_patient = create_medical_history(sample_patient.id, 30, "AB+", 70, 175, "Penicillin", "Diabetes", "Metformin")
+        # Define test inputs
+        patient_id = sample_patient.id
+        dateOfBirth = "1985-06-15"
+        blood_type = "A+"
+        weight = 68
+        height = 170
+        allergies = "Dust"
+        medical_conditions = "Asthma"
+        medication = "Ventolin"
+
+        # Call the create_medical_history function
+        updated_patient = create_medical_history(
+            patient_id, dateOfBirth, blood_type, weight, height,
+            allergies, medical_conditions, medication
+        )
+
+        # Assert the patient's medical history is updated correctly
         assert updated_patient is not None
-        assert updated_patient.age == 30
-        assert updated_patient.blood_type == "AB+"
-        assert updated_patient.weight == 70
-        assert updated_patient.height == 175
-        assert updated_patient.allergies == "Penicillin"
-        assert updated_patient.medical_conditions == "Diabetes"
-        assert updated_patient.medication == "Metformin"
+        assert updated_patient.dateOfBirth == datetime.strptime(dateOfBirth, '%Y-%m-%d').date()
+        assert updated_patient.blood_type == blood_type
+        assert updated_patient.weight == weight
+        assert updated_patient.height == height
+        assert updated_patient.allergies == allergies
+        assert updated_patient.medical_conditions == medical_conditions
+        assert updated_patient.medication == medication
+
         assert updated_patient.med_history_updated is True
 
 def test_set_patient_autofill_enabled(test_app, sample_patient):

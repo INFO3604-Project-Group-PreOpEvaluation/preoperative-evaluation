@@ -1,5 +1,6 @@
 from App.database import db
 from App.models import Patient
+from datetime import datetime
 
 def create_patient(firstname, lastname, username, password, email, phone_number):
     try:
@@ -11,10 +12,12 @@ def create_patient(firstname, lastname, username, password, email, phone_number)
         print(e, "Error creating patient")
         return None
     
-def create_medical_history(patient_id,age, blood_type, weight, height, allergies, medical_conditions, medication):
+def create_medical_history(patient_id, dateOfBirth, blood_type, weight, height, allergies, medical_conditions, medication):
     patient = Patient.query.get(patient_id)
     try:
-        patient.age = age
+        if dateOfBirth:
+            dateOfBirth = datetime.strptime(dateOfBirth, '%Y-%m-%d').date()
+        patient.dateOfBirth = dateOfBirth
         patient.blood_type = blood_type
         patient.weight = weight
         patient.height = height

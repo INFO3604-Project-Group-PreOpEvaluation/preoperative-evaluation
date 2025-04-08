@@ -36,5 +36,4 @@ class PatientUnitTests(unittest.TestCase):
         self.assertEqual(new_patient.username, "johndoe")
         self.assertEqual(new_patient.email, "johndoe@example.com")
         self.assertEqual(new_patient.phone_number, "1234567890")
-        
 

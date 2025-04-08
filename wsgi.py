@@ -87,6 +87,7 @@ def user_tests_command(type):
     else:
         sys.exit(pytest.main(["-k", "App"]))
 
+
 @test.command("anes", help="Run Anesthesiologist tests")
 @click.argument("type", default="all")
 def anesthesiologist_tests_command(type):
@@ -107,7 +108,7 @@ def user_tests_command(type):
         sys.exit(pytest.main(["-k", "PatientIntegrationTests"]))
     else:
         sys.exit(pytest.main(["-k", "Patient"]))
-        
+
 @test.command("question", help="Run Questionnaire Integration Tests")
 @click.argument("type", default="all")
 def user_tests_command(type):
