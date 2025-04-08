@@ -27,8 +27,7 @@
         border: 1px solid #ccc;
         padding: 5px;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-      }
-    
+    }
 
 </style>
 {% endblock %}
@@ -41,12 +40,8 @@
             <div class="card-header">
                 <h2 class="text-center">Profile</h2>
             </div>
-            <div class="card-body">
-                <!-- Patient Photo -->
-                <div class="text-center">
-                <!-- <img src="/static/User-Profile-PNG-Image.png" alt="Patient Photo"
-                    class="img-fluid rounded-circle mb-1" style="max-width: 150px;"> -->
-                <!-- <div class="custom-divider"></div> -->
+            <div class="card-body"></div>
+                
                 <!-- Patient Name -->
                 <h4>{{current_user.firstname}} {{current_user.lastname}}</h4>
 
@@ -84,7 +79,7 @@
                     </li>
                 {% else %}
                     {% for questionnaire in current_user.questionnaires %}
-                   
+
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         Questionnaire ID: {{ questionnaire.id }}
                         | Date: {{ questionnaire.submitted_date.strftime('%Y-%m-%d') }}
@@ -100,14 +95,14 @@
     </div>
 </div>
 
-  
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content">
+        <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Medical History</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Medical History</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
             <form class="row g-3" action="/patient/medical_history" method="post">
@@ -151,16 +146,16 @@
                 </div>
                 
                 <div class="col-12">
-                  <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
                 </div>
-              </form>
+            </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>          
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>          
         </div>
-      </div>
+        </div>
     </div>
-  </div>
+</div>
 
 <div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="notificationOffcanvas"
     aria-labelledby="notificationOffcanvasLabel">
@@ -266,53 +261,29 @@
 </script>
 
 <script>
-    $(document).ready(function () {
-        const medicalConditions = [
-          "Diabetes", "Hypertension", "Asthma", "Arthritis", "Cancer",
-          "Heart Disease", "Migraine", "Depression",
-          "COPD", "Epilepsy", "Anemia", "HIV/AIDS", "Obesity"
-        ];
-      
-        $("#medical_conditions").autocomplete({
-          source: medicalConditions, // Provide suggestions
-          appendTo: "#exampleModal", // Append dropdown within the modal
-          minLength: 2, // Trigger suggestions after 2 characters
-          open: function () {
-            // Dynamically add margin to the field below the autocomplete dropdown
-            $("#medical_conditions").next(".ui-helper-hidden-accessible").remove(); // Remove accessibility artifacts
-            $("#medical_conditions").closest(".col-12").css("margin-bottom", $(".ui-autocomplete").low()); //remaining max remember
-      
-          }
-        });
-      });      
-</script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-      // Get today's date
-      const today = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
-  
-      // Set the max attribute for the date input field
-      document.getElementById('birthdate').setAttribute('max', today);
+    document.addEventListener("DOMContentLoaded", () => {
+        const dateInput = document.getElementById("dateOfBirth");
+        const today = new Date().toISOString().split("T")[0];
+        
+        dateInput.setAttribute("max", today);
     });
 </script>
 
 <script>
-    // Assuming data comes from an API or backend
     const userData = {
-      dateOfBirth: "{{ current_user.dateOfBirth|default('', true) }}",
-      bloodType: "{{ current_user.blood_type|default('', true) }}",
-      height: "{{ current_user.height|default('', true) }}",
-      weight: "{{ current_user.weight|default('', true) }}",
-      allergies: "{{ current_user.allergies|default('', true) }}",
-      medication: "{{ current_user.medication|default('', true) }}",
-      medicalConditions: "{{ current_user.medical_conditions|default('', true) }}"
+        dateOfBirth: "{{ current_user.dateOfBirth|default('', true) }}",
+        bloodType: "{{ current_user.blood_type|default('', true) }}",
+        height: "{{ current_user.height|default('', true) }}",
+        weight: "{{ current_user.weight|default('', true) }}",
+        allergies: "{{ current_user.allergies|default('', true) }}",
+        medication: "{{ current_user.medication|default('', true) }}",
+        medicalConditions: "{{ current_user.medical_conditions|default('', true) }}"
     };
-  
+
     // Populate modal fields when opened
     document.addEventListener("DOMContentLoaded", function () {
-      const modal = document.getElementById("exampleModal");
-      modal.addEventListener("show.bs.modal", function () {
+        const modal = document.getElementById("exampleModal");
+        modal.addEventListener("show.bs.modal", function () {
         document.getElementById("dateOfBirth").value = userData.dateOfBirth;
         document.getElementById("blood_type").value = userData.bloodType;
         document.getElementById("height").value = userData.height;
@@ -320,9 +291,9 @@
         document.getElementById("allergies").value = userData.allergies;
         document.getElementById("medication").value = userData.medication;
         document.getElementById("medical_conditions").value = userData.medicalConditions;
-      });
+        });
     });
 </script>
-  
-  
+
+
 {% endblock %}
