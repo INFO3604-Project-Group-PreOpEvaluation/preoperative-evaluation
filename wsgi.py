@@ -87,17 +87,6 @@ def user_tests_command(type):
     else:
         sys.exit(pytest.main(["-k", "App"]))
 
-@test.command("question", help="Run Questionnaire tests")
-@click.argument("type", default="all")
-def user_tests_command(type):
-    if type == "unit":
-        sys.exit(pytest.main(["-k", "QuestionnaireUnitTests"]))
-    elif type == "int":
-        sys.exit(pytest.main(["-k", "QuestionnaireIntegrationTests"]))
-    else:
-        sys.exit(pytest.main(["-k", "Question"]))
-    
-
 @test.command("anes", help="Run Anesthesiologist tests")
 @click.argument("type", default="all")
 def anesthesiologist_tests_command(type):
