@@ -1,4 +1,8 @@
 import os, tempfile, pytest, logging, unittest
+from werkzeug.security import check_password_hash, generate_password_hash
+
+from App.main import create_app
+from App.database import db, create_db
 from App.models import Patient
 from App.controllers import (
     create_patient,
@@ -32,4 +36,4 @@ class PatientUnitTests(unittest.TestCase):
         self.assertEqual(new_patient.username, "johndoe")
         self.assertEqual(new_patient.email, "johndoe@example.com")
         self.assertEqual(new_patient.phone_number, "1234567890")
-        
+

@@ -1,4 +1,5 @@
 import os, tempfile, pytest, logging, unittest
+
 from datetime import datetime
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -156,6 +157,7 @@ def test_create_medical_history(test_app, sample_patient):
         assert updated_patient.allergies == allergies
         assert updated_patient.medical_conditions == medical_conditions
         assert updated_patient.medication == medication
+
         assert updated_patient.med_history_updated is True
 
 def test_set_patient_autofill_enabled(test_app, sample_patient):
