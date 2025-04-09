@@ -35,7 +35,24 @@ class Questionnaire(db.Model):
         self.patient_id = kwargs.get('patient_id', None)       
         self.responses = kwargs.get('responses', {})
 
-           
 
-    
+    def get_json(self):
+        """
+        Converts the Questionnaire object into a JSON-serializable dictionary.
+
+        Returns:
+            dict: A dictionary representation of the Questionnaire.
+        """
+        return {
+            "id": self.id,
+            "patient_id": self.patient_id,
+            "responses": self.responses,
+            "operation_date": self.operation_date,
+            "status": self.status,
+            "evaluation_notes": self.evaluation_notes,
+            "anesthesiologist_notes": self.anesthesiologist_notes,
+            "doctor_notes": self.doctor_notes,
+            "submitted_date": self.submitted_date.isoformat() if self.submitted_date else None,
+        }
+
 
