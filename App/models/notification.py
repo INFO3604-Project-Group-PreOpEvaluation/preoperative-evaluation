@@ -1,7 +1,6 @@
 from datetime import datetime
 from App.database import db
-from App.models.user import User
-
+from .user import User
 class Notification(db.Model):
     """
     Represents a notification sent to a user.
@@ -10,7 +9,8 @@ class Notification(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
     # the user who received the notification
-    recipientId = db.Column(db.Integer, db.ForeignKey('user.id'))
+    recipient_type = db.Column(db.String(50))  # 'anesthesiologist' or 'patient'
+    recipient_id = db.Column(db.Integer)
     # the title of the notification
     title = db.Column(db.String(220))
     # the message of the notification
@@ -19,8 +19,9 @@ class Notification(db.Model):
     timestamp=db.Column(db.DateTime,default = datetime.now())
     # whether the user has seen the notification
     seen = db.Column(db.Boolean, default=False)
-    
-    def __init__(self, recipientId, message, title):
+    # patient = db.relationship('Patient', foreign_keys=[recipient_id])
+    # anesthesiologist = db.relationship('Anesthesiologist', foreign_keys=[recipient_id])
+    def __init__(self, recipientId, recipient_type, message, title):
         """
         Initializes a notification.
         
@@ -29,6 +30,7 @@ class Notification(db.Model):
         :param title: the title of the notification
         """
         self.recipientId = recipientId
+        self.recipient_type = recipient_type
         self.message = message
         self.title = title
         self.timestamp = datetime.now()
@@ -42,6 +44,7 @@ class Notification(db.Model):
         return{
             'id':self.id,
             'patient_id': self.recipientId,
+            'recipient_type': self.recipient_type,
             'message': self.message,
             'title': self.title,
             'timestamp': self.timestamp.strftime("%Y-%m-%d %H:%M:%S"),

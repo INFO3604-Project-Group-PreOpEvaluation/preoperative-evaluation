@@ -2,7 +2,7 @@ from App.models import Doctor
 from App.database import db
 from App.controllers.notification import create_notification
 
-def create_doctor(firstname, lastname, username, password, email, phone_number):
+def create_doctor(firstname, lastname,password, email, phone_number):
     """
     Creates a new doctor object in the database.
 
@@ -11,7 +11,7 @@ def create_doctor(firstname, lastname, username, password, email, phone_number):
     """
     try:
         # Create a new Doctor object
-        new_doctor = Doctor(firstname=firstname, lastname=lastname, username=username, password=password, email=email, phone_number=phone_number)
+        new_doctor = Doctor(firstname=firstname, lastname=lastname,  password=password, email=email, phone_number=phone_number)
         
         # Add the new doctor to the database session
         db.session.add(new_doctor)

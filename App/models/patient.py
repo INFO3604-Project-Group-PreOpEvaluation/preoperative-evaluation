@@ -1,6 +1,8 @@
 from App.database import db
 from .user import User
-
+from .notification import Notification
+from .anesthesiologist import Anesthesiologist
+from sqlalchemy.orm import aliased
 class Patient(User):
     __tablename__ = 'patient'
     type = db.Column(db.String(120), nullable=False, default='patient')
@@ -15,9 +17,11 @@ class Patient(User):
     med_history_updated = db.Column(db.Boolean, nullable=False, default=False)
     autofill_enabled = db.Column(db.Boolean, nullable=False, default=False)
     questionnaires = db.relationship('Questionnaire', backref='patient', lazy=True, cascade="all, delete-orphan")
-    notifications = db.relationship('Notification', backref='patient', lazy=True, cascade="all, delete-orphan")
-
-
+    notifications = db.relationship('Notification', primaryjoin=lambda: db.and_(Notification.recipient_type == 'patient', Notification.recipient_id == Patient.id))
+    # notifications = db.relationship('Notification', backref='patient', lazy=True, cascade="all, delete-orphan")
+    # notifications = db.relationship('Notification', foreign_keys='Notification.recipient_id', primaryjoin=lambda: db.and_(Notification.recipient_type == 'patient', Notification.recipient_id == Patient.id))
+    # notifications = db.relationship('Notification', foreign_keys='Notification.recipient_id', primaryjoin=lambda: db.and_(Notification.recipient_type == 'patient', Notification.recipient_id == Patient.id), remote_side=[aliased(Anesthesiologist).id])
+    # notifications = db.relationship('Notification', foreign_keys='Notification.recipient_id', primaryjoin='Notification.recipient_id == Patient.id and Notification.recipient_type == "patient"',cascade="all, delete-orphan")
     def __init__(self, firstname, lastname, password, email, phone_number):
         super().__init__(firstname, lastname, password, email, phone_number)
         self.type = 'patient'

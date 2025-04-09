@@ -1,5 +1,4 @@
 from App.database import db
-from .patient import Patient
 from datetime import datetime
 import uuid
 

@@ -1,6 +1,7 @@
 from App.database import db
 from .user import User
 from .questionnaire import Questionnaire
+from .notification import Notification
 
 class Anesthesiologist(User):
     """
@@ -11,7 +12,7 @@ class Anesthesiologist(User):
     """
     __tablename__ = 'anesthesiologist'
     type = db.Column(db.String(120), nullable=False, default='anesthesiologist')
-
+    notifications = db.relationship('Notification', primaryjoin=lambda: db.and_(Notification.recipient_type == 'anesthesiologist', Notification.recipient_id == Anesthesiologist.id))
     def __init__(self, firstname, lastname, password, email, phone_number):
         """
         Constructor for Anesthesiologist.

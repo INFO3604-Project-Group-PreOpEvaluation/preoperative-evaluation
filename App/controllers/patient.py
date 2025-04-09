@@ -1,10 +1,11 @@
 from App.database import db
 from App.models import Patient
+from App.models.notification import Notification
 from datetime import datetime
 
-def create_patient(firstname, lastname, username, password, email, phone_number):
+def create_patient(firstname, lastname, password, email, phone_number):
     try:
-        new_patient = Patient(firstname=firstname, lastname=lastname, username=username, password=password, email=email, phone_number=phone_number)
+        new_patient = Patient(firstname=firstname, lastname=lastname, password=password, email=email, phone_number=phone_number)
         db.session.add(new_patient)
         db.session.commit()
         return new_patient
