@@ -24,7 +24,24 @@ class Patient(User):
     # notifications = db.relationship('Notification', foreign_keys='Notification.recipient_id', primaryjoin=lambda: db.and_(Notification.recipient_type == 'patient', Notification.recipient_id == Patient.id), remote_side=[aliased(Anesthesiologist).id])
     # notifications = db.relationship('Notification', foreign_keys='Notification.recipient_id', primaryjoin='Notification.recipient_id == Patient.id and Notification.recipient_type == "patient"',cascade="all, delete-orphan")
     def __init__(self, firstname, lastname, password, email, phone_number):
-        super().__init__(firstname, lastname, password, email, phone_number)
+        try:
+            if firstname is None or lastname is None or password is None or email is None or phone_number is None:
+                raise ValueError
+            if not isinstance(firstname, str) or not isinstance(lastname, str):
+                raise TypeError("First name and last name must be strings.")
+            if '@' not in email:
+                raise ValueError("Email must contain '@'.")
+            if not phone_number.isdigit():
+                raise TypeError("Phone number must contain only digits.")
+
+            super().__init__(firstname, lastname, password, email, phone_number)
+
+        except ValueError:
+            raise ValueError("All fields for a patient are required.")
+        except TypeError:
+            raise TypeError("Invalid field types for new patient.")
+        except Exception as e:
+            print(e, " - Error creating patient")
         self.type = 'patient'
 
     

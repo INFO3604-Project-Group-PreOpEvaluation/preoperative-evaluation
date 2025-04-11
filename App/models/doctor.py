@@ -13,7 +13,14 @@ class Doctor(User):
         Initializes a doctor.
         
         """
-        super().__init__(firstname, lastname, password, email, phone_number)
+        try: 
+            if firstname is None or lastname is None or password is None or email is None or phone_number is None:
+                raise ValueError
+            super().__init__(firstname, lastname, password, email, phone_number)
+        except ValueError:
+            raise ValueError("All fields for a doctor are required.")
+        except Exception as e:
+            print(e, " - Error creating doctor")
         self.type = 'doctor'
 
     def get_json(self):

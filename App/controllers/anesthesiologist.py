@@ -1,3 +1,4 @@
+
 from App.models import Anesthesiologist
 from App.models import db
 from sqlalchemy.exc import IntegrityError

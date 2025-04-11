@@ -104,5 +104,13 @@ def user_tests_command(type):
     else:
         sys.exit(pytest.main(["-k", "Question"]))
 
-
+@test.command("doctor", help="Run Doctor Integration Tests")
+@click.argument("type", default="all")
+def user_tests_command(type):
+    if type == "unit":
+        sys.exit(pytest.main(["-k", "DoctorUnitTests"]))
+    elif type == "int":
+        sys.exit(pytest.main(["-k", "DoctorIntegrationTests"]))
+    else:
+        sys.exit(pytest.main(["-k", "Doctor"]))
 app.cli.add_command(test)

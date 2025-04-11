@@ -73,7 +73,9 @@ class AnesthesiologistUnitTests(unittest.TestCase):
         with self.assertRaises(ValueError) as context:  
             newAnesthesiologist = Anesthesiologist(firstname=None, lastname=None,
                                                    password=None, email=None, phone_number=None)
-        self.assertEqual(str(context.exception), "All fields are required.")
+            self.assertEqual(str(context), "All fields for an anesthesiologist are required.")
+            # self.assertTrue('All fields are required.' in str(context.exception))
+            # self.assertTrue('All fields are required.' == str(context))
     def test_anesthesiologist_to_json_special_characters(self):
         """
         Verify that to_json() handles special characters correctly.
@@ -89,6 +91,7 @@ class AnesthesiologistUnitTests(unittest.TestCase):
         self.assertEqual(anesthesiologist_json['lastname'], "Döe")
         self.assertEqual(anesthesiologist_json['email'], "john!doe@example.com")
         self.assertEqual(anesthesiologist_json['phone_number'], "+1 (123) 456-7890")
+        
 
     def test_anesthesiologist_password_security(self):
         """

@@ -21,9 +21,11 @@ class Anesthesiologist(User):
         """
         try:
             if firstname is None or lastname is None or password is None or email is None or phone_number is None:
-                raise ValueError("All fields are required.")
+                raise ValueError
             super().__init__(firstname, lastname, password, email, phone_number)
 
+        except ValueError:
+            raise ValueError("All fields for an anesthesiologist are required.")
         except Exception as e:
             print(e, " - Error creating anesthesiologist")
             
