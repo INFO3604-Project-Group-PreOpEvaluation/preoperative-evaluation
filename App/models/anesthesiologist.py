@@ -12,13 +12,21 @@ class Anesthesiologist(User):
     """
     __tablename__ = 'anesthesiologist'
     type = db.Column(db.String(120), nullable=False, default='anesthesiologist')
-    notifications = db.relationship('Notification', primaryjoin=lambda: db.and_(Notification.recipient_type == 'anesthesiologist', Notification.recipient_id == Anesthesiologist.id))
+    # notifications = db.Column(db.Integer, db.ForeignKey('notification.anesthesiologist_id'), nullable=True)
+    notifications = db.relationship('Notification', backref='anesthesiologist', lazy=True, cascade="all, delete-orphan")
     def __init__(self, firstname, lastname, password, email, phone_number):
         """
         Constructor for Anesthesiologist.
 
         """
-        super().__init__(firstname, lastname, password, email, phone_number)
+        try:
+            if firstname is None or lastname is None or password is None or email is None or phone_number is None:
+                raise ValueError("All fields are required.")
+            super().__init__(firstname, lastname, password, email, phone_number)
+
+        except Exception as e:
+            print(e, " - Error creating anesthesiologist")
+            
         self.type = 'anesthesiologist'
 
     def get_json(self):
