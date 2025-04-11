@@ -24,7 +24,7 @@ class Notification(db.Model):
     seen = db.Column(db.Boolean, default=False)
     # patient = db.relationship('Patient', foreign_keys=[recipient_id])
     # anesthesiologist = db.relationship('Anesthesiologist', foreign_keys=[recipient_id])
-    def __init__(self, recipientId, recipient_type, message, title):
+    def __init__(self, anesthesiologist_id, patient_id , message, title):
         """
         Initializes a notification.
         
@@ -32,8 +32,9 @@ class Notification(db.Model):
         :param message: the message of the notification
         :param title: the title of the notification
         """
-        self.recipientId = recipientId
-        self.recipient_type = recipient_type
+        # self.recipient_type = recipient_type
+        self.anesthesiologist_id = anesthesiologist_id
+        self.patient_id = patient_id
         self.message = message
         self.title = title
         self.timestamp = datetime.now()
@@ -46,8 +47,9 @@ class Notification(db.Model):
         """
         return{
             'id':self.id,
-            'patient_id': self.recipientId,
-            'recipient_type': self.recipient_type,
+            'patient_id': self.patient_id,
+            'anesthesiologist_id': self.anesthesiologist_id,
+            # 'recipient_type': self.recipient_type,
             'message': self.message,
             'title': self.title,
             'timestamp': self.timestamp.strftime("%Y-%m-%d %H:%M:%S"),
