@@ -93,12 +93,12 @@ class PatientUnitTests(unittest.TestCase):
         # Test firstname as an integer
         with self.assertRaises(TypeError) as context:
             Patient(firstname=123, lastname="Doe", password="password123", email="x123@example.com", phone_number="1234567890")
-            self.assertEqual(str(context), "Invalid field types for new patient.")
+            self.assertEqual(str(context), "First name and last name must be strings.")
 
         # Test lastname as an integer
         with self.assertRaises(TypeError) as context:
             Patient(firstname="John", lastname=345, password="password123", email="x123@example.com", phone_number="1234567890")
-            self.assertEqual(str(context), "Invalid field types for new patient.")
+            self.assertEqual(str(context), "First name and last name must be strings..")
 
         # Test password as an integer
         with self.assertRaises(TypeError) as context:
@@ -108,7 +108,7 @@ class PatientUnitTests(unittest.TestCase):
         # Test email as invalid
         with self.assertRaises(ValueError) as context:
             Patient(firstname="John", lastname="Doe", password="password123", email="x123", phone_number="1234567890")
-            self.assertEqual(str(context), "Invalid field types for new patient2.")
+            self.assertEqual(str(context), "Invalid field types for new patient.")
 
         # Test phone_number as invalid
         with self.assertRaises(TypeError) as context:
