@@ -1,6 +1,6 @@
 from datetime import datetime
 from App.database import db
-from .user import User
+
 class Notification(db.Model):
     """
     Represents a notification sent to a user.
@@ -27,12 +27,26 @@ class Notification(db.Model):
         :param message: the message of the notification
         :param title: the title of the notification
         """
+        self.validate_fields(anesthesiologist_id, patient_id , message, title)
         self.anesthesiologist_id = anesthesiologist_id
         self.patient_id = patient_id
         self.message = message
         self.title = title
         self.timestamp = datetime.now()
 
+    def validate_fields(self, anesthesiologist_id, patient_id , message, title):
+        """
+        Validates the input fields for creating a Notification object.
+        """
+        if (anesthesiologist_id is None and patient_id is None) or message is None or title is None:
+            raise ValueError("All fields for notification are required")
+        if not isinstance(message, str) or not isinstance(title, str):
+            raise ValueError("Invalid field for notification: Message and title has to be string")
+        if patient_id is not None and not isinstance(patient_id, int):
+            raise ValueError("Invalid field for notification: Patient id has to be an int")
+        if anesthesiologist_id is not None and not isinstance(anesthesiologist_id, int):
+            raise ValueError("Invalid field for notification: Anesthesiologist id has to be an int")
+        
     def get_json(self):
         """
         Returns a json representation of the notification.
