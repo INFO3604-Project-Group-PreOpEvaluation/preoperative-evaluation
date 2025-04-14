@@ -2,35 +2,64 @@ from datetime import datetime
 from App.database import db
 
 class Notification(db.Model):
+    """
+    Represents a notification sent to a user.
+    """
     __tablename__ = 'notification'
     
     id = db.Column(db.Integer, primary_key=True)
-    patient_id = db.Column(db.String(220), db.ForeignKey('patient.id'))
-    title = db.Column(db.String(220))
-    message = db.Column(db.String(220))
-    timestamp=db.Column(db.DateTime,default = datetime.utcnow)
-    seen = db.Column(db.Boolean, default=False)
-    
-    def __init__(self, patient_id, message, title):
+
+    # the user who received the notification
+    anesthesiologist_id = db.Column(db.Integer, db.ForeignKey('anesthesiologist.id'), nullable=True)
+    patient_id = db.Column(db.Integer, db.ForeignKey('patient.id'), nullable=True)
+    # the title of the notification
+    title = db.Column(db.String(220), nullable=False)
+    # the message of the notification
+    message = db.Column(db.String(220), nullable=False)
+    # the time the notification was created
+    timestamp=db.Column(db.DateTime,default = datetime.now())
+    # whether the user has seen the notification
+    seen = db.Column(db.Boolean, default=False, nullable=False)
+    def __init__(self, anesthesiologist_id, patient_id , message, title):
+        """
+        Initializes a notification.
+        
+        :param recipientId: the id of the user who will receive the notification
+        :param message: the message of the notification
+        :param title: the title of the notification
+        """
+        self.validate_fields(anesthesiologist_id, patient_id , message, title)
+        self.anesthesiologist_id = anesthesiologist_id
         self.patient_id = patient_id
         self.message = message
         self.title = title
-        self.timestamp = datetime.utcnow
-        
-    
-    def toDict(self):
-        return{
-            'id':self.id,
-            'patient_id': self.patient_id,
-            'message': self.message,
-            'timestamp': self.timestamp.strftime("%Y-%m-%d %H:%M:%S")
-        }
+        self.timestamp = datetime.now()
 
+    def validate_fields(self, anesthesiologist_id, patient_id , message, title):
+        """
+        Validates the input fields for creating a Notification object.
+        """
+        if (anesthesiologist_id is None and patient_id is None) or message is None or title is None:
+            raise ValueError("All fields for notification are required")
+        if not isinstance(message, str) or not isinstance(title, str):
+            raise ValueError("Invalid field for notification: Message and title has to be string")
+        if patient_id is not None and not isinstance(patient_id, int):
+            raise ValueError("Invalid field for notification: Patient id has to be an int")
+        if anesthesiologist_id is not None and not isinstance(anesthesiologist_id, int):
+            raise ValueError("Invalid field for notification: Anesthesiologist id has to be an int")
+        
     def get_json(self):
+        """
+        Returns a json representation of the notification.
+        
+        :return: a json representation of the notification
+        """
         return{
             'id':self.id,
             'patient_id': self.patient_id,
+            'anesthesiologist_id': self.anesthesiologist_id,
             'message': self.message,
             'title': self.title,
-            'timestamp': self.timestamp.strftime("%Y-%m-%d %H:%M:%S")
+            'timestamp': self.timestamp.strftime("%Y-%m-%d %H:%M:%S"),
+            'seen': self.seen
         }
