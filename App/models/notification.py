@@ -27,7 +27,6 @@ class Notification(db.Model):
         :param message: the message of the notification
         :param title: the title of the notification
         """
-        # self.recipient_type = recipient_type
         self.anesthesiologist_id = anesthesiologist_id
         self.patient_id = patient_id
         self.message = message
