@@ -9,11 +9,8 @@ class Notification(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
     # the user who received the notification
-    # recipient_type = db.Column(db.String(50))  # 'anesthesiologist' or 'patient'
-    # recipient_id = db.Column(db.Integer)
     anesthesiologist_id = db.Column(db.Integer, db.ForeignKey('anesthesiologist.id'), nullable=True)
     patient_id = db.Column(db.Integer, db.ForeignKey('patient.id'), nullable=True)
-    #  user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     # the title of the notification
     title = db.Column(db.String(220))
     # the message of the notification
@@ -22,8 +19,6 @@ class Notification(db.Model):
     timestamp=db.Column(db.DateTime,default = datetime.now())
     # whether the user has seen the notification
     seen = db.Column(db.Boolean, default=False)
-    # patient = db.relationship('Patient', foreign_keys=[recipient_id])
-    # anesthesiologist = db.relationship('Anesthesiologist', foreign_keys=[recipient_id])
     def __init__(self, anesthesiologist_id, patient_id , message, title):
         """
         Initializes a notification.
