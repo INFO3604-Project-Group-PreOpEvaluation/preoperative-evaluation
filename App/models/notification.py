@@ -44,7 +44,6 @@ class Notification(db.Model):
             'id':self.id,
             'patient_id': self.patient_id,
             'anesthesiologist_id': self.anesthesiologist_id,
-            # 'recipient_type': self.recipient_type,
             'message': self.message,
             'title': self.title,
             'timestamp': self.timestamp.strftime("%Y-%m-%d %H:%M:%S"),
