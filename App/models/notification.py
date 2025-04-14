@@ -12,13 +12,13 @@ class Notification(db.Model):
     anesthesiologist_id = db.Column(db.Integer, db.ForeignKey('anesthesiologist.id'), nullable=True)
     patient_id = db.Column(db.Integer, db.ForeignKey('patient.id'), nullable=True)
     # the title of the notification
-    title = db.Column(db.String(220))
+    title = db.Column(db.String(220), nullable=False)
     # the message of the notification
-    message = db.Column(db.String(220))
+    message = db.Column(db.String(220), nullable=False)
     # the time the notification was created
     timestamp=db.Column(db.DateTime,default = datetime.now())
     # whether the user has seen the notification
-    seen = db.Column(db.Boolean, default=False)
+    seen = db.Column(db.Boolean, default=False, nullable=False)
     def __init__(self, anesthesiologist_id, patient_id , message, title):
         """
         Initializes a notification.
