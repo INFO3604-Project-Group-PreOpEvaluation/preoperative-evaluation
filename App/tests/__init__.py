@@ -8,4 +8,5 @@ from .anesthesiologist_integration_test import *
 from .questionnaire_integration_test import *
 from .doctor_integration_test import *
 from .doctor_unit_test import *
+from .questionnaire_unit_test import *
 
