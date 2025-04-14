@@ -3,7 +3,7 @@ from App.database import db
 
 
 
-def createUser(username, password):
+def createUser(username, password, email):
     newuser = User(username = username, password= password, email= email)
     db.session.add(newuser)
     db.session.commit()
@@ -34,12 +34,10 @@ def update_user(id, username):
     return None
 
 def check_username_password(username, password):
-    user = User.query.filter_by(username = username).first()
+    user = User.query.filter_by(username=username).first()
+    return user and user.check_password(password)
 
-    if user and user.password== password:
-        return True
-    else:
-        return False
+    
         
 
 
