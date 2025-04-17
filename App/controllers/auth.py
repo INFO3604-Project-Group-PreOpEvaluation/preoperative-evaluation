@@ -151,8 +151,14 @@ def add_auth_context(app):
       try:
           verify_jwt_in_request()
           user_id = get_jwt_identity()
-          current_user = User.query.get(user_id)
-          is_authenticated = True
+          current_user = None
+          for model in [Doctor, Anesthesiologist, Patient]:
+                user = model.query.get(user_id)
+                if user:
+                    current_user = user
+                    break
+                is_authenticated = bool(current_user)
+
       except Exception as e:
           print(e)
           is_authenticated = False
