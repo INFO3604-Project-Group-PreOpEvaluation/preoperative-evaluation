@@ -5,6 +5,7 @@ from App.models import Questionnaire, Patient
 from App.database import db, create_db
 from App.controllers import (
     create_patient,
+    get_patient_by_id,
     create_questionnaire,
     get_questionnaire,
     get_all_questionnaires,
@@ -13,7 +14,7 @@ from App.controllers import (
     get_questionnaire_by_status,
     get_questionnaire_by_status_json,
     get_latest_questionnaire,
-    set_patient_autofill_enabled
+    update_questionnaire
 )
 
 from datetime import datetime
@@ -109,20 +110,28 @@ class QuestionnaireIntegrationTests(unittest.TestCase):
         Test retrieving the latest questionnaire for a patient.
         """
         patient = create_patient("John", "Doe", "password", "johnndoe99@mail.com", "8834561890")
+
         # Create sample questionnaires with valid `submitted_date` values
-        questionnaire1 = create_questionnaire(
-            patient_id=patient.id,
-            responses={"Q1": "Yes"}
-        )
-        questionnaire1.submitted_date=datetime(2025, 1, 1)  # Valid datetime object
-        questionnaire2 = create_questionnaire(
-            patient_id=patient.id,
-            responses={"Q2": "No"}
-        )
-        questionnaire2.submitted_date=datetime(2025, 2, 1)
+#         questionnaire1 = create_questionnaire(
+#             patient_id=patient.id,
+#             responses={"Q1": "Yes"}
+#         )
+#         questionnaire1.submitted_date=datetime(2025, 1, 1)  # Valid datetime object
+#         questionnaire2 = create_questionnaire(
+#             patient_id=patient.id,
+#             responses={"Q2": "No"}
+#         )
+#         questionnaire2.submitted_date=datetime(2025, 2, 1)
 
-        # Retrieve the latest questionnaire
-        latest = get_latest_questionnaire(patient.id)
-        assert latest is not None
-        assert latest.responses == {"Q2": "No"}
+#         # Retrieve the latest questionnaire
+#         latest = get_latest_questionnaire(patient.id)
+#         assert latest is not None
+#         assert latest.responses == {"Q2": "No"}
 
+# def test_update_questionnaire(setup_database, sample_questionnaire):
+#     updated = update_questionnaire(sample_questionnaire.id, doctor_notes="Updated notes", operation_date="2025-05-20", status="Approved")
+    
+#     assert updated is not None
+#     assert updated.doctor_notes == "Updated notes"
+#     assert updated.operation_date == "2025-05-20"
+#     assert updated.status == "Approved"

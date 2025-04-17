@@ -45,7 +45,7 @@ class AnesthiologistIntegrationTests(unittest.TestCase):
         assert new_anesthesiologist.email == "johnsmith@mail.com"
 
 
-    def test_duplicate_email_or_username(self):
+    def test_duplicate_anesthesiologist(self):
         '''
             Test that attempting to create an Anesthesiologist with a duplicate
             email or username results in the expected behavior

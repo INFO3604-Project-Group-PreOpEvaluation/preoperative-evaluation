@@ -22,9 +22,7 @@ class Patient(User):
     med_history_updated = db.Column(db.Boolean, nullable=False, default=False)
     autofill_enabled = db.Column(db.Boolean, nullable=False, default=False)
     questionnaires = db.relationship('Questionnaire', backref='patient', lazy=True, cascade="all, delete-orphan")
-    # notifications = db.Column(db.Integer, db.ForeignKey('notification.patient_id'), nullable=True)
     notifications = db.relationship('Notification', backref='patient', lazy=True, cascade="all, delete-orphan")
-    # notifications = db.relationship('Notification', backref='patient', lazy=True, cascade="all, delete-orphan")
 
 
     def __init__(self, firstname, lastname, password, email, phone_number):
