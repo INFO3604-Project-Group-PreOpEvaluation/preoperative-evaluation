@@ -1,6 +1,7 @@
 from App.models import Doctor
 from App.database import db
 from App.controllers.notification import create_notification
+from sqlalchemy.exc import IntegrityError
 
 def create_doctor(firstname, lastname,password, email, phone_number):
     """
@@ -21,6 +22,8 @@ def create_doctor(firstname, lastname,password, email, phone_number):
         
         # Return the newly created doctor
         return new_doctor
+    except IntegrityError as e:
+        raise IntegrityError(None, None, "Integrity error while creating doctor") from e
     except Exception as e:
         # Print the error message if an exception occurs
         print(e, "Error creating doctor")
