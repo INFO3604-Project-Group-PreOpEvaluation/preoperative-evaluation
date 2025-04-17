@@ -35,8 +35,9 @@ def patient_profile_page():
         return render_template('patient_account.html', notifications=notifications)
 
     except Exception as e:
-        # Print any errors that occur
+    # Print any errors that occur
         print("Patient Profile View Error: ", str(e))
+    return jsonify({'error': 'An error occurred'}), 500
 
 
 
