@@ -59,4 +59,21 @@ def submit_questionnaire():
         flash('Error submitting questionnaire!')
 
     return render_template('questionnaire_view.html', questions=questions,  questionnaire=questionnaire)
-    #return jsonify(responses), 200
+
+@questionnaire_views.route('/questionnaire/update_notes', methods=['POST'])
+@patient_required
+def update_questionnaire_notes():
+    notes = request.form.get('patient_notes')
+    if not notes:
+        flash('No notes provided')
+        return redirect(url_for('questionnaire_views.questionnaire_details_page'))
+
+    updated = update_questionnaire(current_user.id, patient_notes=notes)
+    
+    if updated:
+        flash('Notes updated successfully!')
+    else:
+        flash('Error updating notes')
+        
+    return redirect(url_for('questionnaire_views.questionnaire_details_page', 
+                          questionnaire_id=updated.id if updated else None))

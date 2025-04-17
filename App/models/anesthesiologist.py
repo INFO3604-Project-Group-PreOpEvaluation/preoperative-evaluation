@@ -45,7 +45,10 @@ class Anesthesiologist(User):
         if questionnaire:
             try:
                 questionnaire.anesthesiologist_notes = new_anesthesiologist_notes
-                questionnaire.status = status
+                if questionnaire.status == 'denied_w_c' and status == 'approved':
+                    questionnaire.status = 'approved_w_c'
+                else:
+                    questionnaire.status = status
                 db.session.commit()
                 return questionnaire
             except Exception as e:

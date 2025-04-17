@@ -32,7 +32,7 @@ class Doctor(User):
             'type': self.type
         }
 
-    def update_questionnaire_doctor(self, questionnaire_id, new_doctor_notes, new_operation_date):
+    def update_questionnaire_doctor(self, questionnaire_id, new_doctor_notes, new_operation_date, doctor_status):
         """
         Updates the doctor's notes and operation date for a questionnaire.
         
@@ -42,6 +42,10 @@ class Doctor(User):
         if questionnaire:
             try:
                 questionnaire.doctor_notes = new_doctor_notes
+                if questionnaire.doctor_status == 'denied_w_c' and questionnaire.doctor_status == 'approved':
+                    questionnaire.doctor_status = 'approved_w_c'
+                else:
+                    questionnaire.doctor_status = doctor_status
                 questionnaire.operation_date = new_operation_date
                 db.session.commit()
                 return questionnaire
