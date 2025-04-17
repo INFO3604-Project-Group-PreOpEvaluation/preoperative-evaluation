@@ -9,36 +9,36 @@ class Patient(User):
     __tablename__ = 'patient'
     type = db.Column(db.String(120), nullable=False, default='patient')
     age = db.Column(db.Integer, nullable=True)
-    blood_type = db.Column(db.LargeBinary, nullable=True)
-    weight = db.Column(db.LargeBinary, nullable=True)
-    height = db.Column(db.LargeBinary, nullable=True)
-    allergies = db.Column(db.LargeBinary, nullable=True)
-    medical_conditions = db.Column(db.LargeBinary, nullable=True)
-    medication = db.Column(db.LargeBinary, nullable=True)
+    _blood_type = db.Column('blood_type', db.LargeBinary, nullable=True)
+    _weight = db.Column('weight', db.LargeBinary, nullable=True)
+    _height = db.Column('height', db.LargeBinary, nullable=True)
+    _allergies = db.Column('allergies', db.LargeBinary, nullable=True)
+    _medical_conditions = db.Column('medical_conditions', db.LargeBinary, nullable=True)
+    _medication = db.Column('medication', db.LargeBinary, nullable=True)
     @property
     def blood_type(self):
-        return cipher.decrypt(self.blood_type).decode if self.blood_type else None
+        return cipher.decrypt(self._blood_type).decode if self._blood_type else None
     @blood_type.setter
     def blood_type(self, value):
-        self.blood_type = cipher.encrypt(value.encode()) if value else None
+        self._blood_type = cipher.encrypt(value.encode()) if value else None
 
     @property
     def height(self):
-        return cipher.decrypt(self.height).decode if self.height else None
+        return cipher.decrypt(self._height).decode if self._height else None
     @height.setter
     def height(self, value):
-        self.height = cipher.encrypt(value.encode()) if value else None
+        self._height = cipher.encrypt(value.encode()) if value else None
 
     @property
     def weight(self):
-        return cipher.decrypt(self.weight).decode if self.weight else None
+        return cipher.decrypt(self._weight).decode if self._weight else None
     @weight.setter
     def weight(self, value):
-        self.weight = cipher.encrypt(value.encode()) if value else None
+        self._weight = cipher.encrypt(value.encode()) if value else None
 
     @property
     def allergies(self):
-        return cipher.decrypt(self.allergies).decode if self.allergies else None
+        return cipher.decrypt(self._allergies).decode if self._allergies else None
     @allergies.setter
     def allergies(self, value):
         self.allergies = cipher.encrypt(value.encode()) if value else None
