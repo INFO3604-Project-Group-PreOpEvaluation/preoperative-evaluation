@@ -18,6 +18,7 @@ class Questionnaire(db.Model):
     responses = db.Column(db.JSON, nullable=True) # Storing responses as JSON, if applicable
     operation_date = db.Column(db.Date, nullable=True)
     status = db.Column(db.String(20), nullable=False, default='pending')
+    doctor_status = db.Column(db.String(20), nullable=False, default='pending')
     patient_notes = db.Column(db.String(1200), nullable=True)
     anesthesiologist_notes = db.Column(db.String(600), nullable=True)
     doctor_notes = db.Column(db.String(600), nullable=True)
@@ -48,7 +49,8 @@ class Questionnaire(db.Model):
             "responses": self.responses,
             "operation_date": self.operation_date,
             "status": self.status,
-            "evaluation_notes": self.evaluation_notes,
+            "doctor_status": self.doctor_status,
+            "patient_notes": self.patient_notes,
             "anesthesiologist_notes": self.anesthesiologist_notes,
             "doctor_notes": self.doctor_notes,
             "submitted_date": self.submitted_date.isoformat() if self.submitted_date else None,
