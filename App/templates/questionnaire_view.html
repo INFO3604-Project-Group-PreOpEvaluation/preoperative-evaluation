@@ -54,15 +54,13 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
               </form>
-
-<!-- {% extends "layout.html" %}
-{% block title %}Questionnaire Responses{% endblock %}
-{% block content %} -->
-<!-- <div class="container mt-5"> -->
+            </div>
+          </div>
+        </div>
 
 <!-- <div class="row mt-5" style="background-color: rgba(62, 163, 189, 0.2);"> -->
     <!-- Patient Information Card (Right) -->
-<!--     <div class="col-md-8">
+    <!-- <div class="col-md-8">
         <div class="card" style="padding: 25px; border: 40px;">
             <div class="card-header">
                 <h2 class="">Questionnaire {{ questionnaire.submitted_date.strftime('%Y-%m-%d') }}</h2>
@@ -117,16 +115,15 @@
     </div> -->
     
     <!-- Add Notes Card (Left) -->
-<!--     <div class="col-md-4">
+    <div class="col-md-4">
         <div class="card">
-            <div class="card-header">
+            <!-- <div class="card-header">
                 {% if current_user.type == "patient" %}
                 <h2 class="text-center">Notes and Status</h2>
                 {% else %}
                 <h2 class="text-center">Add Notes</h2>
-                {% endif %} -->
-<!-- >>>>>>> main-2 -->
-            </div>
+                {% endif %}
+            </div> -->
             {% elif current_user.type == "anesthesiologist" %}
             <div class="anesthesiologist-form">
               <form
@@ -320,7 +317,7 @@
             </div>
             {% endfor %}
           </div>
-          <!-- Conditional rendering based on user type -->
+
         </div>
       </div>
     </div>
