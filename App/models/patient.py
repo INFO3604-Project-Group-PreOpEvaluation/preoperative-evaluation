@@ -17,42 +17,42 @@ class Patient(User):
     _medication = db.Column('medication', db.LargeBinary, nullable=True)
     @property
     def blood_type(self):
-        return cipher.decrypt(self._blood_type).decode if self._blood_type else None
+        return cipher.decrypt(self._blood_type).decode("utf-8")if self._blood_type else None
     @blood_type.setter
     def blood_type(self, value):
         self._blood_type = cipher.encrypt(value.encode()) if value else None
 
     @property
     def height(self):
-        return cipher.decrypt(self._height).decode if self._height else None
+        return cipher.decrypt(self._height).decode("utf-8") if self._height else None
     @height.setter
     def height(self, value):
         self._height = cipher.encrypt(value.encode()) if value else None
 
     @property
     def weight(self):
-        return cipher.decrypt(self._weight).decode if self._weight else None
+        return cipher.decrypt(self._weight).decode("utf-8") if self._weight else None
     @weight.setter
     def weight(self, value):
         self._weight = cipher.encrypt(value.encode()) if value else None
 
     @property
     def allergies(self):
-        return cipher.decrypt(self._allergies).decode if self._allergies else None
+        return cipher.decrypt(self._allergies).decode("utf-8") if self._allergies else None
     @allergies.setter
     def allergies(self, value):
         self._allergies = cipher.encrypt(value.encode()) if value else None
     
     @property
     def medical_conditions(self):
-        return cipher.decrypt(self._medical_conditions).decode if self._medical_conditions else None
+        return cipher.decrypt(self._medical_conditions).decode("utf-8") if self._medical_conditions else None
     @medical_conditions.setter
     def medical_conditions(self, value):
         self._medical_conditions = cipher.encrypt(value.encode()) if value else None
     
     @property
     def medication(self):
-        return cipher.decrypt(self._medication).decode if self._medication else None
+        return cipher.decrypt(self._medication).decode("utf-8") if self._medication else None
     @medication.setter
     def medication(self, value):
         self._medication = cipher.encrypt(value.encode()) if value else None
