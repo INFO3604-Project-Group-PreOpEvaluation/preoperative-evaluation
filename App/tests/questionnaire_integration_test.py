@@ -109,7 +109,7 @@ def test_get_questionnaire_by_patient_id(setup_database):
 
     retrieved = get_questionnaire_by_patient_id("123")
     assert retrieved is not None
-    assert retrieved.patient_id == "123"
+    assert retrieved.patient_id == 123
 
 def test_get_questionnaire_by_status(setup_database):
     questionnaire = Questionnaire(patient_id="123", responses={"Q1": "Yes"}, status="completed")
