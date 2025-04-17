@@ -44,6 +44,7 @@ class AnesthiologistIntegrationTests(unittest.TestCase):
         assert new_anesthesiologist.phone_number == "1234567890"
         assert new_anesthesiologist.email == "johnsmith@mail.com"
 
+
     def test_duplicate_email_or_username(self):
         '''
             Test that attempting to create an Anesthesiologist with a duplicate
@@ -53,12 +54,6 @@ class AnesthiologistIntegrationTests(unittest.TestCase):
         create_anesthesiologist("Jane", "Doe", "password", "janedoe@mail.com", "0987654321")
 
         # Attempt to create an Anesthesiologist with the same email
-        # try:
-        #     duplicate_email = 
-        # except IntegrityError:
-        #     pass
-        # else:
-        #     assert False, "No IntegrityError was raised"
         with self.assertRaises(IntegrityError) as context:  # Or another appropriate exception
             newAnesthesiologist = create_anesthesiologist("Alice", "Smith", "password", "janedoe@mail.com", "1122334455")
             self.assertIn("Integrity error while creating anesthesiologist", str(context.exception))
