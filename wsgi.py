@@ -84,7 +84,7 @@ def anesthesiologist_tests_command(type):
     sys.exit(pytest.main(["-k", "Anesthesiologist"]))
 
 
-@test.command("patient", help="Run Patient Integration Tests")
+@test.command("patient", help="Run Patient Tests")
 @click.argument("type", default="all")
 def user_tests_command(type):
     if type == "unit":
@@ -94,7 +94,7 @@ def user_tests_command(type):
     else:
         sys.exit(pytest.main(["-k", "Patient"]))
 
-@test.command("question", help="Run Questionnaire Integration Tests")
+@test.command("question", help="Run Questionnaire Tests")
 @click.argument("type", default="all")
 def user_tests_command(type):
     if type == "unit":
@@ -104,7 +104,7 @@ def user_tests_command(type):
     else:
         sys.exit(pytest.main(["-k", "Question"]))
 
-@test.command("doctor", help="Run Doctor Integration Tests")
+@test.command("doctor", help="Run Doctor Tests")
 @click.argument("type", default="all")
 def user_tests_command(type):
     if type == "unit":
@@ -123,5 +123,6 @@ def user_tests_command(type):
         sys.exit(pytest.main(["-k", "NotificationIntegrationTests"]))
     else:
         sys.exit(pytest.main(["-k", "Notification"]))
+
 
 app.cli.add_command(test)

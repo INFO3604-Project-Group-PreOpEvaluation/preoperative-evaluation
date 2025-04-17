@@ -85,7 +85,7 @@
                 <li class="nav-item">
                     <a  class="nav-link position-relative" href="/patient/profile">
                         <i class="fa fa-user-circle-o" aria-hidden="true"></i>
-                        {{ current_user.username }} 
+                        {{ current_user.firstname}} {{ current_user.lastname}} 
                         {% if current_user.notifications|length > 0 %}
                             {% set unseen_notifications = current_user.notifications|selectattr('seen', 'equalto', false)|list %}
                             {% if unseen_notifications|length > 0 %}

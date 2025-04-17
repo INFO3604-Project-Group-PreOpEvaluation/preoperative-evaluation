@@ -1,71 +1,109 @@
-import os, tempfile, pytest, logging, unittest
-
-from App.main import create_app
-from App.database import db, create_db
+import pytest
+import unittest
+from datetime import datetime
 from App.models import Questionnaire
-from App.controllers import(
-    create_questionnaire,
-    get_questionnaire,
-    get_all_questionnaires,
-    get_all_questionnaires_json,
-    get_questionnaire_by_patient_id,
-    get_questionnaire_by_status,
-    get_questionnaire_by_status_json,
-    get_latest_questionnaire
-)
+from App.models.questionnaire import generate_short_uuid
 
-LOGGER = logging.getLogger(__name__)
-
-"""
+'''
     Unit Tests
-"""
+'''
 
 class QuestionnaireUnitTests(unittest.TestCase):
+    """
+    Unit tests for the Questionnaire model and its respective controller functions.
+    """
+    def test_create_questionnaire(self):
+        """
+        A Questionnaire object is created and contains all fields from the input.
+        """
+        questionnaire = Questionnaire(patient_id=1, responses={"Q1": "a", "Q2": "b"})
+        self.assertIsNotNone(questionnaire)
+        self.assertEqual(questionnaire.patient_id, 1)
+        self.assertEqual(questionnaire.responses, {"Q1": "a", "Q2": "b"})
 
-    def setUp(self):
-        db.create_all()
+    def test_update_questionnaire(self):
+        """
+        A Questionnaire object is created and then updated with new values.
+        """
+        questionnaire = Questionnaire(patient_id=1, responses={"Q1": "a", "Q2": "b"})
+        
+        # Update fields
+        questionnaire.status = "accepted"
+        questionnaire.patient_notes = "No notes"
+        questionnaire.anesthesiologist_notes = "Healthy"
+        questionnaire.doctor_notes = "Good patient"
+        
+        self.assertEqual(questionnaire.patient_id, 1)
+        self.assertEqual(questionnaire.responses, {"Q1": "a", "Q2": "b"})
+        self.assertEqual(questionnaire.status, "accepted")
+        self.assertEqual(questionnaire.patient_notes, "No notes")
+        self.assertEqual(questionnaire.anesthesiologist_notes, "Healthy")
+        self.assertEqual(questionnaire.doctor_notes, "Good patient")
 
-    def tearDown(self):
-        db.session.remove()
-        db.drop_all()
-    
-    def test_get_questionnaire(self):
-        patient_id = "patient123"
-        responses = {"q1": "yes", "q2": "no"}
-        created = create_questionnaire(patient_id, responses)
-        retrieved = get_questionnaire(created.id)
-        self.assertEqual(created.id, retrieved.id)
+    def test_id_generation(self):
+        """
+        Verify that UUID of length 8 is generated for the questionnaire ID.
+        """
+        generated_id = generate_short_uuid()
+        self.assertTrue(len(generated_id) == 8)
+        self.assertTrue(isinstance(generated_id, str))
 
-    def test_get_all_questionnaires(self):
-        patient_id_1 = "patient123"
-        patient_id_2 = "patient456"
-        create_questionnaire(patient_id_1, {"q1": "yes"})
-        create_questionnaire(patient_id_2, {"q2": "no"})
-        questionnaires = get_all_questionnaires()
-        self.assertEqual(len(questionnaires), 2)
 
-    def test_get_all_questionnaires_json(self):
-        create_questionnaire("patient123", {"q1": "yes"})
-        json_data = get_all_questionnaires_json()
-        self.assertIsInstance(json_data, list)
-        self.assertGreater(len(json_data), 0)
+    def test_operation_date_nullable(self):
+        """
+        Verify that operation_date can be null.
+        """
+        questionnaire = Questionnaire(patient_id=1, responses={"Q1": "a", "Q2": "b"})
+        self.assertIsNone(questionnaire.operation_date)
+        
+    def test_patient_notes_nullable(self):
+        """
+        Verify that patient_notes can be null.
+        """
+        questionnaire = Questionnaire(patient_id=1, responses={"Q1": "a", "Q2": "b"})
+        self.assertIsNone(questionnaire.patient_notes)
+        
+    def test_anesthesiologist_notes_nullable(self):
+        """
+        Verify that anesthesiologist_notes can be null.
+        """
+        questionnaire = Questionnaire(patient_id=1, responses={"Q1": "a", "Q2": "b"})
+        self.assertIsNone(questionnaire.anesthesiologist_notes)
+        
+    def test_doctor_notes_nullable(self):
+        """
+        Verify that doctor_notes can be null.
+        """
+        questionnaire = Questionnaire(patient_id=1, responses={"Q1": "a", "Q2": "b"})
+        self.assertIsNone(questionnaire.doctor_notes)
 
-    def test_get_questionnaire_by_patient_id(self):
-        patient_id = "patient123"
-        create_questionnaire(patient_id, {"q1": "yes"})
-        questionnaire = get_questionnaire_by_patient_id(patient_id)
-        self.assertEqual(questionnaire.patient_id, patient_id)
+    def test_questionnaire_to_json(self):
+        """
+        A Questionnaire object is created and its to_json method is called.
+        """
+        questionnaire = Questionnaire(
+            patient_id=1, 
+            responses={"Q1": "a", "Q2": "b"},
+            status="pending",
+            operation_date=None,
+            patient_notes="Test notes",
+            doctor_notes="Doctor observation"
+        )
+        questionnaire_json = questionnaire.get_json()
 
-    def test_get_questionnaire_by_status(self):
-        patient_id = "patient123"
-        responses = {"q1": "yes"}
-        create_questionnaire(patient_id, responses)
-        questionnaires = get_questionnaire_by_status("submitted")
-        self.assertIsInstance(questionnaires, list)
-    
-    def test_get_latest_questionnaire(self):
-        patient_id = "patient123"
-        create_questionnaire(patient_id, {"q1": "yes"})
-        create_questionnaire(patient_id, {"q2": "no"})
-        latest_questionnaire = get_latest_questionnaire(patient_id)
-        self.assertEqual(latest_questionnaire.responses, {"q2": "no"})
+        # Test that the returned dictionary values match the Questionnaire object's attributes
+        self.assertEqual(questionnaire_json['patient_id'], questionnaire.patient_id)
+        self.assertEqual(questionnaire_json['responses'], questionnaire.responses)
+        self.assertEqual(questionnaire_json['status'], questionnaire.status)
+        self.assertEqual(questionnaire_json['patient_notes'], questionnaire.patient_notes)
+        self.assertEqual(questionnaire_json['doctor_notes'], questionnaire.doctor_notes)
+
+    def test_invalid_questionnaire_field(self):
+        """
+        Verify that creating a Questionnaire with invalid fields raises errors.
+        """
+        with self.assertRaises(ValueError) as context:
+            questionnaire = Questionnaire(patient_id=None, responses={"Q1": "a", "Q2": "b"})
+            # Assuming patient_id is required
+            self.assertTrue("Invalid field for questionnaire" in str(context))
+

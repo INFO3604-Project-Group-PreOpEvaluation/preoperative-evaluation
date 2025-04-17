@@ -18,6 +18,7 @@ class Questionnaire(db.Model):
     responses = db.Column(db.JSON, nullable=True) # Storing responses as JSON, if applicable
     operation_date = db.Column(db.Date, nullable=True)
     status = db.Column(db.String(20), nullable=False, default='pending')
+    doctor_status = db.Column(db.String(20), nullable=False, default='pending')
     patient_notes = db.Column(db.String(1200), nullable=True)
     anesthesiologist_notes = db.Column(db.String(600), nullable=True)
     doctor_notes = db.Column(db.String(600), nullable=True)
@@ -29,10 +30,16 @@ class Questionnaire(db.Model):
         """
         Initialize a Questionnaire object with the given parameters.
         """
-        super().__init__(**kwargs)
+        # super().__init__(**kwargs)
         # self.questions = kwargs.get('questions', [])
-        self.patient_id = kwargs.get('patient_id', None)       
-        self.responses = kwargs.get('responses', {})
+        try:
+            self.patient_id = kwargs['patient_id']
+            if self.patient_id is None:
+                raise ValueError()
+            self.responses = kwargs.get('responses', {})
+            self.submitted_date = datetime.now()
+        except ValueError as e:
+            raise ValueError(f"Invalid field for questionnaire: {e}")
 
 
     def get_json(self):
@@ -48,7 +55,9 @@ class Questionnaire(db.Model):
             "responses": self.responses,
             "operation_date": self.operation_date,
             "status": self.status,
-            "evaluation_notes": self.evaluation_notes,
+
+            "doctor_status": self.doctor_status,
+            "patient_notes": self.patient_notes,
             "anesthesiologist_notes": self.anesthesiologist_notes,
             "doctor_notes": self.doctor_notes,
             "submitted_date": self.submitted_date.isoformat() if self.submitted_date else None,

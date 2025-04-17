@@ -5,6 +5,10 @@ from .anesthesiologist import Anesthesiologist
 from sqlalchemy.orm import aliased
 
 class Patient(User):
+    """
+    A model for a patient user
+    """
+
     __tablename__ = 'patient'
     type = db.Column(db.String(120), nullable=False, default='patient')
     dateOfBirth = db.Column(db.Date, nullable=True)
@@ -20,7 +24,24 @@ class Patient(User):
     questionnaires = db.relationship('Questionnaire', backref='patient', lazy=True, cascade="all, delete-orphan")
     notifications = db.relationship('Notification', backref='patient', lazy=True, cascade="all, delete-orphan")
 
+
     def __init__(self, firstname, lastname, password, email, phone_number):
+        """
+          Initializes a Patient object
+
+          Parameters
+          ----------
+          firstname : str
+              The first name of the patient
+          lastname : str
+              The last name of the patient
+          password : str
+              The password of the patient
+          email : str
+              The email of the patient
+          phone_number : str
+              The phone number of the patient
+        """
         # Validation logic for the fields
         self.validate_fields(firstname, lastname, password, email, phone_number)
         super().__init__(firstname, lastname, password, email, phone_number)
@@ -43,6 +64,9 @@ class Patient(User):
 
     
     def get_json(self):
+        """
+        Returns a JSON representation of the Patient object
+        """
         return{
             'id': self.id,
             'firstname': self.firstname,
