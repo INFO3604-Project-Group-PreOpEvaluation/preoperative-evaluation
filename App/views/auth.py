@@ -61,7 +61,10 @@ def signup_action():
   try:
     data = request.form     
     print(data)   
-    patient = create_patient(firstname=data['firstname'], lastname=data['lastname'], username=data['username'], password = data['password'], email=data['email'], phone_number=data['phone_number'])
+    uname = ''
+    patient = create_patient(firstname=data['firstname'], lastname=data['lastname'], username=uname, password = data['password'], email=data['email'], phone_number=data['phone_number'])
+    if patient:
+      print("WORKS ")
     login_user(patient)
 
     if patient:
@@ -91,23 +94,15 @@ def logout_action():
 API Routes
 '''
 
-# @auth_views.route('/api/users', methods=['GET'])
-# def get_users_action():
-#     users = get_all_users_json()
-#     return jsonify(users)
-
-# @auth_views.route('/api/users', methods=['POST'])
-# def create_user_endpoint():
-#     data = request.json
-#     response = create_user(data['username'], data['password'])
-#     if response:
-#         return jsonify({'message': f"user created"}), 201
-#     return jsonify(error='error creating user'), 500
 
 @auth_views.route('/api/signin', methods=['POST'])
 def user_login_api():
   data = request.json
   logout_user()
+
+  if not data or 'email' not in data or 'password' not in data:
+        return jsonify(error='Missing email or password'), 400
+
   user_credentials = jwt_authenticate(data['email'], data['password'])
 
   if not user_credentials:
@@ -117,11 +112,3 @@ def user_login_api():
     return jsonify(user_credentials)
   else:
     return jsonify(access_token=user_credentials)
-
-
-# @auth_views.route('/api/identify', methods=['GET'])
-# @jwt_required()
-# def identify_user_action():
-#     return jsonify({'message': f"username: {jwt_current_user.username}, id : {jwt_current_user.id}"})
-
-

@@ -57,4 +57,6 @@ def refresh_css():
     """
     # Execute the Tailwind CSS CLI command to regenerate the CSS
     os.system("npx @tailwindcss/cli -i App/static/Css/input.css -o App/static/Css/output.css")
+
     return redirect(url_for('index_views.index_page'))
+
