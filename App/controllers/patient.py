@@ -15,23 +15,21 @@ def create_patient(firstname, lastname, password, email, phone_number):
 
     
 def create_medical_history(patient_id, dateOfBirth, blood_type, weight, height, allergies, medical_conditions, medication):
-  """
-    Creates a new medical history for the patient in the database
-    
-    Parameters:
-    patient_id (str): The id of the patient
-    dateOfBirth (int): The patient's DoB
-    blood_type (str): The patient's blood type
-    weight (float): The patient's weight
-    height (float): The patient's height
-    allergies (str): The patient's allergies
-    medical_conditions (str): The patient's medical conditions
-    medication (str): The patient's medication
-    
+    """Creates a new medical history for the patient in the database
+        
+        Parameters:
+        patient_id (str): The id of the patient
+        dateOfBirth (int): The patient's DoB
+        blood_type (str): The patient's blood type
+        weight (float): The patient's weight
+        height (float): The patient's height
+        allergies (str): The patient's allergies
+        medical_conditions (str): The patient's medical conditions
+        medication (str): The patient's medication
+        
 
-    Returns:
-    Patient: The patient with the updated medical history
-    """
+        Returns:
+        Patient: The patient with the updated medical history"""
     patient = Patient.query.get(patient_id)
     try:
         if dateOfBirth:

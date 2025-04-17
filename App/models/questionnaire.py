@@ -37,6 +37,7 @@ class Questionnaire(db.Model):
             if self.patient_id is None:
                 raise ValueError()
             self.responses = kwargs.get('responses', {})
+            self.submitted_date = datetime.now()
         except ValueError as e:
             raise ValueError(f"Invalid field for questionnaire: {e}")
 
