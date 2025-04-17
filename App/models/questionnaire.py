@@ -30,10 +30,15 @@ class Questionnaire(db.Model):
         """
         Initialize a Questionnaire object with the given parameters.
         """
-        super().__init__(**kwargs)
+        # super().__init__(**kwargs)
         # self.questions = kwargs.get('questions', [])
-        self.patient_id = kwargs.get('patient_id', None)       
-        self.responses = kwargs.get('responses', {})
+        try:
+            self.patient_id = kwargs['patient_id']
+            if self.patient_id is None:
+                raise ValueError()
+            self.responses = kwargs.get('responses', {})
+        except ValueError as e:
+            raise ValueError(f"Invalid field for questionnaire: {e}")
 
 
     def get_json(self):
@@ -49,6 +54,7 @@ class Questionnaire(db.Model):
             "responses": self.responses,
             "operation_date": self.operation_date,
             "status": self.status,
+
             "doctor_status": self.doctor_status,
             "patient_notes": self.patient_notes,
             "anesthesiologist_notes": self.anesthesiologist_notes,
