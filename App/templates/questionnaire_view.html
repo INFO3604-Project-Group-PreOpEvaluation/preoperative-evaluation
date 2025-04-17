@@ -1,11 +1,68 @@
-{% extends "layout.html" %}
+
+{% extends "layout.html" %} {% block title %}Questionnaire Responses{% endblock
+    %} {% block content %}
+    <!-- <div class="container mt-5"> -->
+    
+    <div class="row mt-5">
+      <!-- Patient Information Card (Left) -->
+      <div class="col-md-4">
+        <div class="card mb-3">
+          <div class="card-header">
+            {% if current_user.type == "patient" %}
+            <h2 class="text-center">Notes and Status</h2>
+            {% else %}
+            <h2 class="text-center">Add Notes</h2>
+            {% endif %}
+          </div>
+          <div class="card-body">
+            <!-- Patient Photo -->
+            {% if current_user.type == "doctor" %}
+            <div class="doctor-form">
+              <div class="form-group mb-3">
+                <label for="viewAnesthesiologistNotes"
+                  >Anesthesiologist's Notes:</label
+                >
+                <textarea
+                  id="viewAnesthesiologistNotes"
+                  class="form-control"
+                  readonly
+                >
+    {{ questionnaire.anesthesiologist_notes }}</textarea
+                >
+              </div>
+              <form
+                method="post"
+                action="/dashboard/doctor/questionnaire/submit/{{ questionnaire.id }}"
+              >
+                <div class="form-group">
+                  <label for="doctorNotes">Doctor's Notes:</label>
+                  <textarea
+                    id="doctorNotes"
+                    name="doctor_notes"
+                    class="form-control"
+                  ></textarea>
+                </div>
+                
+                <div class="form-group">
+                  <label for="operationDate">Operation Date:</label>
+                  <input
+                    type="date"
+                    id="operationDate"
+                    name="operation_date"
+                    class="form-control"
+                  />
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+
+<!-- {% extends "layout.html" %}
 {% block title %}Questionnaire Responses{% endblock %}
-{% block content %}
+{% block content %} -->
 <!-- <div class="container mt-5"> -->
 
-<div class="row mt-5" style="background-color: rgba(62, 163, 189, 0.2);">
+<!-- <div class="row mt-5" style="background-color: rgba(62, 163, 189, 0.2);"> -->
     <!-- Patient Information Card (Right) -->
-    <div class="col-md-8">
+<!--     <div class="col-md-8">
         <div class="card" style="padding: 25px; border: 40px;">
             <div class="card-header">
                 <h2 class="">Questionnaire {{ questionnaire.submitted_date.strftime('%Y-%m-%d') }}</h2>
@@ -57,68 +114,216 @@
                 {% endfor %}
             </div>
         </div>
-    </div>
+    </div> -->
     
     <!-- Add Notes Card (Left) -->
-    <div class="col-md-4">
+<!--     <div class="col-md-4">
         <div class="card">
             <div class="card-header">
                 {% if current_user.type == "patient" %}
                 <h2 class="text-center">Notes and Status</h2>
                 {% else %}
                 <h2 class="text-center">Add Notes</h2>
-                {% endif %}
+                {% endif %} -->
+<!-- >>>>>>> main-2 -->
             </div>
-            <div class="card-body">
-                <!-- Patient Photo -->
-                {% if current_user.type == "doctor" %}
-                <div class="doctor-form">
-                    <form method="post" action="/dashboard/doctor/questionnaire/submit/{{ questionnaire.id }}">
-                        <div class="form-group">
-                            <label for="doctorNotes">Doctor's Notes:</label>
-                            <textarea id="doctorNotes" name="doctor_notes" class="form-control"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="operationDate">Operation Date:</label>
-                            <input type="date" id="operationDate" name="operation_date" class="form-control">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
+            {% elif current_user.type == "anesthesiologist" %}
+            <div class="anesthesiologist-form">
+              <form
+                method="post"
+                action="/dashboard/anesthesiologist/questionnaire/submit/{{questionnaire.id}}"
+              >
+                <div class="form-group">
+                  <label for="anesthesiologistNotes"
+                    >Anesthesiologist's Notes:</label
+                  >
+                  <textarea
+                    id="anesthesiologistNotes"
+                    name="anesthesiologist_notes"
+                    class="form-control"
+                  ></textarea>
                 </div>
-                {% elif current_user.type == "anesthesiologist" %}
-                <div class="anesthesiologist-form">
-                    <form method="post" action="/dashboard/anesthesiologist/questionnaire/submit/{{questionnaire.id}}">
-                        <div class="form-group">
-                            <label for="anesthesiologistNotes">Anesthesiologist's Notes:</label>
-                            <textarea id="anesthesiologistNotes" name="anesthesiologist_notes"
-                                class="form-control"></textarea>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" id="approve" name="status" value="approved">
-                            <label class="form-check-label" for="approve">Approve</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" id="decline" name="status" value="declined">
-                            <label class="form-check-label" for="decline">Decline</label>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    id="approve"
+                    name="status"
+                    value="approved"
+                  />
+                  <label class="form-check-label" for="approve">Approve</label>
                 </div>
-
-                {% elif current_user.type == "patient" %}
-                <div class="patient-notes">
-                    <p><strong>Doctor's Notes:</strong></p>
-                    <textarea class="form-control">{{ questionnaire.doctor_notes }}</textarea>
-                    <p class="mt-1"><strong>Anesthesiologist's Notes:</strong></p>
-                    <textarea class="form-control"> {{ questionnaire.anesthesiologist_notes }}</textarea>
-                    <p class="mt-1"><strong>Status:</strong> {{ questionnaire.status }}</p>
-                    <p><strong>Operation Date:</strong> {{ questionnaire.operation_date}}</p>
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    id="decline"
+                    name="status"
+                    value="declined"
+                  />
+                  <label class="form-check-label" for="decline">Decline</label>
                 </div>
-                {% endif %}
-
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    id="deny_w_c"
+                    name="status"
+                    value="denied_w_c"
+                  />
+                  <label class="form-check-label" for="deny_w_c"
+                    >Deny with Clarification</label
+                  >
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
             </div>
+    
+            {% elif current_user.type == "patient" %}
+            <div class="patient-notes">
+              <p><strong>Doctor's Notes:</strong></p>
+              <textarea class="form-control" readonly>
+    {{ questionnaire.doctor_notes }}</textarea
+              >
+              <p class="mt-1"><strong>Anesthesiologist's Notes:</strong></p>
+              <textarea class="form-control" readonly>
+     {{ questionnaire.anesthesiologist_notes }}</textarea
+              >
+              <p class="mt-1">
+                <strong>Status:</strong> {{ questionnaire.status }}
+              </p>
+              <p>
+                <strong>Operation Date:</strong> {{ questionnaire.operation_date}}
+              </p>
+            </div>
+            {% endif %}
+          </div>
         </div>
-    </div>
-</div>
 
-{% endblock %}
+    
+        <!-- Patient Notes Card -->
+        <div class="card">
+          <div class="card-header">
+            {% if current_user.type == "patient" %}
+            <h5 class="text-center">Add Information</h5>
+            {% else %}
+            <h5 class="text-center">Patient Notes</h5>
+            {% endif %}
+          </div>
+          <div class="card-body">
+            {% if current_user.type == "patient" and (questionnaire.status ==
+            "denied_w_c" or questionnaire.status == "approved_w_c") %}
+            <form
+              method="POST"
+              action="{{ url_for('questionnaire_views.update_questionnaire_notes') }}"
+            >
+              <div class="form-group mb-3">
+                <label for="patientNotes"><strong>Add Notes:</strong></label>
+                <textarea
+                  class="form-control"
+                  id="patientNotes"
+                  name="patient_notes"
+                  rows="3"
+                  placeholder="Enter any additional information or notes here..."
+                ></textarea>
+              </div>
+              <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary">Save Notes</button>
+              </div>
+            </form>
+            {% elif current_user.type != "patient" and (questionnaire.status ==
+            "denied_w_c" or questionnaire.status == "approved_w_c") and
+            questionnaire.patient_notes %}
+            <div class="form-group mb-3">
+              <label><strong>Patient's Additional Notes:</strong></label>
+              <textarea class="form-control" readonly rows="3">
+    {{ questionnaire.patient_notes }}</textarea
+              >
+            </div>
+            {% else %}
+            <div class="alert alert-info">
+              {% if current_user.type != "patient" %} No additional information
+              available. {% elif questionnaire.status != "denied_w_c" and
+              questionnaire.status != "approved_w_c" %} You can only update
+              information if requested. {% endif %}
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="">
+              Questionnaire {{ questionnaire.submitted_date.strftime('%Y-%m-%d') }}
+            </h2>
+          </div>
+          <div class="card-body" style="max-height: 500px; overflow-y: auto">
+            <h4>
+              Patient Name: {{questionnaire.patient.firstname}}
+              {{questionnaire.patient.lastname}}
+            </h4>
+            {% for question in questions %}
+            <div class="mb-4">
+              <p><strong>{{ question.text }}</strong></p>
+              {% if question.type == "long_answer" %}
+              <textarea class="form-control" readonly>
+    {{ questionnaire.responses[question.id] }}</textarea
+              >
+              {% elif question.type == "multiple_choice" %} {% for choice in
+              question.choices %}
+              <div class="form-check">
+                <input class="form-check-input" type="radio" id="choice_{{
+                question.id }}_{{ loop.index }}" name="question_{{ question.id }}"
+                value="{{ choice }}" {% if
+                questionnaire.responses[question.id]==choice %} checked {% endif %}
+                disabled>
+                <label
+                  class="form-check-label"
+                  for="choice_{{ question.id }}_{{ loop.index }}"
+                  >{{ choice }}</label
+                >
+              </div>
+              {% endfor %} {% elif question.type == "boolean" %}
+              <div class="form-check">
+                <input class="form-check-input" type="radio" id="question_{{
+                question.id }}" name="question_{{ question.id }}" {% if
+                questionnaire.responses[question.id] == "yes" %} checked {% endif %}
+                disabled>
+                <label class="form-check-label" for="question_{{ question.id }}"
+                  >Yes</label
+                >
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" id="question_{{
+                question.id }}" name="question_{{ question.id }}" {% if
+                questionnaire.responses[question.id] == "no" %} checked {% endif %}
+                disabled>
+                <label class="form-check-label" for="question_{{ question.id }}"
+                  >No</label
+                >
+              </div>
+              {% endif %} {% if question.follow_ups %}
+              <div class="mt-3">
+                {% for follow_up in question.follow_ups %} {% if
+                questionnaire.responses[question.id] == follow_up.conditional_on or
+                (follow_up.conditional_on == true and
+                questionnaire.responses[question.id]) %}
+                <p><strong>{{ follow_up.text }}</strong></p>
+                <textarea class="form-control" readonly>
+    {{ questionnaire.responses[follow_up.id] }}</textarea
+                >
+                {% endif %} {% endfor %}
+              </div>
+              {% endif %}
+            </div>
+            {% endfor %}
+          </div>
+          <!-- Conditional rendering based on user type -->
+        </div>
+      </div>
+    </div>
+    {% endblock %}
+    
+
