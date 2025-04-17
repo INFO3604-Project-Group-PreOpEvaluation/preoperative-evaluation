@@ -41,21 +41,21 @@ class Patient(User):
         return cipher.decrypt(self._allergies).decode if self._allergies else None
     @allergies.setter
     def allergies(self, value):
-        self.allergies = cipher.encrypt(value.encode()) if value else None
+        self._allergies = cipher.encrypt(value.encode()) if value else None
     
     @property
     def medical_conditions(self):
-        return cipher.decrypt(self.medical_conditions).decode if self.medical_conditions else None
+        return cipher.decrypt(self._medical_conditions).decode if self._medical_conditions else None
     @medical_conditions.setter
     def medical_conditions(self, value):
-        self.medical_conditions = cipher.encrypt(value.encode()) if value else None
+        self._medical_conditions = cipher.encrypt(value.encode()) if value else None
     
     @property
     def medication(self):
-        return cipher.decrypt(self.medication).decode if self.medication else None
+        return cipher.decrypt(self._medication).decode if self._medication else None
     @medication.setter
     def medication(self, value):
-        self.medication = cipher.encrypt(value.encode()) if value else None
+        self._medication = cipher.encrypt(value.encode()) if value else None
 
     med_history_updated = db.Column(db.Boolean, nullable=False, default=False)
     autofill_enabled = db.Column(db.Boolean, nullable=False, default=False)
