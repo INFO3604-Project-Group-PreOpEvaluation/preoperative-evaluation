@@ -49,16 +49,6 @@
                     <a class="nav-link" href="/">Home</a>
                 </li>
                
-                {% if current_user.is_authenticated %}
-                    {%if current_user.type == 'patient'%}
-                        
-                        <li class="nav-item">
-                            <a class="nav-link" href="/questionnaire">Questionnaire</a>
-                        </li>                    
-                                        
-                    {%endif%}                                  
-                    
-                {%endif%}
                 
                 
             </ul>
