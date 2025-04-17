@@ -1,9 +1,8 @@
-{% extends 'layout.html' %}
-{% block title %}Patient Information{% endblock %}
-
+{% extends 'layout.html' %} {% block title %}Patient Information{% endblock %}
 {% block content %}
 
 <div class="row mt-5">
+
     <!-- Patient Information Card (Left) -->
     <div class="col-md-4">
         <div class="card">
@@ -24,28 +23,92 @@
                 <!-- Other patient details -->                  
             </div>
         </div>
+
     </div>
-    <div class="col-md-8">
+
+  </div>
+  <div class="col-md-8">
+    <div class="card">
+      {% if current_user.type == 'doctor' %}
+      <div class="card-header">
+        <h2 class="">Approved Questionnaires</h2>
+      </div>
+      <div class="card-body" style="max-height: 250px; overflow-y: auto">
+        <ul class="list-group">
+          <!-- Replace with dynamic content -->
+          {% for questionnaire in patient.questionnaires if
+          (questionnaire.status == 'approved' or questionnaire.status ==
+          'approved_w_c') %}
+          <li
+            class="list-group-item d-flex justify-content-between align-items-center"
+          >
+            Questionnaire ID: {{ questionnaire.id }} | Date: {{
+            questionnaire.submitted_date.strftime('%Y-%m-%d') }} | Status: {{
+            questionnaire.status }}
+            <a
+              href="{{ url_for('doctor_views.doctor_questionnaire_page', questionnaire_id=questionnaire.id) }}"
+              class="btn btn-primary"
+              >View</a
+            >
+          </li>
+          {% else %}
+          <li class="list-group-item">No approved questionnaires.</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% else %}
+      <div class="card-header">
+        <h2 class="">Questionnaires</h2>
+      </div>
+      <div class="card-body" style="max-height: 250px; overflow-y: auto">
+        <ul class="list-group">
+          <!-- Replace with dynamic content -->
+          {% for questionnaire in patient.questionnaires %}
+          <li
+            class="list-group-item d-flex justify-content-between align-items-center"
+          >
+            Questionnaire ID: {{ questionnaire.id }} | Date: {{
+            questionnaire.submitted_date.strftime('%Y-%m-%d') }} | Status: {{
+            questionnaire.status }}
+            <a
+              href="{{ url_for('anesthesiologist_views.anesthesiologist_questionnaire_page', questionnaire_id=questionnaire.id) }}"
+              class="btn btn-primary"
+              >View</a
+            >
+          </li>
+          {% else %}
+          <li class="list-group-item">No questionnaires found.</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+
+<!--     <div class="col-md-8">
         <div class="card">
             {% if current_user.type == 'doctor' %}
             <div class="card-header">
                 <h2 class="">Approved Questionnaires</h2>
             </div>
             <div class="card-body" style="max-height: 250px; overflow-y: auto;">
-                <ul class="list-group">
+                <div class="container">
                     <!-- Replace with dynamic content -->
-                    {% for questionnaire in patient.questionnaires if questionnaire.status == 'approved' %}
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Questionnaire ID: {{ questionnaire.id }}
-                        | Date: {{ questionnaire.submitted_date.strftime('%Y-%m-%d') }}
-                        | Status: {{ questionnaire.status }}
-                        <a href="{{ url_for('doctor_views.doctor_questionnaire_page', questionnaire_id=questionnaire.id) }}"
-                            class="btn btn-primary">View</a>
-                    </li>
+<!--                     {% for questionnaire in patient.questionnaires if questionnaire.status == 'approved' %}
+                    <div class="border p-3 mb-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>Questionnaire ID:</strong> {{ questionnaire.id }}<br>
+                                <strong>Date:</strong> {{ questionnaire.submitted_date.strftime('%Y-%m-%d') }}<br>
+                                <strong>Status:</strong> {{ questionnaire.status }}
+                            </div>
+                            <a href="{{ url_for('doctor_views.doctor_questionnaire_page', questionnaire_id=questionnaire.id) }}"
+                               class="btn btn-primary">View</a>
+                        </div>
+                    </div>
                     {% else %}
-                    <li class="list-group-item">No approved questionnaires.</li>
+                    <div class="border p-3 mb-3">No approved questionnaires.</div>
                     {% endfor %}
-                </ul>
+                </div>
+                
             </div>
             {% else %}
             <div class="card-header">
@@ -53,23 +116,30 @@
             </div>
             <div class="card-body" style="max-height: 250px; overflow-y: auto;">
                     
-                <ul class="list-group">
+                <div class="container">
                     <!-- Replace with dynamic content -->
-                    {% for questionnaire in patient.questionnaires %}
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Questionnaire ID: {{ questionnaire.id }}
-                        | Date: {{ questionnaire.submitted_date.strftime('%Y-%m-%d') }}
-                        | Status: {{ questionnaire.status }}
-                        <a href="{{ url_for('anesthesiologist_views.anesthesiologist_questionnaire_page', questionnaire_id=questionnaire.id) }}"
-                            class="btn btn-primary">View</a>
-                    </li>
+<!--                     {% for questionnaire in patient.questionnaires %}
+                    <div class="border p-3 mb-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>Questionnaire ID:</strong> {{ questionnaire.id }}<br>
+                                <strong>Date:</strong> {{ questionnaire.submitted_date.strftime('%Y-%m-%d') }}<br>
+                                <strong>Status:</strong> {{ questionnaire.status }}
+                            </div>
+                            <a href="{{ url_for('anesthesiologist_views.anesthesiologist_questionnaire_page', questionnaire_id=questionnaire.id) }}"
+                               class="btn btn-primary">View</a>
+                        </div>
+                    </div>
                     {% else %}
-                    <li class="list-group-item">No questionnaires found.</li>
+                    <div class="border p-3 mb-3">No questionnaires found.</div>
                     {% endfor %}
-                </ul>                    
+                </div>
+                
             </div>
             {% endif %}
-        </div>
+        </div> --> 
+
     </div>
+  </div>
 </div>
 {% endblock %}

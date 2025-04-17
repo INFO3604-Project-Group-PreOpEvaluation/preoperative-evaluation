@@ -1,7 +1,7 @@
 from App.models import Questionnaire
 from App.database import db
 from App.controllers.patient import set_patient_autofill_enabled
-
+from datetime import datetime
 def create_questionnaire(patient_id, responses):
     """
     Create a new questionnaire for a patient and save it to the database.
@@ -141,5 +141,51 @@ def get_latest_questionnaire(patient_id):
     # Return the latest questionnaire
     return latest_questionnaire
 
-    
+def update_questionnaire(patient_id, **kwargs):
+    """
+    Update a questionnaire in the database with the given ID.
+
+    Args:
+    questionnaire_id (str): The ID of the questionnaire to update.
+    **kwargs: Keyword arguments to update the questionnaire with.
+
+    Returns:
+    Questionnaire: The updated questionnaire object if successful, None otherwise.
+    """
+    try:
+        # Retrieve the questionnaire from the database
+        questionnaire = get_questionnaire_by_patient_id(patient_id)
+        
+        # If questionnaire exists, append the new notes to existing ones
+        if questionnaire:
+            # Get existing notes or empty string if None
+            existing_notes = questionnaire.patient_notes or ""
+            
+            # Get new notes from kwargs
+            new_notes = kwargs.get('patient_notes', '')
+
+            # Get existing status
+            status = questionnaire.status
+            
+            # If status is not 'denied_w_c', don't allow updates
+            if status != 'denied_w_c':
+                return None
+            
+            # Append new notes with timestamp
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            updated_notes = f"{existing_notes}\n[{timestamp}] {new_notes}".strip()
+            
+            # Update the questionnaire
+            questionnaire.patient_notes = updated_notes
+            db.session.commit()
+            
+            return questionnaire
+            
+        return None
+    except Exception as e:
+        # Print the error message if an exception occurs
+        print(e, "Error updating questionnaire")
+        
+        return None
+        
     
