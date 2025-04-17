@@ -11,6 +11,7 @@ class User(db.Model, UserMixin):
     __abstract__ = True
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True) 
+
     firstname = db.Column(db.String(120), nullable=False)
     lastname = db.Column(db.String(120), nullable=False)
     password = db.Column(db.String(120), nullable=False)
@@ -27,6 +28,7 @@ class User(db.Model, UserMixin):
         :param email: email of the user
         :param phone_number: phone number of the user
         """
+
         self.firstname = firstname
         self.lastname = lastname
         self.set_password(password)
