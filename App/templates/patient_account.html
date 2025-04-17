@@ -45,7 +45,7 @@
                 <p class="text-muted">{{current_user.email}}</p>
                 </div>
                 <div class="custom-divider"></div>                               
-                <p class="card-text"><strong>Age:</strong> {{ current_user.age }}</p>
+                <p class="card-text"><strong>Date of Birth:</strong> {{ current_user.dateOfBirth }}</p>
                 <p class="card-text"><strong>Blood Type:</strong> {{ current_user.blood_type }}</p>
                 <p class="card-text"><strong>Weight:</strong> {{ current_user.weight }}</p>
                 <p class="card-text"><strong>Height:</strong> {{ current_user.height }}</p>
@@ -113,20 +113,30 @@
         <div class="modal-body">
             <form class="row g-3" action="/patient/medical_history" method="post">
                 <div class="col-md-6">
-                    <label for="age" class="form-label">Age</label>
-                    <input type="integer" class="form-control" id="age" name="age" required min="0" max="118"> <!--the oldest person rn is almost 117-->
+                    <label for="birthdate" class="form-label">Date of Birth</label>
+                    <input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth" required min="1930-01-01" max=""> 
                 </div>
                 <div class="col-md-6">
                     <label for="blood_type" class="form-label">Blood Type</label>
-                    <input type="text" class="form-control" id="blood_type" name="blood_type" required>
+                    <select class="form-control" id="blood_type" name="blood_type" required>
+                        <option value="">Select</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
                 </div>
                 <div class="col-md-6">
                     <label for="weight" class="form-label">Weight (kg)</label>
-                    <input type="integer" step="0.01" class="form-control" id="weight" name="weight" required min="1">
+                    <input type="number" step="0.01" class="form-control" id="weight" name="weight" required min="1">
                 </div>
                 <div class="col-md-6">
                     <label for="height" class="form-label">Height (cm)</label>
-                    <input type="integer" step="0.01" class="form-control" id="height" name="height" required min="1">
+                    <input type="number" step="0.01" class="form-control" id="height" name="height" required min="1">
                 </div>
                 <div class="col-12">
                     <label for="allergies" class="form-label">Allergies</label>
@@ -147,7 +157,7 @@
               </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>          
+                   
         </div>
       </div>
     </div>
