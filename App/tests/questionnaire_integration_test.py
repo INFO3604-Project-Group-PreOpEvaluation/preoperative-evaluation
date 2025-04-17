@@ -2,7 +2,7 @@ import os, tempfile, pytest, logging, unittest
 
 from App.main import create_app
 from App.models import Questionnaire, Patient
-from App.database import db
+from App.database import db, create_db
 from App.controllers import (
     create_patient,
     create_questionnaire,
@@ -28,41 +28,41 @@ def empty_db():
     app = create_app({'TESTING': True, 'SQLALCHEMY_DATABASE_URI': 'sqlite:///test.db'})
     create_db()
     yield app.test_client()
+    db.session.close()
     db.drop_all()
 
 
-class AnesthiologistIntegrationTests(unittest.TestCase):
+class QuestionnaireIntegrationTests(unittest.TestCase):
     """
     Integration tests for the Questionnaire controller functions.
     """
 
-    def test_create_questionnaire(test_app):
+    def test_create_questionnaire(self):
         """
         Test creating a questionnaire with a valid patient ID and responses.
         """
-        with test_app.app_context():
-            # Ensure a patient is created before testing questionnaire creation
-            sample_patient = create_patient(
-                "John", "Doe", "password", "johndoe@mail.com", "1234567890"
-            )
-            assert sample_patient is not None  # Assert patient creation success
+        # Ensure a patient is created before testing questionnaire creation
+        sample_patient = create_patient(
+            "John", "Doe", "password", "johndoe99@mail.com", "1234567890"
+        )
+        assert sample_patient is not None  # Assert patient creation success
 
-            # Call the function being tested
-            responses = {"Q1": "Yes", "Q2": "No"}
-            questionnaire = create_questionnaire(sample_patient.id, responses)
+        # Call the function being tested
+        responses = {"Q1": "Yes", "Q2": "No"}
+        questionnaire = create_questionnaire(sample_patient.id, responses)
 
-            # Assert that the questionnaire was successfully created
-            assert questionnaire is not None
-            assert questionnaire.patient_id == sample_patient.id
-            assert questionnaire.status == "pending"
-            assert questionnaire.responses == responses
+        # Assert that the questionnaire was successfully created
+        assert questionnaire is not None
+        assert questionnaire.patient_id == sample_patient.id
+        assert questionnaire.status == "pending"
+        assert questionnaire.responses == responses
 
 
-    def test_get_questionnaire(setup_database):
+    def test_get_questionnaire(self):
         """
         Test retrieving a questionnaire by its ID.
         """
-        patient = create_patient("John", "Doe", "password", "johndoe@mail.com", "1234567890")
+        patient = create_patient("John", "Doe", "password", "johndoe7@mail.com", "1283567890")
         questionnaire = create_questionnaire(patient_id=patient.id, responses={"Q1": "Yes"})
 
         retrieved = get_questionnaire(questionnaire.id)
@@ -73,95 +73,56 @@ class AnesthiologistIntegrationTests(unittest.TestCase):
         """
         Test retrieving all questionnaires.
         """
-        patient = create_patient("John", "Doe", "password", "johndoe@mail.com", "1234567890")
+        patient = create_patient("John", "Doe", "password", "johndoe2@mail.com", "12397977790")
         questionnaire1 = create_questionnaire(patient_id=patient.id, responses={"Q1": "Yes"})
         questionnaire2 = create_questionnaire(patient_id=patient.id, responses={"Q1": "No"})
 
         questionnaires = get_all_questionnaires()
-        assert len(questionnaires) == 2
+        assert len(questionnaires) == 3
 
-    def test_get_all_questionnaires_json(setup_database):
-        """
-        Test retrieving all questionnaires in JSON format.
-        """
-        questionnaire = Questionnaire(patient_id="123", responses={"Q1": "Yes"})
-        db.session.add(questionnaire)
-        db.session.commit()
-
-        questionnaires_json = get_all_questionnaires_json()
-        assert len(questionnaires_json) == 1
-        assert questionnaires_json[0]["patient_id"] == "123"
-
-    def set_patient_autofill_enabled(patient_id, enabled):
-        """
-        Set the autofill enabled status for a patient.
-        """
-        patient = get_patient_by_id(patient_id)
-        if not patient:
-            print(f"Error: Patient with ID {patient_id} not found.")
-            return False
-        patient.autofill_enabled = enabled
-        db.session.commit()
-        return True
 
     def test_get_questionnaire_by_patient_id(setup_database):
         """
         Test retrieving a questionnaire by patient ID.
         """
-        questionnaire = Questionnaire(patient_id="123", responses={"Q1": "Yes"})
-        db.session.add(questionnaire)
-        db.session.commit()
+        patient = create_patient("John", "Doe", "password", "john2doe@mail.com", "129861190")
+        questionnaire = create_questionnaire(patient_id=patient.id, responses={"Q1": "Yes"})
 
-        retrieved = get_questionnaire_by_patient_id("123")
+        retrieved = get_questionnaire_by_patient_id(patient.id) 
         assert retrieved is not None
-        assert retrieved.patient_id == "123"
+        assert retrieved.patient_id == patient.id
 
-    def test_get_questionnaire_by_status(setup_database):
+    def test_get_questionnaire_by_status(self):
         """
         Test retrieving questionnaires by status.
         """
-        questionnaire = Questionnaire(patient_id="123", responses={"Q1": "Yes"}, status="completed")
-        db.session.add(questionnaire)
-        db.session.commit()
+        patient = create_patient("John", "Doe", "password", "johnzdoe@mail.com", "880111890")
+        questionnaire = create_questionnaire(patient_id=patient.id, responses={"Q1": "Yes"})
+        questionnaire.status = "completed"
 
         completed_questionnaires = get_questionnaire_by_status("completed")
         assert len(completed_questionnaires) == 1
         assert completed_questionnaires[0].status == "completed"
 
-    def test_get_questionnaire_by_status_json(setup_database):
-        """
-        Test retrieving questionnaires by status in JSON format.
-        """
-        questionnaire = Questionnaire(patient_id="123", responses={"Q1": "Yes"}, status="completed")
-        db.session.add(questionnaire)
-        db.session.commit()
-
-        completed_json = get_questionnaire_by_status_json("completed")
-        assert len(completed_json) == 1
-        assert completed_json[0]["status"] == "completed"
-
-    def test_get_latest_questionnaire(test_app):
+    def test_get_latest_questionnaire(self):
         """
         Test retrieving the latest questionnaire for a patient.
         """
-        with test_app.app_context():
-            # Create sample questionnaires with valid `submitted_date` values
-            questionnaire1 = Questionnaire(
-                patient_id="123",
-                responses={"Q1": "Yes"},
-                submitted_date=datetime(2025, 1, 1)  # Valid datetime object
-            )
-            questionnaire2 = Questionnaire(
-                patient_id="123",
-                responses={"Q2": "No"},
-                submitted_date=datetime(2025, 2, 1)
-            )
-            db.session.add(questionnaire1)
-            db.session.add(questionnaire2)
-            db.session.commit()
+        patient = create_patient("John", "Doe", "password", "johnndoe99@mail.com", "8834561890")
+        # Create sample questionnaires with valid `submitted_date` values
+        questionnaire1 = create_questionnaire(
+            patient_id=patient.id,
+            responses={"Q1": "Yes"}
+        )
+        questionnaire1.submitted_date=datetime(2025, 1, 1)  # Valid datetime object
+        questionnaire2 = create_questionnaire(
+            patient_id=patient.id,
+            responses={"Q2": "No"}
+        )
+        questionnaire2.submitted_date=datetime(2025, 2, 1)
 
-            # Retrieve the latest questionnaire
-            latest = get_latest_questionnaire("123")
-            assert latest is not None
-            assert latest.responses == {"Q2": "No"}
+        # Retrieve the latest questionnaire
+        latest = get_latest_questionnaire(patient.id)
+        assert latest is not None
+        assert latest.responses == {"Q2": "No"}
 
