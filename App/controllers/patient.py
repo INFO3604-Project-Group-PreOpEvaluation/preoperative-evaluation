@@ -1,26 +1,11 @@
 from App.database import db
 from App.models import Patient
-import uuid
-def generate_short_uuid():
-        return str(uuid.uuid4())[:10]
-def create_patient(firstname, lastname, username, password, email, phone_number):
-    """
-    Creates a new patient in the database
-    
-    Parameters:
-    firstname (str): The patient's first name
-    lastname (str): The patient's last name
-    username (str): The patient's username
-    password (str): The patient's password
-    email (str): The patient's email
-    phone_number (str): The patient's phone number
-    
-    Returns:
-    Patient: The newly created patient
-    """
-    uname = generate_short_uuid()
+from App.models.notification import Notification
+from datetime import datetime
+
+def create_patient(firstname, lastname, password, email, phone_number):
     try:
-        new_patient = Patient(firstname=firstname, lastname=lastname, username=uname, password=password, email=email, phone_number=phone_number)
+        new_patient = Patient(firstname=firstname, lastname=lastname, password=password, email=email, phone_number=phone_number)
         db.session.add(new_patient)
         db.session.commit()
         return new_patient
@@ -28,13 +13,14 @@ def create_patient(firstname, lastname, username, password, email, phone_number)
         print(e, "Error creating patient")
         return None
 
-def create_medical_history(patient_id, age, blood_type, weight, height, allergies, medical_conditions, medication):
-    """
+    
+def create_medical_history(patient_id, dateOfBirth, blood_type, weight, height, allergies, medical_conditions, medication):
+  """
     Creates a new medical history for the patient in the database
     
     Parameters:
     patient_id (str): The id of the patient
-    age (int): The patient's age
+    dateOfBirth (int): The patient's DoB
     blood_type (str): The patient's blood type
     weight (float): The patient's weight
     height (float): The patient's height
@@ -42,13 +28,16 @@ def create_medical_history(patient_id, age, blood_type, weight, height, allergie
     medical_conditions (str): The patient's medical conditions
     medication (str): The patient's medication
     
+
     Returns:
     Patient: The patient with the updated medical history
     """
     patient = Patient.query.get(patient_id)
     try:
-        # Update the patient's medical history
-        patient.age = age
+        if dateOfBirth:
+            dateOfBirth = datetime.strptime(dateOfBirth, '%Y-%m-%d').date()
+        patient.dateOfBirth = dateOfBirth
+
         patient.blood_type = blood_type
         patient.weight = weight
         patient.height = height

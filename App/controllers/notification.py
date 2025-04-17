@@ -3,7 +3,7 @@ from App.database import db
 from App.models import Notification
 from datetime import datetime
 
-def create_notification(message, patient_id, title):
+def create_notification(patient_id, message, title):
     try:
         new_notification = Notification(message, patient_id, title)
         db.session.add(new_notification)
@@ -30,15 +30,20 @@ def get_notification(notification_id):
      
 def delete_notification(notification_id):
     notification = Notification.query.get(notification_id)
+    if not notification:
+        return jsonify({'error': 'Notification not found'}), 404
+
     db.session.delete(notification)
     db.session.commit()
     return jsonify({'message': 'Notification deleted successfully'})
 
 
 def get_patient_notifications(patient_id):
-    notifications = Notification.query.filter_by(patient_id=patient_id, seen=False).all()
+    '''notifications = Notification.query.filter_by(patient_id=patient_id, seen=False).all()
 
-    patient_notifications = sorted(notifications, key=lambda x: x.timestamp, reverse=True)
+    patient_notifications = sorted(notifications, key=lambda x: x.timestamp, reverse=True)'''
+    patient_notifications = Notification.query.filter_by(patient_id=patient_id, seen=False).order_by(Notification.timestamp.desc()).all()
+    
     notification_info = []
 
     for notification in patient_notifications:
@@ -71,6 +76,9 @@ def get_patient_notifications(patient_id):
 
 def seen_notification(notification_id):
     notification = Notification.query.get(notification_id)
+    if not notification:
+        return False        #verifying notification exists 
+
     notification.seen = True
     db.session.commit()
     return True

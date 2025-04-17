@@ -1,7 +1,7 @@
 import click, pytest, sys
 from flask import Flask, render_template
 from flask.cli import with_appcontext, AppGroup
-
+import os
 
 from App.database import db, get_migrate
 from App.main import create_app
@@ -12,9 +12,14 @@ from App.controllers import *
 app = create_app()
 migrate = get_migrate(app)
 
+def run_command():
+    os.system("npm install tailwindcss @tailwindcss/cli")
+    os.system("npx @tailwindcss/cli -i App/static/Css/input.css -o App/static/Css/output.css")
+
 # This command creates and initializes the database
 @app.cli.command("init", help="Creates and initializes the database")
-def initialize():    
+def initialize():
+    run_command()    
     initialize_db()
 
 
@@ -32,12 +37,7 @@ User Commands
 # eg : flask user <command>
 user_cli = AppGroup('user', help='User object commands') 
 
-# Then define the command and any parameters and annotate it with the group (@)
-# @user_cli.command("create", help="Creates a user")
-# @click.argument("username", default="rob")
-# @click.argument("password", default="robpass")
-# def create_user_command(username, password):    
-#     print(f'{username} created!')
+
 
 # this command will be : flask user create bob bobpass
 
@@ -53,16 +53,6 @@ app.cli.add_command(user_cli) # add the group to the cli
 
 patient_cli = AppGroup('patient', help='Patient object commands')
 
-@patient_cli.command("create", help="Creates a patient")
-@click.argument("firstname", default="rob")
-@click.argument("lastname", default="rob")
-@click.argument("username", default="rob")
-@click.argument("password", default="rob")
-@click.argument("email", default="rob")
-@click.argument("phone_number", default="rob")
-def create_patient_command(firstname, lastname, username, password, email, phone_number):  
-    patient = create_patient(firstname, lastname, username, password, email, phone_number)  
-    print(f'{patient.firstname} created!')
 
 app.cli.add_command(patient_cli)
 
@@ -81,6 +71,57 @@ def user_tests_command(type):
         sys.exit(pytest.main(["-k", "UserIntegrationTests"]))
     else:
         sys.exit(pytest.main(["-k", "App"]))
-    
+
+
+@test.command("anes", help="Run Anesthesiologist tests")
+@click.argument("type", default="all")
+def anesthesiologist_tests_command(type):
+  if type == "unit":
+    sys.exit(pytest.main(["-k", "AnesthesiologistUnitTests"]))
+  elif type == "int":
+    sys.exit(pytest.main(["-k", "AnesthesiologistIntegrationTests"]))
+  else:
+    sys.exit(pytest.main(["-k", "Anesthesiologist"]))
+
+
+@test.command("patient", help="Run Patient Integration Tests")
+@click.argument("type", default="all")
+def user_tests_command(type):
+    if type == "unit":
+        sys.exit(pytest.main(["-k", "PatientUnitTests"]))
+    elif type == "int":
+        sys.exit(pytest.main(["-k", "PatientIntegrationTests"]))
+    else:
+        sys.exit(pytest.main(["-k", "Patient"]))
+
+@test.command("question", help="Run Questionnaire Integration Tests")
+@click.argument("type", default="all")
+def user_tests_command(type):
+    if type == "unit":
+        sys.exit(pytest.main(["-k", "QuestionnaireUnitTests"]))
+    elif type == "int":
+        sys.exit(pytest.main(["-k", "QuestionnaireIntegrationTests"]))
+    else:
+        sys.exit(pytest.main(["-k", "Question"]))
+
+@test.command("doctor", help="Run Doctor Integration Tests")
+@click.argument("type", default="all")
+def user_tests_command(type):
+    if type == "unit":
+        sys.exit(pytest.main(["-k", "DoctorUnitTests"]))
+    elif type == "int":
+        sys.exit(pytest.main(["-k", "DoctorIntegrationTests"]))
+    else:
+        sys.exit(pytest.main(["-k", "Doctor"]))
+
+@test.command("notif", help="Run Notification Tests")
+@click.argument("type", default="all")
+def user_tests_command(type):
+    if type == "unit":
+        sys.exit(pytest.main(["-k", "NotificationUnitTests"]))
+    elif type == "int":
+        sys.exit(pytest.main(["-k", "NotificationIntegrationTests"]))
+    else:
+        sys.exit(pytest.main(["-k", "Notification"]))
 
 app.cli.add_command(test)
