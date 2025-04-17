@@ -13,10 +13,10 @@
         margin: 10px 0;
     }
     body {
-        background: url("https://images.pexels.com/photos/4989149/pexels-photo-4989149.jpeg");
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
+        background-color: rgba(62, 163, 189, 0.2);
     }
     
     
@@ -54,7 +54,7 @@
                 <p class="card-text"><strong>Medication:</strong> {{ current_user.medication }}</p>
 
             </div>
-            <div class="card-footer text-end" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <div class="card-footer text-end d-flex justify-content-center mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 <a href="#" class="btn btn-dark">Edit Medical History</a>
             </div>
         </div>
@@ -74,19 +74,29 @@
                         <a href="/questionnaire" class="btn btn-dark">Create One</a>
                     </li>
                 {% else %}
-                    {% for questionnaire in current_user.questionnaires %}
-                   
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Questionnaire ID: {{ questionnaire.id }}
-                        | Date: {{ questionnaire.submitted_date.strftime('%Y-%m-%d') }}
-                        <span class="badge bg-dark rounded-pill">{{questionnaire.status}}</span>                                     
-                        <a href="{{ url_for('questionnaire_views.questionnaire_details_page', questionnaire_id=questionnaire.id) }}"
-                            class="btn btn-dark">Details</a>                                              
-                    </li>                   
-                    {% endfor %}                    
+
+                    <div class="d-flex flex-column gap-3">
+                        {% for questionnaire in current_user.questionnaires %}
+                            <div class="p-3 border rounded d-flex justify-content-between align-items-center">
+                                <div>
+                                    <strong>Questionnaire ID:</strong> {{ questionnaire.id }}<br>
+                                    <strong>Date:</strong> {{ questionnaire.submitted_date.strftime('%Y-%m-%d') }}
+                                </div>
+                                <a href="{{ url_for('questionnaire_views.questionnaire_details_page', questionnaire_id=questionnaire.id) }}"
+                                    class="btn btn-dark">View</a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                                     
                 {% endif %}
                 </ul>
+                
             </div>
+            
+        </div>
+        <br>
+        <div class="d-flex justify-content-center mt-3">
+            <button class="btn btn-primary" onclick="location.href='/questionnaire'" style="background-color: #313738; border-color: #313738;"> New Questionnaire</button>
         </div>
     </div>
 </div>
