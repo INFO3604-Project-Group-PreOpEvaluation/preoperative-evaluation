@@ -5,6 +5,7 @@ from App.models import Questionnaire, Patient
 from App.database import db
 from App.controllers import (
     create_patient,
+    get_patient_by_id,
     create_questionnaire,
     get_questionnaire,
     get_all_questionnaires,
@@ -13,7 +14,7 @@ from App.controllers import (
     get_questionnaire_by_status,
     get_questionnaire_by_status_json,
     get_latest_questionnaire,
-    set_patient_autofill_enabled
+    update_questionnaire
 )
 
 from datetime import datetime
@@ -150,3 +151,10 @@ def test_get_latest_questionnaire(test_app):
         assert latest is not None
         assert latest.responses == {"Q2": "No"}
 
+def test_update_questionnaire(setup_database, sample_questionnaire):
+    updated = update_questionnaire(sample_questionnaire.id, doctor_notes="Updated notes", operation_date="2025-05-20", status="Approved")
+    
+    assert updated is not None
+    assert updated.doctor_notes == "Updated notes"
+    assert updated.operation_date == "2025-05-20"
+    assert updated.status == "Approved"
