@@ -2,8 +2,6 @@ from App.database import db
 from .user import User
 from .crypto_utils import encrypt_value, decrypt_value
 
-key = Fernet.generate_key()
-cipher = Fernet(key)
 
 class Patient(User):
     __tablename__ = 'patient'
@@ -28,7 +26,6 @@ class Patient(User):
     @height.setter
     def height(self, value):
         self._height = encrypt_value(value)
-
     @property
     def weight(self):
         return decrypt_value(self._weight)
