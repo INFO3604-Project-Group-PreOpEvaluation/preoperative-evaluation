@@ -1,6 +1,6 @@
-from cryptography.fernet import Fernet
 from App.database import db
 from .user import User
+from .crypto_utils import encrypt_value, decrypt_value
 
 key = Fernet.generate_key()
 cipher = Fernet(key)
@@ -17,45 +17,45 @@ class Patient(User):
     _medication = db.Column('medication', db.LargeBinary, nullable=True)
     @property
     def blood_type(self):
-        return cipher.decrypt(self._blood_type).decode("utf-8")if self._blood_type else None
+        return decrypt_value(self._blood_type)
     @blood_type.setter
     def blood_type(self, value):
-        self._blood_type = cipher.encrypt(value.encode()) if value else None
+        self._blood_type = encrypt_value(value)
 
     @property
     def height(self):
-        return cipher.decrypt(self._height).decode("utf-8") if self._height else None
+        return decrypt_value(self._height)
     @height.setter
     def height(self, value):
-        self._height = cipher.encrypt(value.encode()) if value else None
+        self._height = encrypt_value(value)
 
     @property
     def weight(self):
-        return cipher.decrypt(self._weight).decode("utf-8") if self._weight else None
+        return decrypt_value(self._weight)
     @weight.setter
     def weight(self, value):
-        self._weight = cipher.encrypt(value.encode()) if value else None
+        self._weight = encrypt_value(value)
 
     @property
     def allergies(self):
-        return cipher.decrypt(self._allergies).decode("utf-8") if self._allergies else None
+        return decrypt_value(self._allergies)
     @allergies.setter
     def allergies(self, value):
-        self._allergies = cipher.encrypt(value.encode()) if value else None
-    
+        self._allergies = encrypt_value(value)
+
     @property
     def medical_conditions(self):
-        return cipher.decrypt(self._medical_conditions).decode("utf-8") if self._medical_conditions else None
+        return decrypt_value(self._medical_conditions)
     @medical_conditions.setter
     def medical_conditions(self, value):
-        self._medical_conditions = cipher.encrypt(value.encode()) if value else None
-    
+        self._medical_conditions = encrypt_value(value)
+
     @property
     def medication(self):
-        return cipher.decrypt(self._medication).decode("utf-8") if self._medication else None
+        return decrypt_value(self._medication)
     @medication.setter
     def medication(self, value):
-        self._medication = cipher.encrypt(value.encode()) if value else None
+        self._medication = encrypt_value(value)
 
     med_history_updated = db.Column(db.Boolean, nullable=False, default=False)
     autofill_enabled = db.Column(db.Boolean, nullable=False, default=False)
