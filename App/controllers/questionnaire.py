@@ -171,7 +171,11 @@ def update_questionnaire(questionnaire_id, user_type ,**kwargs):
                     # Update the doctor_notes field
                     questionnaire.doctor_notes = kwargs.get('doctor_notes', '')
                     questionnaire.doctor_status = kwargs.get('doctor_status', 'pending2')
-                    questionnaire.operation_date = kwargs.get('operation_date', None)
+                    operation_date = kwargs.get('operation_date', None)
+                    raise Exception
+                    if operation_date:
+                        operation_date = datetime.strptime(operation_date, '%Y-%m-%d').date()
+                    questionnaire.operation_date = operation_date
                     
                 except Exception as e:
                     # Print the error message if an exception occurs

@@ -102,7 +102,7 @@ def update_questionnaire_doctor_action(questionnaire_id):
     status = data['doctor_status']
 
     # Print the data for debugging purposes
-    print(questionnaire_id, operation_date, notes)
+    print(questionnaire_id, operation_date, notes, status)
     
     # Update the questionnaire in the database
     updated = update_questionnaire(questionnaire_id, user_type="doctor", operation_date=operation_date, doctor_notes=notes, doctor_status=status)

@@ -75,13 +75,32 @@
 								<label for="doctorNotes">Doctor's Notes:</label>
 								<textarea id="doctorNotes" name="doctor_notes" class="form-control"></textarea>
 							</div>
+							<div class="form-check">
+								<input class="form-check-input" type="radio" id="approve" name="doctor_status" value="approved" onchange="toggleOperationDate()"/>
+								<label class="form-check-label" for="approve">Approve</label>
+							</div>
+							<div class="form-check">
+								<input class="form-check-input" type="radio" id="decline" name="doctor_status" value="declined" onchange="toggleOperationDate()"/>
+								<label class="form-check-label" for="decline">Decline</label>
+							</div>
+							<div class="form-check">
+								<input class="form-check-input" type="radio" id="deny_w_c" name="doctor_status" value="denied_w_c" onchange="toggleOperationDate()"/>
+								<label class="form-check-label" for="deny_w_c">Deny with Clarification</label>
+							</div>
 							<div class="form-group">
 								<label for="operationDate">Operation Date:</label>
-								<input type="date" id="operationDate" name="operation_date" class="form-control"/>
+								<input type="date" id="operationDate" name="operation_date" class="form-control" disabled/>
 							</div>
 							<button type="submit" class="btn btn-primary">Submit</button>
 						</form>
 					</div>
+					<script>
+						function toggleOperationDate() {
+							var approve = document.getElementById("approve").checked;
+							var operationDate = document.getElementById("operationDate");
+							operationDate.disabled = !approve;
+						}
+					</script>
 					{% elif current_user.type == "anesthesiologist" %}
 					<div class="anesthesiologist-form">
 						<form method="post" action="/dashboard/anesthesiologist/questionnaire/submit/{{questionnaire.id}}">
@@ -107,9 +126,9 @@
 					{% elif current_user.type == "patient" %}
 					<div class="patient-notes">
 						<p><strong>Doctor's Notes:</strong></p>
-						<textarea class="form-control">{{ questionnaire.doctor_notes }}</textarea>
+						<textarea class="form-control" readonly>{{ questionnaire.doctor_notes }}</textarea>
 						<p class="mt-1"><strong>Anesthesiologist's Notes:</strong></p>
-						<textarea class="form-control">{{ questionnaire.anesthesiologist_notes }}</textarea>
+						<textarea class="form-control" readonly>{{ questionnaire.anesthesiologist_notes }}</textarea>
 						<p class="mt-1"><strong>Status:</strong> {{ questionnaire.status }}</p>
 						<p><strong>Operation Date:</strong> {{ questionnaire.operation_date}}</p>
 					</div>

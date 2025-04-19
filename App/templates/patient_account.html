@@ -41,14 +41,14 @@
                 <h2 class="text-center">Profile</h2>
             </div>
             <div class="card-body">
-                
+                <div class="text-center">
                 <!-- Patient Name -->
-                <h4>{{current_user.firstname}} {{current_user.lastname}}</h4>
+                    <h4>{{current_user.firstname}} {{current_user.lastname}}</h4>
 
-                <!-- Patient Email -->
-                <p class="text-muted">{{current_user.email}}</p>
-                <div class="custom-divider"></div>                               
-
+                    <!-- Patient Email -->
+                    <p class="text-muted">{{current_user.email}}</p>
+                    <div class="custom-divider"></div>                               
+                </div>
                 <p class="card-text"><strong>Date of Birth:</strong> {{ current_user.dateOfBirth }}</p>
                 <p class="card-text"><strong>Blood Type:</strong> {{ current_user.blood_type }}</p>
                 <p class="card-text"><strong>Weight:</strong> {{ current_user.weight }}</p>
@@ -85,9 +85,8 @@
                                 <div>
                                     <strong>Questionnaire ID:</strong> {{ questionnaire.id }}<br>
                                     <strong>Date:</strong> {{ questionnaire.submitted_date.strftime('%Y-%m-%d') }}
-
-                                    <span class="badge bg-dark rounded-pill">{{questionnaire.status}}</span>       
-
+                                    <span class="badge bg-dark rounded-pill">{{questionnaire.status}}</span><br>
+                                    <strong>Operation Date:</strong> {{ questionnaire.operation_date }}<br>
                                 </div>
                                 <a href="{{ url_for('questionnaire_views.questionnaire_details_page', questionnaire_id=questionnaire.id) }}"
                                     class="btn btn-dark">View</a>

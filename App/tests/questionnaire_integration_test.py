@@ -236,7 +236,7 @@ class QuestionnaireIntegrationTests(unittest.TestCase):
 
         # Case 1 - Anesthesiologist approves, doctor approves
         updated_case1 = update_questionnaire(questionnaire.id, user_type=anesthesiologist.type, status="approved")
-        updated2_case1 = update_questionnaire(questionnaire.id, user_type=doctor.type, doctor_status="approved", operation_date=datetime(2023, 1, 1))
+        updated2_case1 = update_questionnaire(questionnaire.id, user_type=doctor.type, doctor_status="approved", operation_date="2023-01-01")
         assert updated_case1 is not None
         assert updated2_case1 is not None
         assert updated_case1.status == "approved"
