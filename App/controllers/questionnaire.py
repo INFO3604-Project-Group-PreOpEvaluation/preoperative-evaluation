@@ -170,12 +170,13 @@ def update_questionnaire(questionnaire_id, user_type ,**kwargs):
                 try:
                     # Update the doctor_notes field
                     questionnaire.doctor_notes = kwargs.get('doctor_notes', '')
-                    questionnaire.doctor_status = kwargs.get('doctor_status', 'pending2')
-                    operation_date = kwargs.get('operation_date', None)
-                    raise Exception
-                    if operation_date:
-                        operation_date = datetime.strptime(operation_date, '%Y-%m-%d').date()
-                    questionnaire.operation_date = operation_date
+                    questionnaire.doctor_status = kwargs.get('doctor_status', 'pending')    
+                    operation_date = kwargs.get('operation_date', '')
+                    print(operation_date, "- operation_date")
+                    if isinstance(operation_date, str):
+                        questionnaire.operation_date = datetime.strptime(operation_date, '%Y-%m-%d').date()
+                    elif isinstance(operation_date, datetime):
+                        questionnaire.operation_date = operation_date.date()
                     
                 except Exception as e:
                     # Print the error message if an exception occurs
