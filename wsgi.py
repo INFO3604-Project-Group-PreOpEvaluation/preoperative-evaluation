@@ -122,5 +122,13 @@ def user_tests_command(type):
     else:
         sys.exit(pytest.main(["-k", "Notification"]))
 
-
+@test.command("all", help="Run All Tests")
+@click.argument("type", default="all")
+def all_tests_command(type):
+    if type == "unit":
+        sys.exit(pytest.main(["-k", "UnitTests"]))
+    elif type == "int":
+        sys.exit(pytest.main(["-k", "IntegrationTests"]))
+    else:
+        sys.exit(pytest.main(["-k", "App"]))
 app.cli.add_command(test)

@@ -2,11 +2,15 @@ from App.database import db
 from datetime import datetime
 import uuid
 
-def generate_uuid():
+def generate_short_uuid():
     """
     Generates a UUID to be used as the primary key for questionnaires.
     """
+    return str(uuid.uuid4())[:8]
+
+def generate_uuid():
     return str(uuid.uuid4())
+
 
 class Questionnaire(db.Model):
     """
@@ -14,7 +18,7 @@ class Questionnaire(db.Model):
     """
     __tablename__ = 'questionnaire'
 
-    id = db.Column(db.String(36), primary_key=True, default=generate_uuid)
+    id = db.Column(db.String(36), primary_key=True, default=generate_short_uuid)
     patient_id = db.Column(db.String(36), db.ForeignKey('patient.id'), nullable=False)
     responses = db.Column(db.JSON, nullable=True) # Storing responses as JSON, if applicable
     operation_date = db.Column(db.Date, nullable=True)

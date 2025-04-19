@@ -33,7 +33,7 @@ class DoctorUnitTests(unittest.TestCase):
 
 
         # Test that the returned dictionary values match the Doctor object's attributes
-        self.assertIsNone(doctor_json['id'])
+        self.assertIsNotNone(doctor_json['id'])
         self.assertEqual(doctor_json['firstname'], doctor.firstname)
         self.assertEqual(doctor_json['lastname'], doctor.lastname)
         self.assertEqual(doctor_json['email'], doctor.email)

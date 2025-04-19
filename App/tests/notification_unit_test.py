@@ -1,7 +1,7 @@
 import pytest
 import unittest
 from datetime import datetime
-from App.models import Notification
+from App.models import Notification, Patient, Doctor, Anesthesiologist
 
 
 '''
@@ -16,9 +16,10 @@ class NotificationUnitTests(unittest.TestCase):
         """
         A Notification object is created and contains all fields from the input.
         """
+        patient = Patient(firstname="Test", lastname="Patient", password="password123", email="x123@example.com", phone_number="1234567890")
         notification = Notification(
             anesthesiologist_id=None, 
-            patient_id=1, 
+            patient_id=patient.id, 
             doctor_id=None,
             message="Test1", 
             title="Notification1"
@@ -27,7 +28,7 @@ class NotificationUnitTests(unittest.TestCase):
         self.assertIsNone(notification.doctor_id)
         self.assertEqual(notification.message, "Test1")
         self.assertEqual(notification.title, "Notification1")
-        self.assertEqual(notification.patient_id, 1)
+        self.assertEqual(notification.patient_id, patient.id)
         self.assertIsNone(notification.anesthesiologist_id)
         self.assertIsNotNone(notification.timestamp)
         self.assertFalse(notification.seen)
@@ -36,15 +37,16 @@ class NotificationUnitTests(unittest.TestCase):
         """
         A Notification for a patient is created with correct attributes.
         """
+        patient = Patient(firstname="Test", lastname="Patient", password="password123", email="x123@example.com", phone_number="1234567890")
         notification = Notification(
             message="Test1", 
-            patient_id=1, 
+            patient_id=patient.id, 
             anesthesiologist_id=None, 
             doctor_id=None,
             title="Notification1"
         )
         self.assertIsNotNone(notification)
-        self.assertEqual(notification.patient_id, 1)
+        self.assertEqual(notification.patient_id, patient.id)
         self.assertIsNone(notification.anesthesiologist_id)
         self.assertIsNone(notification.doctor_id)
         self.assertEqual(notification.message, "Test1")
@@ -54,16 +56,17 @@ class NotificationUnitTests(unittest.TestCase):
         """
         A Notification for an anesthesiologist is created with correct attributes.
         """
+        anestheosiologist = Anesthesiologist(firstname="Test", lastname="Anesthesiologist", password="password123", email="x123@example.com", phone_number="1234567890")
         notification = Notification(
             message="Test1", 
             patient_id=None, 
-            anesthesiologist_id=1, 
+            anesthesiologist_id=anestheosiologist.id, 
             doctor_id=None,
             title="Notification1"
         )
         self.assertIsNotNone(notification)
         self.assertIsNone(notification.patient_id)
-        self.assertEqual(notification.anesthesiologist_id, 1)
+        self.assertEqual(notification.anesthesiologist_id, anestheosiologist.id)
         self.assertIsNone(notification.doctor_id)
         self.assertEqual(notification.message, "Test1")
         self.assertEqual(notification.title, "Notification1")
@@ -72,16 +75,17 @@ class NotificationUnitTests(unittest.TestCase):
         """
         A Notification for a doctor is created with correct attributes.
         """
+        doctor = Doctor(firstname="Test", lastname="Doctor", password="password123", email="x123@example.com", phone_number="1234567890")
         notification = Notification(
             message="Test1", 
             patient_id=None, 
             anesthesiologist_id=None,
-            doctor_id=1, 
+            doctor_id=doctor.id, 
             title="Notification1"
         )
         self.assertIsNotNone(notification)
         self.assertIsNone(notification.patient_id)
-        self.assertEqual(notification.doctor_id, 1)
+        self.assertEqual(notification.doctor_id, doctor.id)
         self.assertIsNone(notification.anesthesiologist_id)
         self.assertEqual(notification.message, "Test1")
         self.assertEqual(notification.title, "Notification1")
@@ -90,9 +94,10 @@ class NotificationUnitTests(unittest.TestCase):
         """
         A Notification's seen attribute can be set to True.
         """
+        patient = Patient(firstname="Test", lastname="Patient", password="password123", email="x123@example.com", phone_number="1234567890")
         notification = Notification(
             message="Test1", 
-            patient_id=1, 
+            patient_id=patient.id, 
             doctor_id=None,
             anesthesiologist_id=None, 
             title="Notification1"
@@ -104,10 +109,11 @@ class NotificationUnitTests(unittest.TestCase):
         """
         A Notification's timestamp is set to the current time upon creation.
         """
+        patient = Patient(firstname="Test", lastname="Patient", password="password123", email="x123@example.com", phone_number="1234567890")
         before_creation = datetime.now()
         notification = Notification(
             message="Test1", 
-            patient_id=1, 
+            patient_id=patient.id, 
             doctor_id=None,
             anesthesiologist_id=None, 
             title="Notification1"
@@ -124,9 +130,10 @@ class NotificationUnitTests(unittest.TestCase):
         """
         A Notification object is created and its to_json method is called.
         """
+        patient = Patient(firstname="Test", lastname="Patient", password="password123", email="x123@example.com", phone_number="1234567890")
         notification = Notification(
             message="Test1", 
-            patient_id=1, 
+            patient_id=patient.id, 
             doctor_id=None,
             anesthesiologist_id=None, 
             title="Notification1"

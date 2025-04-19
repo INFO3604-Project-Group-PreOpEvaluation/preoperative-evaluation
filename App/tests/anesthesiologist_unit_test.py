@@ -58,7 +58,7 @@ class AnesthesiologistUnitTests(unittest.TestCase):
         
         # Test the JSON structure
         self.assertDictEqual(anesthesiologist_json, {
-            "id": None, 
+            "id": newAnesthesiologist.id, 
             "firstname": "John2",
             "lastname": "Doe2",
             "email": "john.doe@example.com",

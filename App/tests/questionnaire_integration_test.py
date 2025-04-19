@@ -16,7 +16,6 @@ from App.controllers import (
     get_questionnaire_by_status_json,
     get_latest_questionnaire,
     update_questionnaire
-    update_questionnaire
 )
 
 from datetime import datetime, date
