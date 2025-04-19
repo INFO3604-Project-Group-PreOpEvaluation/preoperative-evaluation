@@ -23,7 +23,7 @@ def patient_profile_page():
 
     :return: The rendered template
     """
-    print("TESTTST4")
+    
     try:
         # Get all the notifications for the current user
         notifications = get_user_notifications(current_user.type, current_user.id)
