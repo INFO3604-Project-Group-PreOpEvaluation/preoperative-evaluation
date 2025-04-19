@@ -3,22 +3,23 @@
     position: relative;
     width: 100%;
     height: 100vh; 
-    background-image: url("static/frontpage.jpg");
+    background-image: url('static/homebg.jpg');
     background-size: cover;
-    background-position: top;
+    background-position: center;
+    background-repeat: no-repeat;
     text-align: center;
+   
 }
 
 
-
 .home-title {
-    position: absolute;
+    position: center;
     top: 20px; 
     left: 20px; 
     color: black; 
     font-size: 50px; 
     font-weight: bold;
-    border-bottom: 10px solid #0000ff;
+    border-bottom: 10px solid #3ea3bd;
 }
 
 .home-title-1 {
@@ -37,7 +38,7 @@
     width: 40%;
     left: 20px;
     text-align: justify;
-    border: 2px solid blue; /* Blue border with 2px thickness */
+    border: 2px solid #3ea3bd; /* Blue border with 2px thickness */
 }
 
 
@@ -51,27 +52,19 @@
 
 {% block content %}
     <div class="home-container">
-        <h1 class="home-title">MEDCARE TT</h1>
+        <h1 class="home-title" style="color: white;">MEDCARE TT</h1>
+        <br>
+        <br>
+        <h2 class="home-title-1" style="color: white;">Making Healthcare Better Together </h2>
         <br>
         <br>
         <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <h2 class="home-title-1">Making Healthcare</h2>
-        <br>
-        <br>
-        <h2 class="home-title-1">Better Together</h2>
-        <br>
-        <br>
-        <br>
-        <p class="home-title-2">With a team of compassionate healthcare professionals 
+        <p class="home-title-2" style="color: white;">With a team of compassionate healthcare professionals 
             and state-of-the-art resources, we're here to support 
             you every step of the way. From routine check-ups to
-            specialized treatments, we're committed to providing 
-            high-quality care tailored to your unique needs.</p>
+             specialized treatments, we're committed to providing 
+             high-quality care tailored to your unique needs.</p>
+
     </div>
 
 

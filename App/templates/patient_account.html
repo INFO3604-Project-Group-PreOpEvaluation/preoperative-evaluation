@@ -13,10 +13,10 @@
         margin: 10px 0;
     }
     body {
-        background: url("https://images.pexels.com/photos/4989149/pexels-photo-4989149.jpeg");
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
+        background-color: rgba(62, 163, 189, 0.2);
     }
     
     
@@ -45,7 +45,7 @@
                 <p class="text-muted">{{current_user.email}}</p>
                 </div>
                 <div class="custom-divider"></div>                               
-                <p class="card-text"><strong>Age:</strong> {{ current_user.age }}</p>
+                <p class="card-text"><strong>Date of Birth:</strong> {{ current_user.age }}</p>
                 <p class="card-text"><strong>Blood Type:</strong> {{ current_user.blood_type }}</p>
                 <p class="card-text"><strong>Weight:</strong> {{ current_user.weight }}</p>
                 <p class="card-text"><strong>Height:</strong> {{ current_user.height }}</p>
@@ -54,7 +54,7 @@
                 <p class="card-text"><strong>Medication:</strong> {{ current_user.medication }}</p>
 
             </div>
-            <div class="card-footer text-end" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <div class="card-footer text-end d-flex justify-content-center mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 <a href="#" class="btn btn-dark">Edit Medical History</a>
             </div>
         </div>
@@ -74,19 +74,28 @@
                         <a href="/questionnaire" class="btn btn-dark">Create One</a>
                     </li>
                 {% else %}
-                    {% for questionnaire in current_user.questionnaires %}
 
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Questionnaire ID: {{ questionnaire.id }}
-                        | Date: {{ questionnaire.submitted_date.strftime('%Y-%m-%d') }}
-                        <span class="badge bg-dark rounded-pill">{{questionnaire.status}}</span>                                     
-                        <a href="{{ url_for('questionnaire_views.questionnaire_details_page', questionnaire_id=questionnaire.id) }}"
-                            class="btn btn-dark">Details</a>                                              
-                    </li>                   
-                    {% endfor %}                    
+                    <div class="d-flex flex-column gap-3">
+                        {% for questionnaire in current_user.questionnaires %}
+                            <div class="p-3 border rounded d-flex justify-content-between align-items-center">
+                                <div>
+                                    <strong>Questionnaire ID:</strong> {{ questionnaire.id }}<br>
+                                    <strong>Date:</strong> {{ questionnaire.submitted_date.strftime('%Y-%m-%d') }}
+                                </div>
+                                <a href="{{ url_for('questionnaire_views.questionnaire_details_page', questionnaire_id=questionnaire.id) }}"
+                                    class="btn btn-dark">View</a>
+                            </div>
+                        {% endfor %}
+                    </div>
                 {% endif %}
                 </ul>
+                
             </div>
+            
+        </div>
+        <br>
+        <div class="d-flex justify-content-center mt-3">
+            <button class="btn btn-primary" onclick="location.href='/questionnaire'" style="background-color: #313738; border-color: #313738;"> New Questionnaire</button>
         </div>
     </div>
 </div>
@@ -103,32 +112,42 @@
         <div class="modal-body">
             <form class="row g-3" action="/patient/medical_history" method="post">
                 <div class="col-md-6">
-                    <label for="age" class="form-label">Age</label>
-                    <input type="number" class="form-control" id="age" name="age" required>
+                    <label for="birthdate" class="form-label">Date of Birth</label>
+                    <input type="date" class="form-control" id="age" name="age" required min="0" max="118"> 
                 </div>
                 <div class="col-md-6">
                     <label for="blood_type" class="form-label">Blood Type</label>
-                    <input type="text" class="form-control" id="blood_type" name="blood_type" required>
+                    <select class="form-control" id="blood_type" name="blood_type" required>
+                        <option value="">Select</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
                 </div>
                 <div class="col-md-6">
                     <label for="weight" class="form-label">Weight (kg)</label>
-                    <input type="number" step="0.01" class="form-control" id="weight" name="weight" required>
+                    <input type="number" step="1" class="form-control" id="weight" name="weight" required min="1">
                 </div>
                 <div class="col-md-6">
                     <label for="height" class="form-label">Height (cm)</label>
-                    <input type="number" step="0.01" class="form-control" id="height" name="height" required>
+                    <input type="number" step="1" class="form-control" id="height" name="height" required min="1">
                 </div>
                 <div class="col-12">
                     <label for="allergies" class="form-label">Allergies</label>
-                    <input type="text" class="form-control" id="allergies" name="allergies" required>
+                    <input type="text" class="form-control" id="allergies" name="allergies" value= "-" required>
                 </div>
                 <div class="col-12">
                     <label for="medical_conditions" class="form-label">Medical Conditions</label>
-                    <input type="text" class="form-control" id="medical_conditions" name="medical_conditions" required>
+                    <input type="text" class="form-control" id="medical_conditions" name="medical_conditions" value= "-" required>
                 </div>
                 <div class="col-12">
                     <label for="medication" class="form-label">Medication</label>
-                    <input type="text" class="form-control" id="medication" name="medication" required>
+                    <input type="text" class="form-control" id="medication" name="medication" value= "-" required>
                 </div>
                 
                 <div class="col-12">
@@ -137,7 +156,6 @@
             </form>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>          
         </div>
     </div>
     </div>

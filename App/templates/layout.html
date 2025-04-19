@@ -26,8 +26,9 @@
         
 
         .navbar{
-            background-color: #0000ff; 
-        }
+         background-color: #3ea3bd; 
+         }
+
 
         {% block styles %}{% endblock %}
     </style>
@@ -36,7 +37,7 @@
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-dark navbar-expand-md fixed-top" >
+    <nav class="navbar navbar-dark navbar-expand-md fixed-top py-3" >
         <a class="navbar-brand" href="/">Preoperative Evaluation</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
             aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,19 +47,8 @@
             <ul class="navbar-nav mr-auto">
                 <!-- Add navigation links as needed -->
                 <li class="nav-item">
-                    <a class="nav-link" href="/">Home</a>
+                    <a class="nav-link" href="/" style="font-size: larger; ">Home</a>
                 </li>
-
-                {% if current_user.is_authenticated %}
-                    {%if current_user.type == 'patient'%}
-                        
-                        <li class="nav-item">
-                            <a class="nav-link" href="/questionnaire">Questionnaire</a>
-                        </li>                    
-                                        
-                    {%endif%}                                  
-                    
-                {%endif%}
                 
                 
             </ul>
