@@ -128,9 +128,9 @@ def login_anesthesiologist(email, password):
             print(f"Successfully logged in anesthesiologist: {anesthesiologist.email}")
             return anesthesiologist
         else:
-            print("✗ Password verification failed")
+            print("- Password verification failed")
     else:
-        print("✗ No anesthesiologist found with that email")
+        print("- No anesthesiologist found with that email")
     return None
 
 def login_doctor(email, password):
@@ -149,9 +149,9 @@ def login_doctor(email, password):
             print(f"Successfully logged in doctor: {doctor.email}")
             return doctor
         else:
-            print("✗ Password verification failed")
+            print("- Password verification failed")
     else:
-        print("✗ No doctor found with that email")
+        print("- No doctor found with that email")
     return None
 
 def login_patient(email, password):
@@ -170,9 +170,9 @@ def login_patient(email, password):
             print(f"Successfully logged in patient: {patient.email}")
             return patient
         else:
-            print("✗ Password verification failed")
+            print("- Password verification failed")
     else:
-        print("✗ No patient found with that email")
+        print("- No patient found with that email")
     return None
 
 def logout():
