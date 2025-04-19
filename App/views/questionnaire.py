@@ -100,7 +100,7 @@ def update_questionnaire_notes():
         flash('No notes provided')
         return redirect(url_for('questionnaire_views.questionnaire_details_page'))
 
-    updated = update_questionnaire(current_user.id, patient_notes=notes)
+    updated = update_questionnaire(current_user.id, current_user.type, patient_notes=notes)
     
     if updated:
         flash('Notes updated successfully!')
