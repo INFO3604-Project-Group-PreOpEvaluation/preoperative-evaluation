@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     
     <!-- Additional styles for child templates -->
-   
+
     <!-- Custom styles for the parent layout -->
     <style>
         body {
@@ -28,19 +28,16 @@
         .navbar{
 
          background-color: #3ea3bd; 
-
          }
-
-        .navbar-brand,
+         .navbar-brand,
         .nav-link {
             color: black !important; /* This sets the text color to black */
         }
 
-
-         {% block styles %}{% endblock %}
+        {% block styles %}{% endblock %}
     </style>
     <!-- Additional styles can be included in child templates -->
-   
+
 </head>
 <body>
     <!-- Navbar -->
@@ -53,18 +50,12 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
 
-                <!-- Add navigation links as needed -->
-                <li class="nav-item">
-                    <a class="nav-link" href="/" style="font-size: larger; ">Home</a>
-                </li>
-
-                
                 
             </ul>
             <div class="d-flex" >
                 <ul class="navbar-nav mr-auto d-flex">
                 {% if current_user.is_authenticated %}
-             
+
                 {%if current_user.type == 'doctor' %}
 
                 
@@ -77,12 +68,12 @@
                 <li class="nav-item">
                     <a href="/dashboard/anesthesiologist" class="nav-link"><i class="fa fa-user-circle-o" aria-hidden="true"></i>DashBoard</a>
                 </li>
-               
+
                 {%else%} 
                 <li class="nav-item">
                     <a  class="nav-link position-relative" href="/patient/profile">
                         <i class="fa fa-user-circle-o" aria-hidden="true"></i>
-                        {{ current_user.username }} 
+                        {{ current_user.firstname}} {{ current_user.lastname}} 
                         {% if current_user.notifications|length > 0 %}
                             {% set unseen_notifications = current_user.notifications|selectattr('seen', 'equalto', false)|list %}
                             {% if unseen_notifications|length > 0 %}
@@ -94,7 +85,7 @@
                         {% endif %}
                     </a>
                 </li>
-                                                  
+
                 {%endif%}
                     
                 <li class="nav-item">
@@ -133,7 +124,7 @@
     {% with messages = get_flashed_messages() %}
         {% if messages %}
             {% for message in messages %}
-             <div class="toast-container position-fixed bottom-0 end-0 p-3">
+            <div class="toast-container position-fixed bottom-0 end-0 p-3">
                 <div class="toast align-items-center text-bg-dark border-0" role="alert" aria-live="assertive" aria-atomic="true" data-delay="5000">
                     <div class="toast-header">
                         <strong class="mr-auto">Notification</strong>

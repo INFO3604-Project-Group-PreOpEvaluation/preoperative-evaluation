@@ -61,6 +61,11 @@
 <!-- <div class="row mt-5" style="background-color: rgba(62, 163, 189, 0.2);"> -->
     <!-- Patient Information Card (Right) -->
     <!-- <div class="col-md-8">
+
+<div class="row mt-5" style="background-color: rgba(62, 163, 189, 0.2);">
+    <!-- Patient Information Card (Right) -->
+    <div class="col-md-8">
+
         <div class="card" style="padding: 25px; border: 40px;">
             <div class="card-header">
                 <h2 class="">Questionnaire {{ questionnaire.submitted_date.strftime('%Y-%m-%d') }}</h2>
@@ -111,6 +116,93 @@
                 </div>
                 {% endfor %}
             </div>
+
+        </div>
+    </div>
+    
+    <!-- Add Notes Card (Left) -->
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                {% if current_user.type == "patient" %}
+                <h2 class="text-center">Notes and Status</h2>
+                {% else %}
+                <h2 class="text-center">Add Notes</h2>
+                {% endif %}
+            </div>
+            <div class="card-body">
+                <!-- Patient Photo -->
+                {% if current_user.type == "doctor" %}
+                <div class="doctor-form">
+                    <div class="form-group mb-3">
+                        <label for="viewAnesthesiologistNotes">Anesthesiologist's Notes:</label>
+                        <textarea id="viewAnesthesiologistNotes" class="form-control" readonly> 
+                        {{ questionnaire.anesthesiologist_notes }}</textarea>
+                    </div>
+                    <form method="post" action="/dashboard/doctor/questionnaire/submit/{{ questionnaire.id }}">
+                    <div class="form-group">
+                        <label for="doctorNotes">Doctor's Notes:</label>
+                        <textarea id="doctorNotes" name="doctor_notes" class="form-control"></textarea>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" id="approve" name="status" value="approved" onchange="toggleOperationDate()" />
+                        <label class="form-check-label" for="approve">Approve</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" id="decline" name="status" value="declined" onchange="toggleOperationDate()" />
+                        <label class="form-check-label" for="decline">Decline</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" id="decline_w_c" name="status" value="declined_w_c" onchange="toggleOperationDate()" />
+                        <label class="form-check-label" for="decline_w_c">Decline with Clarification</label>
+                    </div>
+                    <div class="form-group">
+                        <label for="operationDate">Operation Date:</label>
+                        <input type="date" id="operationDate" name="operation_date" class="form-control" disabled />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+                <script>
+                    function toggleOperationDate() {
+                        var approve = document.getElementById("approve").checked;
+                        var operationDate = document.getElementById("operationDate");
+                        operationDate.disabled = !approve;
+                    }
+                </script>
+                {% elif current_user.type == "anesthesiologist" %}
+                <div class="anesthesiologist-form">
+                    <form method="post" action="/dashboard/anesthesiologist/questionnaire/submit/{{questionnaire.id}}">
+                        <div class="form-group">
+                            <label for="anesthesiologistNotes">Anesthesiologist's Notes:</label>
+                            <textarea id="anesthesiologistNotes" name="anesthesiologist_notes"
+                                class="form-control"></textarea>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" id="approve" name="status" value="approved">
+                            <label class="form-check-label" for="approve">Approve</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" id="decline" name="status" value="declined">
+                            <label class="form-check-label" for="decline">Decline</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+
+                {% elif current_user.type == "patient" %}
+                <div class="patient-notes">
+                    <p><strong>Doctor's Notes:</strong></p>
+                    <textarea class="form-control">{{ questionnaire.doctor_notes }}</textarea>
+                    <p class="mt-1"><strong>Anesthesiologist's Notes:</strong></p>
+                    <textarea class="form-control"> {{ questionnaire.anesthesiologist_notes }}</textarea>
+                    <p class="mt-1"><strong>Status:</strong> {{ questionnaire.status }}</p>
+                    <p><strong>Operation Date:</strong> {{ questionnaire.operation_date}}</p>
+                </div>
+                {% endif %}
+
+            </div>
+
         </div>
     </div> -->
     
@@ -321,6 +413,8 @@
         </div>
       </div>
     </div>
-    {% endblock %}
-    
+
+</div>
+
+{% endblock %}
 

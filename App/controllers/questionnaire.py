@@ -141,13 +141,14 @@ def get_latest_questionnaire(patient_id):
     # Return the latest questionnaire
     return latest_questionnaire
 
-def update_questionnaire(patient_id, **kwargs):
-    """
-    Update a questionnaire in the database with the given ID.
 
-    Args:
-    questionnaire_id (str): The ID of the questionnaire to update.
-    **kwargs: Keyword arguments to update the questionnaire with.
+def update_questionnaire(questionnaire_id, **kwargs):
+    """
+    Update a questionnaire in the database.
+
+    Parameters:
+    questionnaire_id (int): The ID of the questionnaire to update.
+    **kwargs: Keyword arguments representing the fields to update in the questionnaire.
 
     Returns:
     Questionnaire: The updated questionnaire object if successful, None otherwise.
@@ -189,3 +190,18 @@ def update_questionnaire(patient_id, **kwargs):
         return None
         
     
+
+#     questionnaire = Questionnaire.query.get(questionnaire_id)
+#     if not questionnaire:
+#         return None
+#     try:
+#         for key, value in kwargs.items():
+#             if hasattr(questionnaire, key):
+#                 setattr(questionnaire, key, value)
+#         db.session.commit()
+#         return questionnaire
+#     except Exception as e:
+#         # Print the error message if an exception occurs
+#         db.session.rollback()
+#         print(e, "Error updating questionnaire")
+#         return None

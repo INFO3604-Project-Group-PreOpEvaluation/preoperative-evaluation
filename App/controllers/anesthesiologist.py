@@ -1,9 +1,10 @@
+
 from App.models import Anesthesiologist
 from App.models import db
 from sqlalchemy.exc import IntegrityError
 from App.controllers.notification import create_notification
 
-def create_anesthesiologist(firstname, lastname, username, password, email, phone_number):
+def create_anesthesiologist(firstname, lastname, password, email, phone_number):
     """
     Create a new anesthesiologist and save them to the database.
 
@@ -15,7 +16,6 @@ def create_anesthesiologist(firstname, lastname, username, password, email, phon
         new_anesthesiologist = Anesthesiologist(
             firstname=firstname,
             lastname=lastname,
-            username=username,
             password=password,
             email=email,
             phone_number=phone_number

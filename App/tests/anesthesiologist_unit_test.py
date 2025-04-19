@@ -29,7 +29,6 @@ class AnesthesiologistUnitTests(unittest.TestCase):
         newAnesthiologist = Anesthesiologist(
             firstname="John1",
             lastname="Doe1",
-            username="johndoe1",
             password="password1231",
             email="cT2oB@example.com1",
             phone_number="1234567890"
@@ -37,7 +36,6 @@ class AnesthesiologistUnitTests(unittest.TestCase):
         assert newAnesthiologist is not None
         assert newAnesthiologist.firstname == "John1"
         assert newAnesthiologist.lastname == "Doe1"
-        assert newAnesthiologist.username == "johndoe1"
         assert newAnesthiologist.email == "cT2oB@example.com1"
         assert newAnesthiologist.phone_number == "1234567890"
         assert newAnesthiologist.type == "anesthesiologist"
@@ -50,7 +48,6 @@ class AnesthesiologistUnitTests(unittest.TestCase):
         newAnesthesiologist = Anesthesiologist(
             firstname="John2",
             lastname="Doe2",
-            username="johndoe2",
             password="password123",
             email="john.doe@example.com",
             phone_number="1234567890"
@@ -64,7 +61,6 @@ class AnesthesiologistUnitTests(unittest.TestCase):
             "id": None, 
             "firstname": "John2",
             "lastname": "Doe2",
-            "username": "johndoe2",
             "email": "john.doe@example.com",
             "phone_number": "1234567890",
             "type": "anesthesiologist"
@@ -74,17 +70,18 @@ class AnesthesiologistUnitTests(unittest.TestCase):
         """
         Verify that creating an Anesthesiologist without required fields raises errors.
         """
-        with self.assertRaises(ValueError):  # Or another appropriate exception
-            newAnesthesiologist = Anesthesiologist(firstname=None, lastname=None, username=None,
-                                                password=None, email=None, phone_number=None)
-            self.assertEqual(str(context.exception.message), "All fields are required.")
+        with self.assertRaises(ValueError) as context:  
+            newAnesthesiologist = Anesthesiologist(firstname=None, lastname=None,
+                                                   password=None, email=None, phone_number=None)
+            self.assertEqual(str(context), "All fields for an anesthesiologist are required.")
+            # self.assertTrue('All fields are required.' in str(context.exception))
+            # self.assertTrue('All fields are required.' == str(context))
     def test_anesthesiologist_to_json_special_characters(self):
         """
         Verify that to_json() handles special characters correctly.
         """
         newAnesthesiologist = Anesthesiologist(
-            firstname="Jöhn", lastname="Döe",
-            username="johndoe$", password="p@ssword123",
+            firstname="Jöhn", lastname="Döe", password="p@ssword123",
             email="john!doe@example.com", phone_number="+1 (123) 456-7890"
         )
 
@@ -92,9 +89,9 @@ class AnesthesiologistUnitTests(unittest.TestCase):
 
         self.assertEqual(anesthesiologist_json['firstname'], "Jöhn")
         self.assertEqual(anesthesiologist_json['lastname'], "Döe")
-        self.assertEqual(anesthesiologist_json['username'], "johndoe$")
         self.assertEqual(anesthesiologist_json['email'], "john!doe@example.com")
         self.assertEqual(anesthesiologist_json['phone_number'], "+1 (123) 456-7890")
+        
 
     def test_anesthesiologist_password_security(self):
         """
@@ -102,7 +99,7 @@ class AnesthesiologistUnitTests(unittest.TestCase):
         """
         newAnesthesiologist = Anesthesiologist(
             firstname="Secure", lastname="User",
-            username="secureuser", password="sTr0ngP@ssw0rd",
+            password="sTr0ngP@ssw0rd",
             email="secure.user@example.com", phone_number="0123456789"
         )
 

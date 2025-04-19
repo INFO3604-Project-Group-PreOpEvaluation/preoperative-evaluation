@@ -1,75 +1,22 @@
-{% extends 'layout.html' %}
-{% block title %}Patient Sign Up{% endblock %}
-
-{% block styles %}
-      
-
-        .container {
-            max-width:500px;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        form {
-            display: flex;
-            flex-direction: column;
-        }
-
-        label {
-            margin-bottom: 10px;
-        }
-
-        select,
-        input[type="text"],
-        input[type="password"],
-        input[type="email"],
-        input[type="tel"]{
-            <!-- padding: 10px; -->
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-
-        button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        .staff-fields,
-        .date-field {
-            display: none; /* Initially hide fields */
-        }
-
-        p {
-            font-size: 14px;
-            text-align: center;
-        }
-{% endblock %}
-
-{% block content %}
+{% extends 'layout.html' %} {% block title %}Patient Sign Up{% endblock %} {%
+    block styles %} .container { max-width:500px; margin: 50px auto; padding: 20px;
+    background-color: #fff; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0,
+    0.1); } h1 { text-align: center; margin-bottom: 20px; } form { display: flex;
+    flex-direction: column; } label { margin-bottom: 10px; } select,
+    input[type="text"], input[type="password"], input[type="email"],
+    input[type="tel"]{
+    <!-- padding: 10px; -->
+    margin-bottom: 20px; border: 1px solid #ccc; border-radius: 5px; font-size:
+    16px; } button { padding: 10px 20px; background-color: #007bff; color: #fff;
+    border: none; border-radius: 5px; font-size: 16px; cursor: pointer; }
+    button:hover { background-color: #0056b3; } .staff-fields, .date-field {
+    display: none; /* Initially hide fields */ } p { font-size: 14px; text-align:
+    center; } {% endblock %} {% block content %}
     <div class="container mt-3">
         <h1>Patient Sign Up</h1>
                 
         <form  method="post" action="{{ url_for('auth_views.signup_action') }}">
-          
+
             <div class="input-group mb-3">
                 <span class="input-group-text">First Name</span>
                 <input type="text" class="form-control" id="firstname" name="firstname" required>
@@ -109,7 +56,10 @@
         <div style="padding-left:170px; padding-bottom: 20px; ">
             <button type="submit" style ="width: 120px;">Submit</button>
         </div>    
+
             <p>Already Registered?<a href="{{ url_for('auth_views.signin_page') }}"> Sign In</a></p>
         </form>
     </div>
+
 {% endblock %}
+
