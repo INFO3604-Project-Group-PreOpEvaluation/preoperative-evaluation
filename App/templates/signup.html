@@ -69,16 +69,18 @@
         <h1>Patient Sign Up</h1>
                 
         <form  method="post" action="{{ url_for('auth_views.signup_action') }}">
-          
+
             <div class="input-group mb-3">
                 <span class="input-group-text">First Name</span>
                 <input type="text" class="form-control" id="firstname" name="firstname" required>
                 <span class="input-group-text">Last Name</span>
                 <input type="text" class="form-control" id="lastname" name="lastname" required>
+
               </div>
               <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
                 <input type="email" class="form-control" id="email" name="email" required>
+
             </div>
           <!-- <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
@@ -104,9 +106,11 @@
                 <label for="phone_number" class="form-label">Phone Number</label>
                 <input type="tel" class="form-control" id="phone_number" name="phone_number" required style="width: 200px;" pattern="[0-9]{7}" title="Must contain 7 digits" required>
             </div>
+
         <div style="padding-left:170px; padding-bottom: 20px; ">
             <button type="submit" style ="width: 120px;">Submit</button>
         </div>    
+
             <p>Already Registered?<a href="{{ url_for('auth_views.signin_page') }}"> Sign In</a></p>
         </form>
     </div>
