@@ -99,12 +99,14 @@ def update_questionnaire_doctor_action(questionnaire_id):
     # Retrieve the operation date and notes from the form data
     operation_date = data['operation_date']
     notes = data['doctor_notes']
+    status = data['doctor_status']
 
     # Print the data for debugging purposes
     print(questionnaire_id, operation_date, notes)
     
     # Update the questionnaire in the database
-    if update_questionnaire(current_user.id, questionnaire_id, notes, operation_date):
+    updated = update_questionnaire(questionnaire_id, user_type="doctor", operation_date=operation_date, doctor_notes=notes, doctor_status=status)
+    if updated:
         # Flash a success message if the update is successful
         flash('Notes added successfully')
     else:
