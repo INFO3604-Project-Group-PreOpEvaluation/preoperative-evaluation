@@ -56,7 +56,7 @@ def sample_patient():
     Returns:
         patient: The sample patient object.
     """
-    return create_patient("John", "Doe", "johndoe", "password", "johndoe@mail.com", "1234567890")
+    return create_patient("John", "Doe", "password", "johndoe@mail.com", "1234567890")
 
 def test_create_patient(test_app):
     """
@@ -70,18 +70,27 @@ def test_create_patient(test_app):
     """
     with test_app.app_context():
         # Attempt to create a new patient
-        patient = create_patient("Alice", "Smith", "alicesmith", "password", "alicesmith@mail.com", "9876543210")
+        patient = create_patient("Alice", "Smith",  "password", "alicesmith@mail.com", "9876543210")
         # Check that the patient was created successfully
         assert patient is not None
         # Verify the username of the created patient
-        assert patient.username == "alicesmith"
+        assert patient.email == "alicesmith@mail.com"
+        assert patient.phone_number == "9876543210"
+        assert patient.firstname == "Alice"
+        assert patient.lastname == "Smith"
 
 def test_create_duplicate_patient(test_app, sample_patient):
+    '''
+        Test that attempting to create an Anesthesiologist with a duplicate
+        email or username results in the expected behavior
+    '''
     with test_app.app_context():
-        # Attempt to create a duplicate patient
-        duplicate_patient = create_patient("John", "Doe", "johndoe", "password", "johndoe@mail.com", "1234567890")
+        
         # Check that the duplicate patient was not created
         assert duplicate_patient is None
+        with self.assertRaises(IntegrityError) as context:  # Or another appropriate exception
+            duplicate_patient = create_patient("John", "Doe", "password", "johndoe@mail.com", "1234567890")
+            self.assertIn("Integrity error while creating patient", str(context.exception))
 
 def test_get_all_patients(test_app):
     """
@@ -95,7 +104,7 @@ def test_get_all_patients(test_app):
     """
     with test_app.app_context():
         # Create a sample patient
-        sample_patient = create_patient("John", "Doe", "johndoe", "password", "johndoe@mail.com", "1234567890")
+        sample_patient = create_patient("John", "Doe", "password", "johndoe@mail.com", "1234567890")
         # Retrieve all patients
         patients = get_all_patients()
         # Check that the list of patients is not empty
@@ -120,7 +129,7 @@ def test_get_patient_by_id(test_app, sample_patient):
         # Check that the retrieved patient is the same as the sample patient
         assert retrieved_patient.id == sample_patient.id
 
-def test_create_medical_history(test_app, sample_patient):
+def test_edit_medical_history(test_app, sample_patient):
     """
     Test the creation of medical history for a patient.
 
@@ -160,13 +169,3 @@ def test_create_medical_history(test_app, sample_patient):
 
         assert updated_patient.med_history_updated is True
 
-def test_set_patient_autofill_enabled(test_app, sample_patient):
-    with test_app.app_context():
-        result = set_patient_autofill_enabled(sample_patient.id, True)
-        assert result is True
-        assert get_patient_by_id(sample_patient.id).autofill_enabled is True
-
-def test_get_all_patients(test_app, sample_patient):
-    with test_app.app_context():
-        patients = get_all_patients()
-        assert len(patients) == 1

@@ -55,7 +55,6 @@ class Questionnaire(db.Model):
             "responses": self.responses,
             "operation_date": self.operation_date,
             "status": self.status,
-
             "doctor_status": self.doctor_status,
             "patient_notes": self.patient_notes,
             "anesthesiologist_notes": self.anesthesiologist_notes,

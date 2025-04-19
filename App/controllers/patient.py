@@ -12,6 +12,7 @@ def create_patient(firstname, lastname, password, email, phone_number):
         return new_patient
     except IntegrityError as e:
         raise IntegrityError(None, None, "Integrity error while creating patient") from e
+
     except Exception as e:
         print(e, "Error creating patient")
         return None
