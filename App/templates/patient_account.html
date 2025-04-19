@@ -49,7 +49,9 @@
                 <p class="text-muted">{{current_user.email}}</p>
                 </div>
                 <div class="custom-divider"></div>                               
+
                 <p class="card-text"><strong>Date of Birth:</strong> {{ current_user.dateOfBirth }}</p>
+
                 <p class="card-text"><strong>Blood Type:</strong> {{ current_user.blood_type }}</p>
                 <p class="card-text"><strong>Weight:</strong> {{ current_user.weight }}</p>
                 <p class="card-text"><strong>Height:</strong> {{ current_user.height }}</p>
@@ -59,8 +61,10 @@
 
             </div>
 
+
             <div class="card-footer text-end" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 <a href="#" class="btn btn-dark">Update Medical History</a>
+
 
             </div>
         </div>
@@ -88,13 +92,17 @@
                                 <div>
                                     <strong>Questionnaire ID:</strong> {{ questionnaire.id }}<br>
                                     <strong>Date:</strong> {{ questionnaire.submitted_date.strftime('%Y-%m-%d') }}
+
                                     <span class="badge bg-dark rounded-pill">{{questionnaire.status}}</span>       
+
                                 </div>
                                 <a href="{{ url_for('questionnaire_views.questionnaire_details_page', questionnaire_id=questionnaire.id) }}"
                                     class="btn btn-dark">View</a>
                             </div>
                         {% endfor %}
                     </div>
+
+
                 {% endif %}
                 </ul>
                 
@@ -125,6 +133,7 @@
 
                     <input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth" required>
                 </div>  
+
 
 <!--                     <input type="date" class="form-control" id="age" name="age" required min="0" max="118"> 
                 </div> -->
@@ -170,8 +179,10 @@
             </form>
         </div>
         <div class="modal-footer">
+
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>          
         </div>
+
         </div>
     </div>
 
@@ -279,6 +290,7 @@
     
 
 </script>
+
 
 <script>
     document.addEventListener("DOMContentLoaded", () => {

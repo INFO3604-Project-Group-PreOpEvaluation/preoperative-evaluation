@@ -2,7 +2,7 @@ from App.models import Questionnaire
 from datetime import datetime
 from App.database import db
 from App.controllers.patient import set_patient_autofill_enabled
-
+from datetime import datetime
 def create_questionnaire(patient_id, responses):
     """
     Create a new questionnaire for a patient and save it to the database.
@@ -144,6 +144,7 @@ def get_latest_questionnaire(patient_id):
 
 
 def update_questionnaire(questionnaire_id, user_type ,**kwargs):
+
     """
     Update a questionnaire in the database with the given ID.
 
@@ -218,8 +219,25 @@ def update_questionnaire(questionnaire_id, user_type ,**kwargs):
     except Exception as e:
         # Print the error message if an exception occurs
         print(e, "Error updating questionnaire")
+
         raise Exception("Error updating questionnaire")
         
         return None
-            
+        
     
+
+#     questionnaire = Questionnaire.query.get(questionnaire_id)
+#     if not questionnaire:
+#         return None
+#     try:
+#         for key, value in kwargs.items():
+#             if hasattr(questionnaire, key):
+#                 setattr(questionnaire, key, value)
+#         db.session.commit()
+#         return questionnaire
+#     except Exception as e:
+#         # Print the error message if an exception occurs
+#         db.session.rollback()
+#         print(e, "Error updating questionnaire")
+#         return None
+
