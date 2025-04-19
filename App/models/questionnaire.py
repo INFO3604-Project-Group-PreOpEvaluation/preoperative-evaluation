@@ -13,6 +13,7 @@ class Questionnaire(db.Model):
     Represents a questionnaire submitted by a patient to an anesthesiologist.
     """
     __tablename__ = 'questionnaire'
+
     id = db.Column(db.String(20), primary_key=True, default=generate_short_uuid, server_default='gen_random_uuid()')
     patient_id = db.Column(db.Integer, db.ForeignKey('patient.id'), nullable=False) # Foreign key to Patient, db.ForeignKey('patient.id'))
     responses = db.Column(db.JSON, nullable=True) # Storing responses as JSON, if applicable
@@ -23,7 +24,7 @@ class Questionnaire(db.Model):
     anesthesiologist_notes = db.Column(db.String(600), nullable=True)
     doctor_notes = db.Column(db.String(600), nullable=True)
     submitted_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow) 
-
+    patient_notes = db.Column(db.String(1200), nullable=True)
 
     # Initialization of Questionnaire with JSON fields
     def __init__(self, **kwargs):
@@ -37,6 +38,7 @@ class Questionnaire(db.Model):
             if self.patient_id is None:
                 raise ValueError()
             self.responses = kwargs.get('responses', {})
+            self.submitted_date = datetime.now()
         except ValueError as e:
             raise ValueError(f"Invalid field for questionnaire: {e}")
 
@@ -54,7 +56,6 @@ class Questionnaire(db.Model):
             "responses": self.responses,
             "operation_date": self.operation_date,
             "status": self.status,
-
             "doctor_status": self.doctor_status,
             "patient_notes": self.patient_notes,
             "anesthesiologist_notes": self.anesthesiologist_notes,

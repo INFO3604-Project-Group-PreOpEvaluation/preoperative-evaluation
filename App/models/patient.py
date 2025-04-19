@@ -1,7 +1,11 @@
+from cryptography.fernet import Fernet
 from App.database import db
 from .user import User
 from .crypto_utils import encrypt_value, decrypt_value
 
+
+key = Fernet.generate_key()
+cipher = Fernet(key)
 
 class Patient(User):
     """
@@ -10,9 +14,9 @@ class Patient(User):
 
     __tablename__ = 'patient'
     type = db.Column(db.String(120), nullable=False, default='patient')
+
     dateOfBirth = db.Column(db.Date, nullable=True)
     sex = db.Column(db.String(2), nullable=True)
-    age = db.Column(db.Integer, nullable=True)
     _blood_type = db.Column('blood_type', db.LargeBinary, nullable=True)
     _weight = db.Column('weight', db.LargeBinary, nullable=True)
     _height = db.Column('height', db.LargeBinary, nullable=True)
@@ -64,9 +68,7 @@ class Patient(User):
     med_history_updated = db.Column(db.Boolean, nullable=False, default=False)
     autofill_enabled = db.Column(db.Boolean, nullable=False, default=False)
     questionnaires = db.relationship('Questionnaire', backref='patient', lazy=True, cascade="all, delete-orphan")
-    # notifications = db.Column(db.Integer, db.ForeignKey('notification.patient_id'), nullable=True)
     notifications = db.relationship('Notification', backref='patient', lazy=True, cascade="all, delete-orphan")
-    # notifications = db.relationship('Notification', backref='patient', lazy=True, cascade="all, delete-orphan")
 
 
     def __init__(self, firstname, lastname, password, email, phone_number):
