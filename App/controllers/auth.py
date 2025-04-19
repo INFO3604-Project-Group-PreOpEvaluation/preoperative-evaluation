@@ -8,39 +8,39 @@ from App.models import User, Doctor, Anesthesiologist, Patient
 from functools import wraps
 
 
-def jwt_authenticate(username, password):
-    user = Patient.query.filter_by(username=username).first()
+def jwt_authenticate(email, password):
+    user = Patient.query.filter_by(email=email).first()
   
     if user and user.check_password(password):
-        return create_access_token(identity=username)
+        return create_access_token(identity=email)
     
-    user = Doctor.query.filter_by(username=username).first()
+    user = Doctor.query.filter_by(email=email).first()
   
     if user and user.check_password(password):
-        return create_access_token(identity=username)
+        return create_access_token(identity=email)
 
-    user = Anesthesiologist.query.filter_by(username=username).first()
+    user = Anesthesiologist.query.filter_by(email=email).first()
   
     if user and user.check_password(password):
-        return create_access_token(identity=username)
+        return create_access_token(identity=email)
 
     return None
 
-def login(username, password):
-    user = Patient.query.filter_by(username=username).first()
+def login(email, password):
+    user = Patient.query.filter_by(email=email).first()
   
     if user and user.check_password(password):
-        return create_access_token(identity=username)
+        return create_access_token(identity=email)
 
-    user = Doctor.query.filter_by(username=username).first()
+    user = Doctor.query.filter_by(email=email).first()
   
     if user and user.check_password(password):
-        return create_access_token(identity=username)
+        return create_access_token(identity=email)
 
-    user = Anesthesiologist.query.filter_by(username=username).first()
+    user = Anesthesiologist.query.filter_by(email=email).first()
   
     if user and user.check_password(password):
-        return create_access_token(identity=username)
+        return create_access_token(identity=email)
     return None
 
 def setup_flask_login(app):
@@ -84,6 +84,13 @@ def setup_flask_login(app):
     return login_manager
 
 def setup_jwt(app):
+    app.config['JWT_TOKEN_LOCATION'] = ['headers', 'cookies']
+    app.config['JWT_COOKIE_SECURE'] = False  # Set to True in production
+    app.config['JWT_COOKIE_CSRF_PROTECT'] = True
+    app.config['JWT_CSRF_CHECK_FORM'] = True
+    app.config['JWT_ACCESS_COOKIE_NAME'] = 'access_token'
+    app.config['JWT_ACCESS_CSRF_COOKIE_NAME'] = 'csrf_access_token'
+    
     jwt = JWTManager(app)
 
     @jwt.user_identity_loader
@@ -125,13 +132,14 @@ def login_anesthesiologist(email, password):
             print("Password verified")
             anesthesiologist.type = 'anesthesiologist'
             login_user(anesthesiologist)
+            access_token = create_access_token(identity=anesthesiologist.email)
             print(f"Successfully logged in anesthesiologist: {anesthesiologist.email}")
-            return anesthesiologist
+            return anesthesiologist, access_token
         else:
             print("- Password verification failed")
     else:
         print("- No anesthesiologist found with that email")
-    return None
+    return None, None
 
 def login_doctor(email, password):
     print("\n=== DOCTOR LOGIN DEBUG ===")
@@ -146,13 +154,14 @@ def login_doctor(email, password):
             print("Password verified")
             doctor.type = 'doctor'
             login_user(doctor)
+            access_token = create_access_token(identity=doctor.email)
             print(f"Successfully logged in doctor: {doctor.email}")
-            return doctor
+            return doctor, access_token
         else:
             print("- Password verification failed")
     else:
         print("- No doctor found with that email")
-    return None
+    return None, None
 
 def login_patient(email, password):
     print("\n=== PATIENT LOGIN DEBUG ===")
@@ -167,13 +176,14 @@ def login_patient(email, password):
             print("Password verified")
             patient.type = 'patient'
             login_user(patient)
+            access_token = create_access_token(identity=patient.email)
             print(f"Successfully logged in patient: {patient.email}")
-            return patient
+            return patient, access_token
         else:
             print("- Password verification failed")
     else:
         print("- No patient found with that email")
-    return None
+    return None, None
 
 def logout():
     logout_user()
@@ -226,18 +236,20 @@ def add_auth_context(app):
         try:
             verify_jwt_in_request()
             user_id = get_jwt_identity()
-            current_user = User.query.get(user_id)
-            is_authenticated = True
-            # current_user = None
-            # for model in [Doctor, Anesthesiologist, Patient]:
-            #     user = model.query.get(user_id)
-            #     if user:
-            #         current_user = user
-            #         break
-            # is_authenticated = bool(current_user)
+            current_user = None
+            is_authenticated = False
+            
+            # Try to find the user in each model
+            for model in [Doctor, Anesthesiologist, Patient]:
+                user = model.query.filter_by(email=user_id).first()
+                if user:
+                    current_user = user
+                    is_authenticated = True
+                    break
 
         except Exception as e:
-            print(e)
+            print(f"JWT verification error: {str(e)}")
             is_authenticated = False
             current_user = None
+            
         return dict(is_authenticated=is_authenticated, current_user=current_user)

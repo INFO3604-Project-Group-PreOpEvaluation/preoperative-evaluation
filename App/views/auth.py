@@ -155,9 +155,24 @@ def user_login_api():
   user_credentials = jwt_authenticate(data['email'], data['password'])
 
   if not user_credentials:
-    return jsonify(error='bad email or password given'), 401
+    return jsonify(error='invalid credentials'), 400
 
-  if 'admin_id' in user_credentials:
-    return jsonify(user_credentials)
-  else:
-    return jsonify(access_token=user_credentials)
+  access_token = create_access_token(identity=user_credentials)
+  return jsonify(access_token=access_token), 200
+
+@auth_views.route('/api/signup', methods=['POST'])
+def user_signup_api():
+    print("tt")
+    data = request.json
+    print(data)
+    if not data or 'email' not in data or 'password' not in data:
+        return jsonify(error='Missing email or password'), 400
+
+    try:
+        user = create_patient(firstname=data['firstname'], lastname=data['lastname'], password = data['password'], email=data['email'], phone_number=data['phone_number'])
+        if user:
+            access_token = create_access_token(identity=user.email)
+            return jsonify(message="Account Created"), 201
+    except IntegrityError:
+        return jsonify(error='Account already exists'), 400
+
