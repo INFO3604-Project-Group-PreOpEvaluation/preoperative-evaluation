@@ -1,7 +1,6 @@
 from App.database import db
 from .user import User
-from .questionnaire import Questionnaire
-from .notification import Notification
+
 
 class Anesthesiologist(User):
     """
