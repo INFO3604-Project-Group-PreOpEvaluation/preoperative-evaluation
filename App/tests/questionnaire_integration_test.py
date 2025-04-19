@@ -1,7 +1,6 @@
-import os, tempfile, pytest, logging, unittest
-
+import pytest, unittest
+from datetime import datetime, date
 from App.main import create_app
-from App.models import Questionnaire, Patient
 from App.database import db, create_db
 from App.controllers import (
     create_patient,
@@ -10,16 +9,12 @@ from App.controllers import (
     create_questionnaire,
     get_questionnaire,
     get_all_questionnaires,
-    get_all_questionnaires_json,
     get_questionnaire_by_patient_id,
     get_questionnaire_by_status,
-    get_questionnaire_by_status_json,
-    get_latest_questionnaire,
     update_questionnaire
 )
 
-from datetime import datetime, date
-import json
+
 
 
 @pytest.fixture(autouse=True, scope="function")
@@ -111,23 +106,6 @@ class QuestionnaireIntegrationTests(unittest.TestCase):
         Test retrieving the latest questionnaire for a patient.
         """
         patient = create_patient("John", "Doe", "password", "johnndoe99@mail.com", "8834561890")
-
-        # Create sample questionnaires with valid `submitted_date` values
-#         questionnaire1 = create_questionnaire(
-#             patient_id=patient.id,
-#             responses={"Q1": "Yes"}
-#         )
-#         questionnaire1.submitted_date=datetime(2025, 1, 1)  # Valid datetime object
-#         questionnaire2 = create_questionnaire(
-#             patient_id=patient.id,
-#             responses={"Q2": "No"}
-#         )
-#         questionnaire2.submitted_date=datetime(2025, 2, 1)
-
-#         # Retrieve the latest questionnaire
-#         latest = get_latest_questionnaire(patient.id)
-#         assert latest is not None
-#         assert latest.responses == {"Q2": "No"}
 
     def test_add_user_response(self,empty_db=empty_db):
         """

@@ -1,6 +1,5 @@
 import pytest
 import unittest
-from datetime import datetime
 from App.models import Questionnaire
 from App.models.questionnaire import generate_short_uuid
 

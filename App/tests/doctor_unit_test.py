@@ -1,9 +1,6 @@
 import pytest
 import unittest
 from App.models import Doctor
-from App.controllers import (
-    create_doctor
-)
 
 '''
     Unit Tests

@@ -3,7 +3,6 @@ import unittest
 from datetime import datetime
 from App.models import Notification, Patient, Doctor, Anesthesiologist
 
-
 '''
     Unit Tests
 '''

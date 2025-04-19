@@ -1,17 +1,5 @@
-import os, tempfile, pytest, logging, unittest
-from werkzeug.security import check_password_hash, generate_password_hash
-
-from App.main import create_app
-from App.database import db, create_db
+import pytest, logging, unittest
 from App.models import Patient
-from App.controllers import (
-    create_patient,
-    create_medical_history,
-    get_all_patients,
-    get_patient_by_id,
-    set_patient_autofill_enabled
-)
-
 
 LOGGER = logging.getLogger(__name__)
 

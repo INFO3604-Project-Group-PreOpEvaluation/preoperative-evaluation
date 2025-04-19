@@ -1,14 +1,6 @@
 import pytest
 import unittest
-from datetime import datetime
-from App.main import create_app
-from App.database import db, create_db
 from App.models import Anesthesiologist
-from App.controllers import (
-    create_anesthesiologist,
-    update_questionnaire_anesthesiologist
-
-)
 
 '''
     Unit Tests
@@ -74,8 +66,7 @@ class AnesthesiologistUnitTests(unittest.TestCase):
             newAnesthesiologist = Anesthesiologist(firstname=None, lastname=None,
                                                    password=None, email=None, phone_number=None)
             self.assertEqual(str(context), "All fields for an anesthesiologist are required.")
-            # self.assertTrue('All fields are required.' in str(context.exception))
-            # self.assertTrue('All fields are required.' == str(context))
+ 
     def test_anesthesiologist_to_json_special_characters(self):
         """
         Verify that to_json() handles special characters correctly.

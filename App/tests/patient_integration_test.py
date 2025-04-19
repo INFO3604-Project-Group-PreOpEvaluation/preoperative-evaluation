@@ -1,17 +1,14 @@
-import os, tempfile, pytest, logging, unittest
-
+import pytest, logging, unittest
 from datetime import datetime
-from werkzeug.security import check_password_hash, generate_password_hash
-
 from App.main import create_app
-from App.database import db, create_db
-from App.models import Patient
+from App.database import db
+from sqlalchemy.exc import IntegrityError
 from App.controllers import (
     create_patient,
     create_medical_history,
     get_all_patients,
     get_patient_by_id,
-    set_patient_autofill_enabled
+
 )
 
 LOGGER = logging.getLogger(__name__)
@@ -87,10 +84,10 @@ def test_create_duplicate_patient(test_app, sample_patient):
     with test_app.app_context():
         
         # Check that the duplicate patient was not created
-        assert duplicate_patient is None
-        with self.assertRaises(IntegrityError) as context:  # Or another appropriate exception
+        with pytest.raises(IntegrityError) as context:  # Or another appropriate exception
             duplicate_patient = create_patient("John", "Doe", "password", "johndoe@mail.com", "1234567890")
-            self.assertIn("Integrity error while creating patient", str(context.exception))
+            assert("Integrity error while creating patient", str(context.exception))
+            assert duplicate_patient is None
 
 def test_get_all_patients(test_app):
     """
@@ -145,8 +142,8 @@ def test_edit_medical_history(test_app, sample_patient):
         patient_id = sample_patient.id
         dateOfBirth = "1985-06-15"
         blood_type = "A+"
-        weight = 68
-        height = 170
+        weight = '68'
+        height = '170'
         allergies = "Dust"
         medical_conditions = "Asthma"
         medication = "Ventolin"

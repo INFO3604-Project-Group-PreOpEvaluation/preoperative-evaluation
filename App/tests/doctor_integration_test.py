@@ -1,9 +1,7 @@
 import pytest
 import unittest
-from datetime import datetime
 from App.main import create_app
 from App.database import db, create_db
-from App.models import Anesthesiologist
 from sqlalchemy.exc import IntegrityError
 
 from App.controllers import (
