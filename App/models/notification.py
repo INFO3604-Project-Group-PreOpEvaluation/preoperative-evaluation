@@ -12,6 +12,7 @@ class Notification(db.Model):
     # the user who received the notification
     anesthesiologist_id = db.Column(db.Integer, db.ForeignKey('anesthesiologist.id'), nullable=True)
     patient_id = db.Column(db.Integer, db.ForeignKey('patient.id'), nullable=True)
+    doctor_id = db.Column(db.Integer, db.ForeignKey('doctor.id'), nullable=True)
     # the title of the notification
     title = db.Column(db.String(220), nullable=False)
     # the message of the notification
@@ -20,7 +21,7 @@ class Notification(db.Model):
     timestamp=db.Column(db.DateTime,default = datetime.now())
     # whether the user has seen the notification
     seen = db.Column(db.Boolean, default=False, nullable=False)
-    def __init__(self, anesthesiologist_id, patient_id , message, title):
+    def __init__(self, anesthesiologist_id, patient_id , doctor_id, message, title):
         """
         Initializes a notification.
         
@@ -28,18 +29,19 @@ class Notification(db.Model):
         :param message: the message of the notification
         :param title: the title of the notification
         """
-        self.validate_fields(anesthesiologist_id, patient_id , message, title)
+        self.validate_fields(anesthesiologist_id, patient_id , doctor_id, message, title)
         self.anesthesiologist_id = anesthesiologist_id
         self.patient_id = patient_id
+        self.doctor_id = doctor_id
         self.message = message
         self.title = title
         self.timestamp = datetime.now()
 
-    def validate_fields(self, anesthesiologist_id, patient_id , message, title):
+    def validate_fields(self, anesthesiologist_id, patient_id , doctor_id, message, title):
         """
         Validates the input fields for creating a Notification object.
         """
-        if (anesthesiologist_id is None and patient_id is None) or message is None or title is None:
+        if (anesthesiologist_id is None and patient_id is None and doctor_id is None) or message is None or title is None:
             raise ValueError("All fields for notification are required")
         if not isinstance(message, str) or not isinstance(title, str):
             raise ValueError("Invalid field for notification: Message and title has to be string")
@@ -58,6 +60,7 @@ class Notification(db.Model):
             'id':self.id,
             'patient_id': self.patient_id,
             'anesthesiologist_id': self.anesthesiologist_id,
+            'doctor_id': self.doctor_id,
             'message': self.message,
             'title': self.title,
             'timestamp': self.timestamp.strftime("%Y-%m-%d %H:%M:%S"),

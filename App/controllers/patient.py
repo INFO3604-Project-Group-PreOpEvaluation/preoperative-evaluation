@@ -11,7 +11,7 @@ def create_patient(firstname, lastname, password, email, phone_number):
         db.session.commit()
         return new_patient
     except IntegrityError as e:
-        raise IntegrityError(None, None, "Integrity error while creating anesthesiologist") from e
+        raise IntegrityError(None, None, "Integrity error while creating patient") from e
 
     except Exception as e:
         print(e, "Error creating patient")

@@ -1,5 +1,4 @@
 
-/*! tailwindcss v4.1.3 | MIT License | https://tailwindcss.com */
 @layer properties;
 @layer theme, base, components, utilities;
 @layer theme {
@@ -170,14 +169,6 @@
   }
 
 
-  .absolute {
-    position: absolute;
-  }
-  .relative {
-    position: relative;
-  }
-
-
   .static {
     position: static;
   }
@@ -245,7 +236,6 @@
     display: block;
   }
 
-
   .contents {
     display: contents;
   }
@@ -277,12 +267,14 @@
     color: var(--color-white);
   }
 
+
   .lowercase {
     text-transform: lowercase;
   }
   .uppercase {
     text-transform: uppercase;
   }
+
 
   .\[coverage\:run\] {
     coverage: run;
@@ -296,7 +288,6 @@
   inherits: false;
   initial-value: solid;
 }
-
 
 @layer properties {
   @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
