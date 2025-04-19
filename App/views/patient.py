@@ -23,9 +23,10 @@ def patient_profile_page():
 
     :return: The rendered template
     """
+    print("TESTTST4")
     try:
         # Get all the notifications for the current user
-        notifications = get_patient_notifications(current_user.id)
+        notifications = get_user_notifications(current_user.type, current_user.id)
 
         # If the medical history has not been updated, display a warning message
         if not current_user.med_history_updated:

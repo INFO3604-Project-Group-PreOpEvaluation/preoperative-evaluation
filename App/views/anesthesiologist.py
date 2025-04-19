@@ -20,11 +20,14 @@ def anesthesiologist_dashboard_page():
     Returns:
         render_template(str, dict): The dashboard page with all the patient's questionnaires.
     """
-    # Get all the patients
-    patients = get_all_patients()
-    # Get all the questionnaires that have been submitted
-    patient_questionnaires = get_all_questionnaires()
-    # Render the template with the patient questionnaires and the list of all patients
+    print("TESTTSTA")
+    try:
+        # Get all the questionnaires that have been submitted
+        patient_questionnaires = get_all_questionnaires()
+        # Get all the patients
+        patients = get_all_patients()
+    except Exception as e:
+        print(e, "Error getting patient questionnaires and patients")
     return render_template('anesthesiologist_dashboard.html', patient_questionnaires=patient_questionnaires, patients=patients)
 
 

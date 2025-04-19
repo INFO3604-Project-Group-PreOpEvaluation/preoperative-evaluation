@@ -23,15 +23,14 @@ def create_medical_history(patient_id, dateOfBirth, blood_type, weight, height, 
         
         Parameters:
         patient_id (str): The id of the patient
-        dateOfBirth (int): The patient's DoB
+        dateOfBirth (str): The patient's DoB
         blood_type (str): The patient's blood type
-        weight (float): The patient's weight
-        height (float): The patient's height
+        weight (str): The patient's weight
+        height (str): The patient's height
         allergies (str): The patient's allergies
         medical_conditions (str): The patient's medical conditions
         medication (str): The patient's medication
         
-
         Returns:
         Patient: The patient with the updated medical history"""
     patient = Patient.query.get(patient_id)

@@ -2,11 +2,11 @@ from App.database import db
 from datetime import datetime
 import uuid
 
-def generate_short_uuid():
+def generate_uuid():
     """
-    Generates a short random UUID to be used as the primary key for questionnaires.
+    Generates a UUID to be used as the primary key for questionnaires.
     """
-    return str(uuid.uuid4())[:8]
+    return str(uuid.uuid4())
 
 class Questionnaire(db.Model):
     """
@@ -14,8 +14,8 @@ class Questionnaire(db.Model):
     """
     __tablename__ = 'questionnaire'
 
-    id = db.Column(db.String(20), primary_key=True, default=generate_short_uuid, server_default='gen_random_uuid()')
-    patient_id = db.Column(db.Integer, db.ForeignKey('patient.id'), nullable=False) # Foreign key to Patient, db.ForeignKey('patient.id'))
+    id = db.Column(db.String(36), primary_key=True, default=generate_uuid)
+    patient_id = db.Column(db.String(36), db.ForeignKey('patient.id'), nullable=False)
     responses = db.Column(db.JSON, nullable=True) # Storing responses as JSON, if applicable
     operation_date = db.Column(db.Date, nullable=True)
     status = db.Column(db.String(20), nullable=False, default='pending')
@@ -31,9 +31,8 @@ class Questionnaire(db.Model):
         """
         Initialize a Questionnaire object with the given parameters.
         """
-        # super().__init__(**kwargs)
-        # self.questions = kwargs.get('questions', [])
         try:
+            self.id = generate_uuid()  # Generate a new UUID for each questionnaire
             self.patient_id = kwargs['patient_id']
             if self.patient_id is None:
                 raise ValueError()

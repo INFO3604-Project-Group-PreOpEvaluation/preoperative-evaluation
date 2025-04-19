@@ -1,4 +1,3 @@
-
 from App.models import Anesthesiologist
 from App.models import db
 from sqlalchemy.exc import IntegrityError
@@ -39,6 +38,12 @@ def create_anesthesiologist(firstname, lastname, password, email, phone_number):
 def update_questionnaire_anesthesiologist(anesthesiologist_id, questionnaire_id, new_anesthesiologist_notes, status):
     """
     Updates the anesthesiologist's notes and status for a questionnaire.
+
+    Parameters:
+    anesthesiologist_id (str): The ID of the anesthesiologist updating the questionnaire.
+    questionnaire_id (str): The ID of the questionnaire to update.
+    new_anesthesiologist_notes (str): The new notes from the anesthesiologist.
+    status (str): The new status of the questionnaire.
 
     Returns:
     bool: True if the questionnaire was updated successfully, False otherwise.

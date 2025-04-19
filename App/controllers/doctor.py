@@ -33,6 +33,18 @@ def create_doctor(firstname, lastname,password, email, phone_number):
     
 
 def update_questionnaire_doctor(doctor_id, questionnaire_id, new_doctor_notes, new_operation_date):
+    """
+    Updates a questionnaire with doctor's notes and operation date.
+
+    Parameters:
+    doctor_id (str): The ID of the doctor updating the questionnaire.
+    questionnaire_id (str): The ID of the questionnaire to update.
+    new_doctor_notes (str): The new notes from the doctor.
+    new_operation_date (str): The new operation date.
+
+    Returns:
+    bool: True if the update was successful, False otherwise.
+    """
     # Verify the doctor's existence and authority
     doctor = Doctor.query.get(doctor_id)
     if doctor:        

@@ -1,5 +1,6 @@
 from datetime import datetime
 from App.database import db
+import uuid
 
 class Notification(db.Model):
     """
@@ -7,12 +8,12 @@ class Notification(db.Model):
     """
     __tablename__ = 'notification'
     
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
 
     # the user who received the notification
-    anesthesiologist_id = db.Column(db.Integer, db.ForeignKey('anesthesiologist.id'), nullable=True)
-    patient_id = db.Column(db.Integer, db.ForeignKey('patient.id'), nullable=True)
-    doctor_id = db.Column(db.Integer, db.ForeignKey('doctor.id'), nullable=True)
+    anesthesiologist_id = db.Column(db.String(36), db.ForeignKey('anesthesiologist.id'), nullable=True)
+    patient_id = db.Column(db.String(36), db.ForeignKey('patient.id'), nullable=True)
+    doctor_id = db.Column(db.String(36), db.ForeignKey('doctor.id'), nullable=True)
     # the title of the notification
     title = db.Column(db.String(220), nullable=False)
     # the message of the notification
@@ -21,15 +22,19 @@ class Notification(db.Model):
     timestamp=db.Column(db.DateTime,default = datetime.now())
     # whether the user has seen the notification
     seen = db.Column(db.Boolean, default=False, nullable=False)
-    def __init__(self, anesthesiologist_id, patient_id , doctor_id, message, title):
+
+    def __init__(self, anesthesiologist_id, patient_id, doctor_id, message, title):
         """
         Initializes a notification.
         
-        :param recipientId: the id of the user who will receive the notification
+        :param anesthesiologist_id: the id of the anesthesiologist who will receive the notification
+        :param patient_id: the id of the patient who will receive the notification
+        :param doctor_id: the id of the doctor who will receive the notification
         :param message: the message of the notification
         :param title: the title of the notification
         """
-        self.validate_fields(anesthesiologist_id, patient_id , doctor_id, message, title)
+        self.id = str(uuid.uuid4())  # Generate a new UUID for each notification
+        self.validate_fields(anesthesiologist_id, patient_id, doctor_id, message, title)
         self.anesthesiologist_id = anesthesiologist_id
         self.patient_id = patient_id
         self.doctor_id = doctor_id
@@ -37,7 +42,7 @@ class Notification(db.Model):
         self.title = title
         self.timestamp = datetime.now()
 
-    def validate_fields(self, anesthesiologist_id, patient_id , doctor_id, message, title):
+    def validate_fields(self, anesthesiologist_id, patient_id, doctor_id, message, title):
         """
         Validates the input fields for creating a Notification object.
         """
@@ -45,10 +50,10 @@ class Notification(db.Model):
             raise ValueError("All fields for notification are required")
         if not isinstance(message, str) or not isinstance(title, str):
             raise ValueError("Invalid field for notification: Message and title has to be string")
-        if patient_id is not None and not isinstance(patient_id, int):
-            raise ValueError("Invalid field for notification: Patient id has to be an int")
-        if anesthesiologist_id is not None and not isinstance(anesthesiologist_id, int):
-            raise ValueError("Invalid field for notification: Anesthesiologist id has to be an int")
+        if patient_id is not None and not isinstance(patient_id, str):
+            raise ValueError("Invalid field for notification: Patient id has to be a string")
+        if anesthesiologist_id is not None and not isinstance(anesthesiologist_id, str):
+            raise ValueError("Invalid field for notification: Anesthesiologist id has to be a string")
         
     def get_json(self):
         """

@@ -8,9 +8,9 @@ def create_notification(patient_id, anesthesiologist_id, doctor_id, message, tit
     Creates a new notification
 
     Args:
-        patient_id (int): The id of the patient this notification is for
-        anesthesiologist_id (int): The id of the anesthesiologist this notification is for
-        doctor_id (int): The id of the doctor this notification is for
+        patient_id (str): The id of the patient this notification is for
+        anesthesiologist_id (str): The id of the anesthesiologist this notification is for
+        doctor_id (str): The id of the doctor this notification is for
         message (str): The message of the notification
         title (str): The title of the notification
 
@@ -87,7 +87,7 @@ def get_user_notifications(user_type, user_id):
 
     Args:
         user_type (str): The type of user (patient, anesthesiologist, doctor)
-        user_id (int): The id of the user to retrieve notifications for
+        user_id (str): The id of the user to retrieve notifications for
 
     Returns:
         list: A list of all notifications for the user
