@@ -1,3 +1,4 @@
 FLASK_RUN_PORT=8080
 FLASK_APP=wsgi.py
 ENCRYPTION_KEY = "secret2key"
+AESGCM_KEY=3rFaj90Bj8P/tLzK7LeKniNyric6g09zYs0jnTn9viY=
