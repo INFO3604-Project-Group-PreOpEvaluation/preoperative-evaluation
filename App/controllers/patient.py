@@ -41,8 +41,8 @@ def create_medical_history(patient_id, dateOfBirth, blood_type, weight, height, 
         patient.dateOfBirth = dateOfBirth
 
         patient.blood_type = blood_type
-        patient.weight = weight
-        patient.height = height
+        patient.weight = str(weight)
+        patient.height = str(height)
         patient.allergies = allergies
         patient.medical_conditions = medical_conditions
         patient.medication = medication
