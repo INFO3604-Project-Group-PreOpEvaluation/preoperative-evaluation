@@ -19,10 +19,12 @@ class NotificationUnitTests(unittest.TestCase):
         notification = Notification(
             anesthesiologist_id=None, 
             patient_id=1, 
+            doctor_id=None,
             message="Test1", 
             title="Notification1"
         )
         self.assertIsNotNone(notification)
+        self.assertIsNone(notification.doctor_id)
         self.assertEqual(notification.message, "Test1")
         self.assertEqual(notification.title, "Notification1")
         self.assertEqual(notification.patient_id, 1)
@@ -38,11 +40,13 @@ class NotificationUnitTests(unittest.TestCase):
             message="Test1", 
             patient_id=1, 
             anesthesiologist_id=None, 
+            doctor_id=None,
             title="Notification1"
         )
         self.assertIsNotNone(notification)
         self.assertEqual(notification.patient_id, 1)
         self.assertIsNone(notification.anesthesiologist_id)
+        self.assertIsNone(notification.doctor_id)
         self.assertEqual(notification.message, "Test1")
         self.assertEqual(notification.title, "Notification1")
 
@@ -54,11 +58,31 @@ class NotificationUnitTests(unittest.TestCase):
             message="Test1", 
             patient_id=None, 
             anesthesiologist_id=1, 
+            doctor_id=None,
             title="Notification1"
         )
         self.assertIsNotNone(notification)
         self.assertIsNone(notification.patient_id)
         self.assertEqual(notification.anesthesiologist_id, 1)
+        self.assertIsNone(notification.doctor_id)
+        self.assertEqual(notification.message, "Test1")
+        self.assertEqual(notification.title, "Notification1")
+    
+    def test_notification_for_doctor(self):
+        """
+        A Notification for a doctor is created with correct attributes.
+        """
+        notification = Notification(
+            message="Test1", 
+            patient_id=None, 
+            anesthesiologist_id=None,
+            doctor_id=1, 
+            title="Notification1"
+        )
+        self.assertIsNotNone(notification)
+        self.assertIsNone(notification.patient_id)
+        self.assertEqual(notification.doctor_id, 1)
+        self.assertIsNone(notification.anesthesiologist_id)
         self.assertEqual(notification.message, "Test1")
         self.assertEqual(notification.title, "Notification1")
 
@@ -69,6 +93,7 @@ class NotificationUnitTests(unittest.TestCase):
         notification = Notification(
             message="Test1", 
             patient_id=1, 
+            doctor_id=None,
             anesthesiologist_id=None, 
             title="Notification1"
         )
@@ -83,6 +108,7 @@ class NotificationUnitTests(unittest.TestCase):
         notification = Notification(
             message="Test1", 
             patient_id=1, 
+            doctor_id=None,
             anesthesiologist_id=None, 
             title="Notification1"
         )
@@ -101,6 +127,7 @@ class NotificationUnitTests(unittest.TestCase):
         notification = Notification(
             message="Test1", 
             patient_id=1, 
+            doctor_id=None,
             anesthesiologist_id=None, 
             title="Notification1"
         )
@@ -111,6 +138,7 @@ class NotificationUnitTests(unittest.TestCase):
         self.assertEqual(notification_json['anesthesiologist_id'], notification.anesthesiologist_id)
         self.assertEqual(notification_json['message'], notification.message)
         self.assertEqual(notification_json['title'], notification.title)
+        self.assertEqual(notification_json['doctor_id'], notification.doctor_id)
         self.assertEqual(notification_json['timestamp'], notification.timestamp.strftime("%Y-%m-%d %H:%M:%S"))
         self.assertEqual(notification_json['seen'], notification.seen)
 
@@ -122,6 +150,7 @@ class NotificationUnitTests(unittest.TestCase):
             notification = Notification(
                 message=123,
                 patient_id="1", 
+                doctor_id=None,
                 anesthesiologist_id="4a", 
                 title=99
             )
@@ -135,6 +164,7 @@ class NotificationUnitTests(unittest.TestCase):
             notification = Notification(
                 message=None, 
                 patient_id=None, 
+                doctor_id=None,
                 anesthesiologist_id=None, 
                 title="Notification1"
             )

@@ -2,6 +2,7 @@ from App.database import db
 from App.models import Patient
 from App.models.notification import Notification
 from datetime import datetime
+from sqlalchemy.exc import IntegrityError
 
 def create_patient(firstname, lastname, password, email, phone_number):
     try:
@@ -9,29 +10,29 @@ def create_patient(firstname, lastname, password, email, phone_number):
         db.session.add(new_patient)
         db.session.commit()
         return new_patient
+    except IntegrityError as e:
+        raise IntegrityError(None, None, "Integrity error while creating patient") from e
     except Exception as e:
         print(e, "Error creating patient")
         return None
 
     
 def create_medical_history(patient_id, dateOfBirth, blood_type, weight, height, allergies, medical_conditions, medication):
-  """
-    Creates a new medical history for the patient in the database
-    
-    Parameters:
-    patient_id (str): The id of the patient
-    dateOfBirth (int): The patient's DoB
-    blood_type (str): The patient's blood type
-    weight (float): The patient's weight
-    height (float): The patient's height
-    allergies (str): The patient's allergies
-    medical_conditions (str): The patient's medical conditions
-    medication (str): The patient's medication
-    
+    """Creates a new medical history for the patient in the database
+        
+        Parameters:
+        patient_id (str): The id of the patient
+        dateOfBirth (int): The patient's DoB
+        blood_type (str): The patient's blood type
+        weight (float): The patient's weight
+        height (float): The patient's height
+        allergies (str): The patient's allergies
+        medical_conditions (str): The patient's medical conditions
+        medication (str): The patient's medication
+        
 
-    Returns:
-    Patient: The patient with the updated medical history
-    """
+        Returns:
+        Patient: The patient with the updated medical history"""
     patient = Patient.query.get(patient_id)
     try:
         if dateOfBirth:
