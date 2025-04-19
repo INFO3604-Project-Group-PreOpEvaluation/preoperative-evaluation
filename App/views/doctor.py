@@ -104,7 +104,7 @@ def update_questionnaire_doctor_action(questionnaire_id):
     print(questionnaire_id, operation_date, notes)
     
     # Update the questionnaire in the database
-    if update_questionnaire_doctor(current_user.id, questionnaire_id, notes, operation_date):
+    if update_questionnaire(current_user.id, questionnaire_id, notes, operation_date):
         # Flash a success message if the update is successful
         flash('Notes added successfully')
     else:

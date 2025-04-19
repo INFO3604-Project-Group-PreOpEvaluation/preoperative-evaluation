@@ -51,7 +51,7 @@ def signin_action():
         if patient.check_password(password):
             user = login_patient(email, password)
             if user:
-                print(f"✓ Successfully logged in as patient: {user.email}")
+                print(f"✓ Successfully logged in as patient: {patient.email}")
                 return redirect(url_for('patient_views.patient_profile_page'))
             else:
                 print("✗ Patient login failed")
@@ -68,7 +68,7 @@ def signin_action():
         if anesthesiologist.check_password(password):
             user = login_anesthesiologist(email, password)
             if user:
-                print(f"✓ Successfully logged in as anesthesiologist: {user.email}")
+                print(f"✓ Successfully logged in as anesthesiologist: {anesthesiologist.email}")
                 return redirect(url_for('anesthesiologist_views.anesthesiologist_dashboard_page'))
             else:
                 print("✗ Anesthesiologist login failed")
@@ -85,7 +85,7 @@ def signin_action():
         if doctor.check_password(password):
             user = login_doctor(email, password)
             if user:
-                print(f"✓ Successfully logged in as doctor: {user.email}")
+                print(f"✓ Successfully logged in as doctor: {doctor.email}")
                 return redirect(url_for('doctor_views.doctor_dashboard_page'))
             else:
                 print("✗ Doctor login failed")

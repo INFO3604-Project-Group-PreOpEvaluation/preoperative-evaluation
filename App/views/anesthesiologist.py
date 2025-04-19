@@ -81,7 +81,7 @@ def update_questionnaire_anesthesiologist_action(questionnaire_id):
     print(questionnaire_id, status, notes)
 
     # Update the questionnaire with the anesthesiologist's notes and status
-    if update_questionnaire_anesthesiologist(current_user.id, questionnaire_id, notes, status):
+    if update_questionnaire(current_user.id, questionnaire_id, notes, status):
         flash('Notes added successfully')
     else:
         flash('Error adding notes')
