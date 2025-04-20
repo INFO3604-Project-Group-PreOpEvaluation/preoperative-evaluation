@@ -91,7 +91,7 @@ def submit_questionnaire():
     else:
         flash('Error submitting questionnaire! Please try again')
     anes = get_anesthesiologist_by_email('mikesmith@mail.com') # hardcoded as only one anesthesiologist 
-    notif = create_notification(anesthesiologist_id=anes.id, message=f"Patient {current_user.firstname + " " + current_user.lastname} has submitted their questionnaire", title="New Questionnaire Submission")
+    notif = create_notification(anesthesiologist_id=anes.id, message="Patient has submitted their questionnaire", title="New Questionnaire Submission")
     
     return redirect(url_for('questionnaire_views.questionnaire_details_page', questionnaire_id=questionnaire.id))
 
@@ -111,7 +111,7 @@ def update_questionnaire_notes():
     else:
         flash('Error updating notes')
     anes = get_anesthesiologist_by_email('mikesmith@mail.com') # hardcoded as only one anesthesiologist 
-    notif = create_notification(anesthesiologist_id=anes.id, message=f"Patient {current_user.firstname + " " + current_user.lastname} has submitted notes for their questionnaire", title="New Questionnaire Notes")
+    notif = create_notification(anesthesiologist_id=anes.id, message="Patient has submitted notes for their questionnaire", title="New Questionnaire Notes")
         
     return redirect(url_for('patient_views.patient_profile_page'))
 
