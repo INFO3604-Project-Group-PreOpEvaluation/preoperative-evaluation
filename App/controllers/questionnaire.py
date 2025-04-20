@@ -1,7 +1,8 @@
 from App.models import Questionnaire
+from datetime import datetime
 from App.database import db
 from App.controllers.patient import set_patient_autofill_enabled
-
+from datetime import datetime
 def create_questionnaire(patient_id, responses):
     """
     Create a new questionnaire for a patient and save it to the database.
@@ -53,6 +54,22 @@ def get_all_questionnaires():
     list: A list of all Questionnaire objects in the database.
     """
     return Questionnaire.query.all()
+
+def get_questionnaire_by_id(id):
+    """
+    Retrieve a questionnaire from the database by its ID.
+
+    Parameters:
+    id (int): The ID of the questionnaire to retrieve.
+
+    Returns:
+    Questionnaire: The questionnaire with the given ID if it exists, None otherwise.
+    """
+    try:
+        return Questionnaire.query.get(id)
+    except Exception as e:
+        print(e)
+    return None
 
 def get_all_questionnaires_json():
     """
@@ -141,5 +158,107 @@ def get_latest_questionnaire(patient_id):
     # Return the latest questionnaire
     return latest_questionnaire
 
+
+def update_questionnaire(questionnaire_id, user_type ,**kwargs):
+
+    """
+    Update a questionnaire in the database with the given ID.
+
+    Args:
+    questionnaire_id (str): The ID of the questionnaire to update.
+    **kwargs: Keyword arguments to update the questionnaire with.
+
+    Returns:
+    Questionnaire: The updated questionnaire object if successful, None otherwise.
+    """
+    try:
+        # Retrieve the questionnaire from the database
+        questionnaire = get_questionnaire(questionnaire_id)
+
+        
+        # If questionnaire exists, append the new notes to existing ones
+        if questionnaire:
+            if questionnaire.status == "declined":
+                return questionnaire
+            # Check if the user is a doctor or anesthesiologist
+            
+            if user_type == 'doctor':
+                try:
+                    # Update the doctor_notes field
+                    questionnaire.doctor_notes = kwargs.get('doctor_notes', '')
+                    questionnaire.doctor_status = kwargs.get('doctor_status', 'pending')
+                    operation_date = kwargs.get('operation_date', '')
+                    print(operation_date, "- operation_date")
+                    if isinstance(operation_date, str):
+                        questionnaire.operation_date = datetime.strptime(operation_date, '%Y-%m-%d').date()
+                    elif isinstance(operation_date, datetime):
+                        questionnaire.operation_date = operation_date.date()
+                    
+                except Exception as e:
+                    # Print the error message if an exception occurs
+                    print(e, "Error updating doctor notes")
+            elif user_type == 'anesthesiologist':
+                try:
+                    # Update the anesthesiologist_notes field
+                    questionnaire.anesthesiologist_notes = kwargs.get('anesthesiologist_notes', '')
+                    questionnaire.status = kwargs.get('status', 'pending')
+
+                except Exception as e:
+                    # Print the error message if an exception occurs
+                    print(e, "Error updating anesthesiologist notes")
+                    return None
+            else:
+                try:
+                    # Get existing notes or empty string if None
+                    existing_notes = questionnaire.patient_notes or ""
+                    
+                    # Get new notes from kwargs
+                    new_notes = kwargs.get('patient_notes', '')
+
+                    # Get existing status
+                    status = questionnaire.status
+                    
+                    # If status is not 'denied_w_c', don't allow updates
+                    # if status != 'denied_w_c':
+                    #     return None
+                    
+                    # Append new notes with timestamp
+                    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                    updated_notes = f"{existing_notes}\n[{timestamp}] {new_notes}".strip()
+                    
+                    # Update the questionnaire
+                    questionnaire.patient_notes = updated_notes
+
+                except Exception as e:
+                    # Print the error message if an exception occurs
+                    print(e, "Error updating patient notes")
+                    return None
+            db.session.commit()
+            
+            return questionnaire        
+        return None
+    except Exception as e:
+        # Print the error message if an exception occurs
+        print(e, "Error updating questionnaire")
+
+        raise Exception("Error updating questionnaire")
+        
+        return None
+        
     
-    
+
+#     questionnaire = Questionnaire.query.get(questionnaire_id)
+#     if not questionnaire:
+#         return None
+#     try:
+#         for key, value in kwargs.items():
+#             if hasattr(questionnaire, key):
+#                 setattr(questionnaire, key, value)
+#         db.session.commit()
+#         return questionnaire
+#     except Exception as e:
+#         # Print the error message if an exception occurs
+#         db.session.rollback()
+#         print(e, "Error updating questionnaire")
+#         return None
+

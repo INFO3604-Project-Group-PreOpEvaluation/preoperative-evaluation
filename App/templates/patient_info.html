@@ -1,9 +1,8 @@
-{% extends 'layout.html' %}
-{% block title %}Patient Information{% endblock %}
-
+{% extends 'layout.html' %} {% block title %}Patient Information{% endblock %}
 {% block content %}
 
 <div class="row mt-5">
+
     <!-- Patient Information Card (Left) -->
     <div class="col-md-4">
         <div class="card">
@@ -14,7 +13,7 @@
                 <p class="card-text"><strong>Name:</strong> {{ patient.firstname }} {{ patient.lastname}}</p>
                 <p class="card-text"><strong>Email:</strong> {{ patient.email }}</p>
                 <p class="card-text"><strong>Phone Number:</strong> {{ patient.phone_number }}</p>
-                <p class="card-text"><strong>Age:</strong> {{ patient.age }}</p>
+                <p class="card-text"><strong>Date of Birth:</strong> {{ patient.dateOfBirth }}</p>
                 <p class="card-text"><strong>Blood Type:</strong> {{ patient.blood_type }}</p>
                 <p class="card-text"><strong>Weight:</strong> {{ patient.weight }}</p>
                 <p class="card-text"><strong>Height:</strong> {{ patient.height }}</p>
@@ -32,8 +31,10 @@
                 <h2 class="">Approved Questionnaires</h2>
             </div>
             <div class="card-body" style="max-height: 250px; overflow-y: auto;">
+                    
                 <div class="container">
                     <!-- Replace with dynamic content -->
+
                     {% for questionnaire in patient.questionnaires if questionnaire.status == 'approved' %}
                     <div class="border p-3 mb-3">
                         <div class="d-flex justify-content-between align-items-center">
@@ -47,7 +48,7 @@
                         </div>
                     </div>
                     {% else %}
-                    <div class="border p-3 mb-3">No approved questionnaires.</div>
+                    <div class="border p-3 mb-3">No Questionnaires Found.</div>
                     {% endfor %}
                 </div>
                 
@@ -60,6 +61,7 @@
                     
                 <div class="container">
                     <!-- Replace with dynamic content -->
+
                     {% for questionnaire in patient.questionnaires %}
                     <div class="border p-3 mb-3">
                         <div class="d-flex justify-content-between align-items-center">
@@ -73,7 +75,7 @@
                         </div>
                     </div>
                     {% else %}
-                    <div class="border p-3 mb-3">No questionnaires found.</div>
+                    <div class="border p-3 mb-3">No Questionnaires Found.</div>
                     {% endfor %}
                 </div>
                 
@@ -81,5 +83,8 @@
             {% endif %}
         </div>
     </div>
+
+    </div>
+  </div>
 </div>
 {% endblock %}

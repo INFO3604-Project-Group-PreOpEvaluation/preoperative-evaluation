@@ -1,8 +1,9 @@
 from App.models import Doctor
 from App.database import db
 from App.controllers.notification import create_notification
+from sqlalchemy.exc import IntegrityError
 
-def create_doctor(firstname, lastname, username, password, email, phone_number):
+def create_doctor(firstname, lastname,password, email, phone_number):
     """
     Creates a new doctor object in the database.
 
@@ -11,7 +12,7 @@ def create_doctor(firstname, lastname, username, password, email, phone_number):
     """
     try:
         # Create a new Doctor object
-        new_doctor = Doctor(firstname=firstname, lastname=lastname, username=username, password=password, email=email, phone_number=phone_number)
+        new_doctor = Doctor(firstname=firstname, lastname=lastname,  password=password, email=email, phone_number=phone_number)
         
         # Add the new doctor to the database session
         db.session.add(new_doctor)
@@ -21,23 +22,24 @@ def create_doctor(firstname, lastname, username, password, email, phone_number):
         
         # Return the newly created doctor
         return new_doctor
+    except IntegrityError as e:
+        raise IntegrityError(None, None, "Integrity error while creating doctor") from e
     except Exception as e:
         # Print the error message if an exception occurs
         print(e, "Error creating doctor")
-        
         # Return None to indicate failure
         return None
     
 
-def update_questionnaire_doctor(doctor_id, questionnaire_id, new_doctor_notes, new_operation_date):
-    # Verify the doctor's existence and authority
-    doctor = Doctor.query.get(doctor_id)
-    if doctor:        
-        questionnaire = doctor.update_questionnaire_doctor(questionnaire_id, new_doctor_notes, new_operation_date)
-        if questionnaire:
-            notification = create_notification(questionnaire.patient_id, f"Doctor {doctor.lastname} has reviewed your questionnaire", "Questionnaire Updated")
-            return True
-        else:
-            return False
-    else:
-        return False  # Doctor not found or not authorized
+def get_doctor_by_email(doctor_email):
+    # Query the database for doctor by email
+    doctor = Doctor.query.filter_by(email=doctor_email).first()
+    try:
+        doctor = Doctor.query.filter_by(email=doctor_email).first()
+    except Exception as e:
+        # Print the error message if an exception occurs
+        print(e, "Error getting doctor by email") 
+        return None
+
+    return doctor
+

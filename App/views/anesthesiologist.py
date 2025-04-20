@@ -20,12 +20,15 @@ def anesthesiologist_dashboard_page():
     Returns:
         render_template(str, dict): The dashboard page with all the patient's questionnaires.
     """
-    # Get all the patients
-    patients = get_all_patients()
-    # Get all the questionnaires that have been submitted
-    patient_questionnaires = get_all_questionnaires()
-    # Render the template with the patient questionnaires and the list of all patients
-    return render_template('anesthesiologist_dashboard.html', patient_questionnaires=patient_questionnaires, patients=patients)
+    try:
+        # Get all the questionnaires that have been submitted
+        patient_questionnaires = get_all_questionnaires()
+        personal_notifications = get_user_notifications(current_user.type, current_user.id)
+        # Get all the patients
+        patients = get_all_patients()
+    except Exception as e:
+        print(e, "Error getting patient questionnaires and patients")
+    return render_template('anesthesiologist_dashboard.html', patient_questionnaires=patient_questionnaires, patients=patients, notifications=personal_notifications)
 
 
 @anesthesiologist_views.route('/dashboard/anesthesiologist/patient/<patient_id>', methods=['GET'])
@@ -78,11 +81,24 @@ def update_questionnaire_anesthesiologist_action(questionnaire_id):
     print(questionnaire_id, status, notes)
 
     # Update the questionnaire with the anesthesiologist's notes and status
-    if update_questionnaire_anesthesiologist(current_user.id, questionnaire_id, notes, status):
+    updated = update_questionnaire(questionnaire_id, user_type="anesthesiologist", anesthesiologist_notes=notes, status=status)
+
+    # Send a notification to the Doctor
+    if status == "approved" or status == "approved_w_c":
+        doctor = get_doctor_by_email("janedoe@mail.com") # hardcoded as only one doctor
+        notif = create_notification(doctor_id=doctor.id, message="A patient has been approved", title="Success")
+
+    elif status == "declined" or status == "denied_w_c":
+        questionnaire = get_questionnaire_by_id(questionnaire_id)
+
+        # Send a notification to the patient
+        patient = get_patient_by_id(questionnaire.patient_id)
+        notif = create_notification(patient_id=patient.id, message="Your questionnaire has been declined, please resubmit or contact the anesthesiologist", title="Error")
+    if updated:
         flash('Notes added successfully')
     else:
         flash('Error adding notes')
     # Redirect to the previous page
-    return redirect(request.referrer)
+    return redirect(url_for('anesthesiologist_views.anesthesiologist_dashboard_page'))
 
 

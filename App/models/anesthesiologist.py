@@ -1,6 +1,6 @@
 from App.database import db
 from .user import User
-from .questionnaire import Questionnaire
+
 
 class Anesthesiologist(User):
     """
@@ -11,13 +11,23 @@ class Anesthesiologist(User):
     """
     __tablename__ = 'anesthesiologist'
     type = db.Column(db.String(120), nullable=False, default='anesthesiologist')
-
-    def __init__(self, firstname, lastname, username, password, email, phone_number):
+    # notifications = db.Column(db.Integer, db.ForeignKey('notification.anesthesiologist_id'), nullable=True)
+    notifications = db.relationship('Notification', backref='anesthesiologist', lazy=True, cascade="all, delete-orphan")
+    def __init__(self, firstname, lastname, password, email, phone_number):
         """
         Constructor for Anesthesiologist.
 
         """
-        super().__init__(firstname, lastname, username, password, email, phone_number)
+        try:
+            if firstname is None or lastname is None or password is None or email is None or phone_number is None:
+                raise ValueError
+            super().__init__(firstname, lastname, password, email, phone_number)
+
+        except ValueError:
+            raise ValueError("All fields for an anesthesiologist are required.")
+        except Exception as e:
+            print(e, " - Error creating anesthesiologist")
+            
         self.type = 'anesthesiologist'
 
     def get_json(self):
@@ -30,28 +40,11 @@ class Anesthesiologist(User):
             'id': self.id,
             'firstname': self.firstname,
             'lastname': self.lastname,
-            'username': self.username,
             'email': self.email,
             'phone_number': self.phone_number,
             'type': self.type
         }
     
-    def update_questionnaire_anesthesiologist(self, questionnaire_id, new_anesthesiologist_notes, status):
-        """
-        Updates the anesthesiologist's notes and status for a given questionnaire.
-        :return: The updated questionnaire
-        """
-        questionnaire = Questionnaire.query.get(questionnaire_id)
-        if questionnaire:
-            try:
-                questionnaire.anesthesiologist_notes = new_anesthesiologist_notes
-                questionnaire.status = status
-                db.session.commit()
-                return questionnaire
-            except Exception as e:
-                import logging
-                logging.error("Error updating anesthesiologist notes: %s", e)
-                return None         
-        return None
+
 
     
