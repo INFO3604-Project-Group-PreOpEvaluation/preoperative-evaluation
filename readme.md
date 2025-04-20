@@ -5,7 +5,10 @@ The system facilitates secure registration and authentication of users, allowing
 The website lacked security implementations, so encryption was added to secure patient data. We implemented AES-GCM to ensure both confidentiality and data integrity for our patients. This method was chosen due to its strong security guarantees and efficiency.
 
 
+
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/INFO3604-Project-Group-PreOpEvaluation/preoperative-evaluation)
+
+## Deploy to Render
 <a href="https://render.com/deploy?repo=https://github.com/uwidcit/flaskmvc">
   <img src="https://render.com/images/deploy-to-render-button.svg" alt="Deploy to Render">
 </a>
