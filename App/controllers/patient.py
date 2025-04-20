@@ -11,9 +11,11 @@ def create_patient(firstname, lastname, password, email, phone_number):
         db.session.commit()
         return new_patient
     except IntegrityError as e:
+        db.session.rollback()
         raise IntegrityError(None, None, "Integrity error while creating patient") from e
 
     except Exception as e:
+        db.session.rollback()
         print(e, "Error creating patient")
         return None
 
@@ -50,6 +52,7 @@ def create_medical_history(patient_id, dateOfBirth, blood_type, weight, height, 
         db.session.commit()
         return patient
     except Exception as e:
+        db.session.rollback()
         # If there is an error, print the error and return None
         print(e, "Error creating medical history")
         return None
@@ -96,6 +99,7 @@ def set_patient_autofill_enabled(patient_id, status):
         db.session.commit()
         return True
     except Exception as e:
+        db.session.rollback()
         # If there is an error, print the error and return False
         print(e, "Error setting autofill status")
         return False
