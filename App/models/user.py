@@ -17,7 +17,7 @@ class User(db.Model, UserMixin):
     lastname = db.Column(db.String(120), nullable=False)
     password = db.Column(db.String(310), nullable=False)
     email = db.Column(db.String(150), nullable = False, unique = True)
-    phone_number = db.Column(db.String(20), nullable = False, unique = True)
+    phone_number = db.Column(db.String(120), nullable = False, unique = True)
 
     def __init__(self, firstname, lastname, password, email, phone_number):
         """
