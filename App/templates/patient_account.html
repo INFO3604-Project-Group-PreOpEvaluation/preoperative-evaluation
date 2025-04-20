@@ -265,165 +265,160 @@ block styles %}
       </div>
     </div>
   </div>
-
-  <div
-    class="offcanvas offcanvas-end"
-    data-bs-scroll="true"
-    data-bs-backdrop="false"
-    tabindex="-1"
-    id="notificationOffcanvas"
-    aria-labelledby="notificationOffcanvasLabel"
-  >
-    <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="notificationOffcanvasLabel">
-        Notifications
-      </h5>
-      <button
-        type="button"
-        class="btn-close text-reset"
-        data-bs-dismiss="offcanvas"
-        aria-label="Close"
-      ></button>
-    </div>
-    <div class="offcanvas-body">
-      {% for notification in notifications%}
-
-      <div class="card border-dark mb-3">
-        <div
-          class="card-header d-flex justify-content-between align-items-center"
-        >
-          {{notification.title}}
-          <small class="text-muted">{{notification.time_ago}} ago</small>
-        </div>
-        <div class="card-body text-dark">
-          <p class="card-text">{{notification.message}}</p>
-          <p class="card-text text-end">
-            <small>
-              <a
-                href="#"
-                class="text-muted mark-as-read-link"
-                data-notification-id="{{notification.id}}"
-                >Mark as Read</a
-              >
-            </small>
-          </p>
-        </div>
-      </div>
-      {% endfor %}
-    </div>
-  </div>
-  {% endblock %} {% block buttons %}
-  <!-- Notifications Icon (Top Right) -->
-  <button
-    type="button"
-    class="btn btn-link position-fixed"
-    style="top: 80px; right: 30px"
-    data-bs-toggle="offcanvas"
-    data-bs-target="#notificationOffcanvas"
-    aria-controls="offcanvasScrolling"
-  >
-    <i class="fa fa-envelope fa-2x" aria-hidden="true"></i>
-    <span class="position-absolute top-1 start-85 translate-middle">
-      <span class="badge bg-danger text-white rounded-circle"
-        >{{notifications|length}}</span
-      >
-      <span class="visually-hidden">New alerts</span>
-    </span>
-  </button>
-
-  {% endblock %} {% block scripts %}
-  <!-- Additional scripts for the child template -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-  {% block notif_scripts %}
-  <script>
-    // Add this script to your HTML or include it in your existing script file
-
-    document.addEventListener("DOMContentLoaded", function () {
-      // Assuming you have jQuery included for simplicity
-      $('[data-bs-toggle="offcanvas"]').on("click", function () {
-        // Your existing offcanvas show code here
-      });
-
-      // Add a click event listener to the "Mark as Read" link
-      $(".offcanvas-body").on("click", ".mark-as-read-link", function (e) {
-        e.preventDefault();
-        var notificationId = $(this).data("notification-id");
-
-        // Make an AJAX request to mark the notification as seen
-        $.ajax({
-          type: "POST",
-          url: "/seen/" + notificationId,
-          success: function (data) {
-            // Check if the server responded with success
-            if (data.message === "Notification seen") {
-              // Update the offcanvas body with the new notifications
-              //$('.offcanvas-body').html(data.notifications_info);
-
-              // Store a flag in localStorage to indicate that offcanvas should be reopened
-              localStorage.setItem("reopenOffcanvas", "true");
-
-              // Reload the page
-              location.reload();
-            }
-          },
-          error: function (error) {
-            console.error(error);
-          },
-        });
-      });
-    });
-
-    document.addEventListener("DOMContentLoaded", function () {
-      // Check if the flag is present in localStorage
-      var reopenOffcanvas = localStorage.getItem("reopenOffcanvas");
-
-      if (reopenOffcanvas === "true") {
-        // Open the offcanvas
-        $('[data-bs-toggle="offcanvas"]').click();
-
-        // Remove the flag from localStorage (optional, to avoid reopening on subsequent reloads)
-        localStorage.removeItem("reopenOffcanvas");
-      }
-    });
-  </script>
-  {% endblock %}
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const dateInput = document.getElementById("dateOfBirth");
-      const today = new Date().toISOString().split("T")[0];
-
-      dateInput.setAttribute("max", today);
-    });
-  </script>
-
-  <script>
-    const userData = {
-      dateOfBirth: "{{ current_user.dateOfBirth|default('', true) }}",
-      bloodType: "{{ current_user.blood_type|default('', true) }}",
-      height: "{{ current_user.height|default('', true) }}",
-      weight: "{{ current_user.weight|default('', true) }}",
-      allergies: "{{ current_user.allergies|default('', true) }}",
-      medication: "{{ current_user.medication|default('', true) }}",
-      medicalConditions:
-        "{{ current_user.medical_conditions|default('', true) }}",
-    };
-
-    // Populate modal fields when opened
-    document.addEventListener("DOMContentLoaded", function () {
-      const modal = document.getElementById("exampleModal");
-      modal.addEventListener("show.bs.modal", function () {
-        document.getElementById("dateOfBirth").value = userData.dateOfBirth;
-        document.getElementById("blood_type").value = userData.bloodType;
-        document.getElementById("height").value = userData.height;
-        document.getElementById("weight").value = userData.weight;
-        document.getElementById("allergies").value = userData.allergies;
-        document.getElementById("medication").value = userData.medication;
-        document.getElementById("medical_conditions").value =
-          userData.medicalConditions;
-      });
-    });
-  </script>
-
-  {% endblock %}
 </div>
+<div
+  class="offcanvas offcanvas-end"
+  data-bs-scroll="true"
+  data-bs-backdrop="false"
+  tabindex="-1"
+  id="notificationOffcanvas"
+  aria-labelledby="notificationOffcanvasLabel"
+>
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="notificationOffcanvasLabel">
+      Notifications
+    </h5>
+    <button
+      type="button"
+      class="btn-close text-reset"
+      data-bs-dismiss="offcanvas"
+      aria-label="Close"
+    ></button>
+  </div>
+  <div class="offcanvas-body">
+    {% for notification in notifications%}
+
+    <div class="card border-dark mb-3">
+      <div
+        class="card-header d-flex justify-content-between align-items-center"
+      >
+        {{notification.title}}
+        <small class="text-muted">{{notification.time_ago}} ago</small>
+      </div>
+      <div class="card-body text-dark">
+        <p class="card-text">{{notification.message}}</p>
+        <p class="card-text text-end">
+          <small>
+            <a
+              href="#"
+              class="text-muted mark-as-read-link"
+              data-notification-id="{{notification.id}}"
+              >Mark as Read</a
+            >
+          </small>
+        </p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %} {% block buttons %}
+<!-- Notifications Icon (Top Right) -->
+<button
+  type="button"
+  class="btn btn-link position-fixed"
+  style="top: 80px; right: 30px"
+  data-bs-toggle="offcanvas"
+  data-bs-target="#notificationOffcanvas"
+  aria-controls="offcanvasScrolling"
+>
+  <i class="fa fa-envelope fa-2x" aria-hidden="true"></i>
+  <span class="position-absolute top-1 start-85 translate-middle">
+    <span class="badge bg-danger text-white rounded-circle"
+      >{{notifications|length}}</span
+    >
+    <span class="visually-hidden">New alerts</span>
+  </span>
+</button>
+{% endblock %} {% block scripts %}
+<!-- Additional scripts for the child template -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const dateInput = document.getElementById("dateOfBirth");
+    const today = new Date().toISOString().split("T")[0];
+
+    dateInput.setAttribute("max", today);
+  });
+</script>
+
+<script>
+  const userData = {
+    dateOfBirth: "{{ current_user.dateOfBirth|default('', true) }}",
+    bloodType: "{{ current_user.blood_type|default('', true) }}",
+    height: "{{ current_user.height|default('', true) }}",
+    weight: "{{ current_user.weight|default('', true) }}",
+    allergies: "{{ current_user.allergies|default('', true) }}",
+    medication: "{{ current_user.medication|default('', true) }}",
+    medicalConditions:
+      "{{ current_user.medical_conditions|default('', true) }}",
+  };
+
+  // Populate modal fields when opened
+  document.addEventListener("DOMContentLoaded", function () {
+    const modal = document.getElementById("exampleModal");
+    modal.addEventListener("show.bs.modal", function () {
+      document.getElementById("dateOfBirth").value = userData.dateOfBirth;
+      document.getElementById("blood_type").value = userData.bloodType;
+      document.getElementById("height").value = userData.height;
+      document.getElementById("weight").value = userData.weight;
+      document.getElementById("allergies").value = userData.allergies;
+      document.getElementById("medication").value = userData.medication;
+      document.getElementById("medical_conditions").value =
+        userData.medicalConditions;
+    });
+  });
+</script>
+<script>
+  // Add this script to your HTML or include it in your existing script file
+
+  document.addEventListener("DOMContentLoaded", function () {
+    // Assuming you have jQuery included for simplicity
+    $('[data-bs-toggle="offcanvas"]').on("click", function () {
+      // Your existing offcanvas show code here
+    });
+
+    // Add a click event listener to the "Mark as Read" link
+    $(".offcanvas-body").on("click", ".mark-as-read-link", function (e) {
+      e.preventDefault();
+      var notificationId = $(this).data("notification-id");
+
+      // Make an AJAX request to mark the notification as seen
+      $.ajax({
+        type: "POST",
+        url: "/seen/" + notificationId,
+        success: function (data) {
+          // Check if the server responded with success
+          if (data.message === "Notification seen") {
+            // Update the offcanvas body with the new notifications
+            //$('.offcanvas-body').html(data.notifications_info);
+
+            // Store a flag in localStorage to indicate that offcanvas should be reopened
+            localStorage.setItem("reopenOffcanvas", "true");
+
+            // Reload the page
+            location.reload();
+          }
+        },
+        error: function (error) {
+          console.error(error);
+        },
+      });
+    });
+  });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    // Check if the flag is present in localStorage
+    var reopenOffcanvas = localStorage.getItem("reopenOffcanvas");
+
+    if (reopenOffcanvas === "true") {
+      // Open the offcanvas
+      $('[data-bs-toggle="offcanvas"]').click();
+
+      // Remove the flag from localStorage (optional, to avoid reopening on subsequent reloads)
+      localStorage.removeItem("reopenOffcanvas");
+    }
+  });
+</script>
+{% endblock %}
