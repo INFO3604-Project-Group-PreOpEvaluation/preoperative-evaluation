@@ -35,32 +35,4 @@ def create_anesthesiologist(firstname, lastname, password, email, phone_number):
         
         return None
 
-def update_questionnaire_anesthesiologist(anesthesiologist_id, questionnaire_id, new_anesthesiologist_notes, status):
-    """
-    Updates the anesthesiologist's notes and status for a questionnaire.
 
-    Parameters:
-    anesthesiologist_id (str): The ID of the anesthesiologist updating the questionnaire.
-    questionnaire_id (str): The ID of the questionnaire to update.
-    new_anesthesiologist_notes (str): The new notes from the anesthesiologist.
-    status (str): The new status of the questionnaire.
-
-    Returns:
-    bool: True if the questionnaire was updated successfully, False otherwise.
-    """
-    # Verify the anesthesiologist's existence and authority
-    anesthesiologist = Anesthesiologist.query.get(anesthesiologist_id)
-    if anesthesiologist:
-        # Call the method on the anesthesiologist object to update the questionnaire
-        questionnaire = anesthesiologist.update_questionnaire_anesthesiologist(questionnaire_id, new_anesthesiologist_notes, status)
-        if questionnaire:
-            # Create a new notification for the patient about the questionnaire update
-            notification = create_notification(questionnaire.patient_id, f"Anesthesiologist {anesthesiologist.lastname} has reviewed your questionnaire", "Questionnaire Updated")
-            # Return True to indicate the questionnaire was updated successfully
-            return True
-        else:
-            # Return False if the questionnaire was not updated successfully
-            return False
-    else:
-        # Return False if the anesthesiologist was not found or not authorized
-        return False

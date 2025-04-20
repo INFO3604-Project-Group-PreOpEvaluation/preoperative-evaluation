@@ -170,7 +170,7 @@ def update_questionnaire(questionnaire_id, user_type ,**kwargs):
                 try:
                     # Update the doctor_notes field
                     questionnaire.doctor_notes = kwargs.get('doctor_notes', '')
-                    questionnaire.doctor_status = kwargs.get('doctor_status', 'pending')
+                    questionnaire.doctor_status = kwargs.get('doctor_status', 'pending')    
                     operation_date = kwargs.get('operation_date', '')
                     print(operation_date, "- operation_date")
                     if isinstance(operation_date, str):
