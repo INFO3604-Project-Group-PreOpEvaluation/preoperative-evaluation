@@ -36,3 +36,15 @@ def create_anesthesiologist(firstname, lastname, password, email, phone_number):
         return None
 
 
+def get_anesthesiologist_by_email(anesthesiologist_email):
+    # Query the database for anesthesiologist by email
+    anesthesiologist = Anesthesiologist.query.filter_by(email=anesthesiologist_email).first()
+    try:
+        anesthesiologist = Anesthesiologist.query.filter_by(email=anesthesiologist_email).first()
+    except Exception as e:
+        # Print the error message if an exception occurs
+        print(e, "Error getting anesthesiologist by email") 
+        return None
+
+    return anesthesiologist
+

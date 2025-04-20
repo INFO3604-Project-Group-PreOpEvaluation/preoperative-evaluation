@@ -1,7 +1,67 @@
-{% extends 'layout.html'%}
+{% extends 'layout.html'%} {% block title %}Patients{% endblock %} {% block
+content %} {% include 'patient_table.html'%}{% endblock %}{% block buttons %}
+<!-- Notifications Icon (Top Right) -->
+<button
+  type="button"
+  class="btn btn-link position-fixed"
+  style="top: 80px; right: 30px"
+  data-bs-toggle="offcanvas"
+  data-bs-target="#notificationOffcanvas"
+  aria-controls="offcanvasScrolling"
+>
+  <i class="fa fa-envelope fa-2x" aria-hidden="true"></i>
+  <span class="position-absolute top-1 start-85 translate-middle">
+    <span class="badge bg-danger text-white rounded-circle"
+      >{{notifications|length}}</span
+    >
+    <span class="visually-hidden">New alerts</span>
+  </span>
+</button>
 
-{% block title %}Patients{% endblock %}
+<div
+  class="offcanvas offcanvas-end"
+  data-bs-scroll="true"
+  data-bs-backdrop="false"
+  tabindex="-1"
+  id="notificationOffcanvas"
+  aria-labelledby="notificationOffcanvasLabel"
+>
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="notificationOffcanvasLabel">
+      Notifications
+    </h5>
+    <button
+      type="button"
+      class="btn-close text-reset"
+      data-bs-dismiss="offcanvas"
+      aria-label="Close"
+    ></button>
+  </div>
+  <div class="offcanvas-body">
+    {% for notification in notifications%}
 
-{% block content %}
-{% include 'patient_table.html'%}
+    <div class="card border-dark mb-3">
+      <div
+        class="card-header d-flex justify-content-between align-items-center"
+      >
+        {{notification.title}}
+        <small class="text-muted">{{notification.time_ago}} ago</small>
+      </div>
+      <div class="card-body text-dark">
+        <p class="card-text">{{notification.message}}</p>
+        <p class="card-text text-end">
+          <small>
+            <a
+              href="#"
+              class="text-muted mark-as-read-link"
+              data-notification-id="{{notification.id}}"
+              >Mark as Read</a
+            >
+          </small>
+        </p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
 {% endblock %}

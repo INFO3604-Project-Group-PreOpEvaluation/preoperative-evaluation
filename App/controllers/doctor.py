@@ -29,3 +29,17 @@ def create_doctor(firstname, lastname,password, email, phone_number):
         print(e, "Error creating doctor")
         # Return None to indicate failure
         return None
+    
+
+def get_doctor_by_email(doctor_email):
+    # Query the database for doctor by email
+    doctor = Doctor.query.filter_by(email=doctor_email).first()
+    try:
+        doctor = Doctor.query.filter_by(email=doctor_email).first()
+    except Exception as e:
+        # Print the error message if an exception occurs
+        print(e, "Error getting doctor by email") 
+        return None
+
+    return doctor
+
