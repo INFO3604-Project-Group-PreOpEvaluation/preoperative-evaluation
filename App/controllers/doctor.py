@@ -27,8 +27,5 @@ def create_doctor(firstname, lastname,password, email, phone_number):
     except Exception as e:
         # Print the error message if an exception occurs
         print(e, "Error creating doctor")
-        
         # Return None to indicate failure
         return None
-    
-
