@@ -17,7 +17,6 @@ def questionnaire_page():
     """
     questions = get_default_questionnaire()
     if not current_user.med_history_updated:
-        flash('Please update your medical history before taking the questionnaire')
         return redirect(url_for('patient_views.patient_profile_page'))
     latest_responses = None
     if current_user.autofill_enabled:
