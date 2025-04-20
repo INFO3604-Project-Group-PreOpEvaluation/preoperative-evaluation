@@ -11,7 +11,8 @@ from App.config import load_config
 from App.controllers import (
     setup_jwt,
     add_auth_context,
-    setup_flask_login
+    setup_flask_login,
+    initialize_db
 )
 
 from App.views import views
@@ -38,4 +39,6 @@ def create_app(overrides={}):
         return render_template('401.html', error=error), 401
     
     app.app_context().push()
+    if os.environ.get('ENV') == 'PRODUCTION':
+        initialize_db()
     return app

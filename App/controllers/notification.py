@@ -23,7 +23,7 @@ def create_notification(patient_id=None, anesthesiologist_id=None, doctor_id=Non
         db.session.commit()
         return new_notification
     except Exception as e:
-        print(e)
+        print(e, ": Error creating notification")
         db.session.rollback()
         return None    
     
@@ -62,23 +62,6 @@ def get_notification(notification_id):
     notification = Notification.query.get_or_404(notification_id)
     return jsonify(notification.get_json())
      
-def delete_notification(notification_id):
-    """
-    Deletes a notification by its id
-
-    Args:
-        notification_id (int): The id of the notification to delete
-
-    Returns:
-        json: A json object indicating whether the notification was deleted successfully
-    """
-    notification = Notification.query.get(notification_id)
-    if not notification:
-        return jsonify({'error': 'Notification not found'}), 404
-
-    db.session.delete(notification)
-    db.session.commit()
-    return jsonify({'message': 'Notification deleted successfully'})
 
 
 def get_user_notifications(user_type, user_id):
@@ -139,7 +122,12 @@ def seen_notification(notification_id):
     notification = Notification.query.get(notification_id)
     if not notification:
         return False        #verifying notification exists 
-
-    notification.seen = True
-    db.session.commit()
-    return True
+    try:
+        notification.seen = True
+        db.session.commit()
+        return True 
+    except Exception as e:
+        db.session.rollback()
+        print(e, ": Error getting notification")
+        return False
+    

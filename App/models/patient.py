@@ -16,7 +16,6 @@ class Patient(User):
     type = db.Column(db.String(120), nullable=False, default='patient')
 
     dateOfBirth = db.Column(db.Date, nullable=True)
-    sex = db.Column(db.String(2), nullable=True)
     _blood_type = db.Column('blood_type', db.LargeBinary, nullable=True)
     _weight = db.Column('weight', db.LargeBinary, nullable=True)
     _height = db.Column('height', db.LargeBinary, nullable=True)

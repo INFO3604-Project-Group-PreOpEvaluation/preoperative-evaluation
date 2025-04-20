@@ -30,6 +30,7 @@ def create_anesthesiologist(firstname, lastname, password, email, phone_number):
         raise IntegrityError(None, None, "Integrity error while creating anesthesiologist") from e
     except Exception as e:
         # Print the error message if an exception occurs
+        db.session.rollback()
         print(e, "Error creating anesthesiologist")
         
         return None

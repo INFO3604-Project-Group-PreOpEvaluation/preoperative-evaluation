@@ -3,6 +3,7 @@ from datetime import datetime
 from App.database import db
 from App.controllers.patient import set_patient_autofill_enabled
 from datetime import datetime
+
 def create_questionnaire(patient_id, responses):
     """
     Create a new questionnaire for a patient and save it to the database.
@@ -29,6 +30,7 @@ def create_questionnaire(patient_id, responses):
         
         return new_questionnaire
     except Exception as e:
+        db.session.rollback()
         # Print the error message if an exception occurs
         print(e, "Error creating questionnaire")
         
@@ -232,12 +234,14 @@ def update_questionnaire(questionnaire_id, user_type ,**kwargs):
                 except Exception as e:
                     # Print the error message if an exception occurs
                     print(e, "Error updating patient notes")
+                    db.session.rollback()
                     return None
             db.session.commit()
             
             return questionnaire        
         return None
     except Exception as e:
+        db.session.rollback()
         # Print the error message if an exception occurs
         print(e, "Error updating questionnaire")
 
@@ -247,18 +251,4 @@ def update_questionnaire(questionnaire_id, user_type ,**kwargs):
         
     
 
-#     questionnaire = Questionnaire.query.get(questionnaire_id)
-#     if not questionnaire:
-#         return None
-#     try:
-#         for key, value in kwargs.items():
-#             if hasattr(questionnaire, key):
-#                 setattr(questionnaire, key, value)
-#         db.session.commit()
-#         return questionnaire
-#     except Exception as e:
-#         # Print the error message if an exception occurs
-#         db.session.rollback()
-#         print(e, "Error updating questionnaire")
-#         return None
 
