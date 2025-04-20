@@ -28,11 +28,12 @@ def doctor_dashboard_page():
     # Retrieve all patients from the database
     patients = get_all_patients()
     
+    personal_notifications = get_user_notifications(current_user.type, current_user.id)
     # Retrieve all patient questionnaires from the database
     patient_questionnaires = get_all_questionnaires()
 
     # Render the dashboard template with the retrieved data
-    return render_template('doctor_dashboard.html', patient_questionnaires=patient_questionnaires, patients=patients)
+    return render_template('doctor_dashboard.html', patient_questionnaires=patient_questionnaires, patients=patients, notifications=personal_notifications)
 
 @doctor_views.route('/dashboard/doctor/patient/<patient_id>', methods=['GET'])
 @doctor_required
@@ -102,10 +103,20 @@ def update_questionnaire_doctor_action(questionnaire_id):
     status = data['doctor_status']
 
     # Print the data for debugging purposes
-    print(questionnaire_id, operation_date, notes, status)
+    # print(questionnaire_id, operation_date, notes, status)
     
     # Update the questionnaire in the database
     updated = update_questionnaire(questionnaire_id, user_type="doctor", operation_date=operation_date, doctor_notes=notes, doctor_status=status)
+    questionnaire = get_questionnaire_by_id(questionnaire_id)
+    patient = get_patient_by_id(questionnaire.patient_id)
+        # Send a notification to the Doctor
+    if status == "approved" or status == "approved_w_c": 
+        notif = create_notification(patient_id=patient.id, message=f"Doctor {current_user.firstname} {current_user.lastname} has approved your questionnaire. See your dashboard for more details", title="Success")
+
+    elif status == "declined" or status == "denied_w_c":
+        # Send a notification to the patient
+        notif = create_notification(patient_id=patient.id, message=f"Your questionnaire has been declined by Doctor {current_user.firstname} {current_user.lastname}, please resubmit or contact the doctor", title="Error")
+
     if updated:
         # Flash a success message if the update is successful
         flash('Notes added successfully')
@@ -114,4 +125,4 @@ def update_questionnaire_doctor_action(questionnaire_id):
         flash('Error adding notes')
     
     # Redirect back to the previous page
-    return redirect(request.referrer)
+    return redirect(url_for('doctor_views.doctor_dashboard_page'))

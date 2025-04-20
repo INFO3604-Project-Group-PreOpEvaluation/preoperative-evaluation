@@ -55,6 +55,22 @@ def get_all_questionnaires():
     """
     return Questionnaire.query.all()
 
+def get_questionnaire_by_id(id):
+    """
+    Retrieve a questionnaire from the database by its ID.
+
+    Parameters:
+    id (int): The ID of the questionnaire to retrieve.
+
+    Returns:
+    Questionnaire: The questionnaire with the given ID if it exists, None otherwise.
+    """
+    try:
+        return Questionnaire.query.get(id)
+    except Exception as e:
+        print(e)
+    return None
+
 def get_all_questionnaires_json():
     """
     Retrieve all questionnaires from the database and return them as JSON.

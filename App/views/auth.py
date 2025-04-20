@@ -94,7 +94,6 @@ def signin_action():
     else:
         print("✗ No doctor found with that email")
     
-    print("\n✗ All login attempts failed")
     flash('Invalid email or password')
     return redirect(url_for('auth_views.signin_page'))
 
@@ -105,8 +104,6 @@ def signup_action():
     data = request.form     
     print(data)   
     patient = create_patient(firstname=data['firstname'], lastname=data['lastname'], password = data['password'], email=data['email'], phone_number=data['phone_number'])
-    if patient:
-      print("WORKS ")
     login_user(patient)
 
     if patient:

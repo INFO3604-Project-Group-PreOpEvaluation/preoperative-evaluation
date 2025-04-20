@@ -3,7 +3,7 @@ from App.database import db
 from App.models import Notification
 from datetime import datetime
 
-def create_notification(patient_id, anesthesiologist_id, doctor_id, message, title):
+def create_notification(patient_id=None, anesthesiologist_id=None, doctor_id=None, message=None, title=None):
     """
     Creates a new notification
 

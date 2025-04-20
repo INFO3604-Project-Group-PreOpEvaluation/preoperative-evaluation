@@ -90,7 +90,11 @@ def submit_questionnaire():
         flash('Questionnaire submitted successfully!')
     else:
         flash('Error submitting questionnaire! Please try again')
-    return render_template('questionnaire_view.html', questions=questions,  questionnaire=questionnaire)
+    anes = get_anesthesiologist_by_email('mikesmith@mail.com') # hardcoded as only one anesthesiologist 
+    notif = create_notification(anesthesiologist_id=anes.id, message=f"Patient {current_user.firstname + " " + current_user.lastname} has submitted their questionnaire", title="New Questionnaire Submission")
+    
+    return redirect(url_for('questionnaire_views.questionnaire_details_page', questionnaire_id=questionnaire.id))
+
 
 @questionnaire_views.route('/questionnaire/update_notes', methods=['POST'])
 @patient_required
@@ -106,9 +110,8 @@ def update_questionnaire_notes():
         flash('Notes updated successfully!')
     else:
         flash('Error updating notes')
+    anes = get_anesthesiologist_by_email('mikesmith@mail.com') # hardcoded as only one anesthesiologist 
+    notif = create_notification(anesthesiologist_id=anes.id, message=f"Patient {current_user.firstname + " " + current_user.lastname} has submitted notes for their questionnaire", title="New Questionnaire Notes")
         
-    return redirect(url_for('questionnaire_views.questionnaire_details_page', 
-                          questionnaire_id=updated.id if updated else None))
-    # Render the questionnaire view with the submitted responses
-    return render_template('questionnaire_view.html', questions=questions, questionnaire=questionnaire)
+    return redirect(url_for('patient_views.patient_profile_page'))
 
