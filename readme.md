@@ -1,17 +1,3 @@
-# Preoperative Evaluation
-
-
-
-
-
-
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/INFO3604-Project-Group-PreOpEvaluation/preoperative-evaluation)
-
-## Deploy to Render
-<a href="https://render.com/deploy?repo=https://github.com/uwidcit/flaskmvc">
-  <img src="https://render.com/images/deploy-to-render-button.svg" alt="Deploy to Render">
-</a>
-
 # **🏥 Preoperative Evaluation System ⚕️**
 
 ## **📜 Overview**
@@ -80,4 +66,12 @@ The project underwent various levels of testing to ensure functionality and reli
 *   **✅ User Acceptance Tests (UAT):** Conducted for patients, anaesthesiologists, and doctors to validate key workflows such as signup, login, questionnaire submission/review, and appointment scheduling.
 *   **🧩 Unit Tests:** Focused on testing individual components (models) of the system, such as patient, anaesthesiologist, doctor, questionnaire, and notification models, to ensure they function as expected.
 *   **🔗 Integration Tests:** Aimed at verifying the interaction and data flow between different parts of the system, ensuring that components work correctly together.
+
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/INFO3604-Project-Group-PreOpEvaluation/preoperative-evaluation)
+
+## Deploy to Render
+<a href="https://render.com/deploy?repo=https://github.com/uwidcit/flaskmvc">
+  <img src="https://render.com/images/deploy-to-render-button.svg" alt="Deploy to Render">
+</a>
 
