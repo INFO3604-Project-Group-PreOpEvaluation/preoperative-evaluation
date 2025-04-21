@@ -69,7 +69,7 @@ The project underwent various levels of testing to ensure functionality and reli
 
 # Application overview
 
-https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExcWV0ZzN0NDlkd2RwcWhybHhwN2V2dzVhNWd5a2gwbGE1cnowcDRsaCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xlPCzuWGPXgdpdYfVI/giphy.gif
+![Patient](https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExcWV0ZzN0NDlkd2RwcWhybHhwN2V2dzVhNWd5a2gwbGE1cnowcDRsaCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xlPCzuWGPXgdpdYfVI/giphy.gif)
 
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/INFO3604-Project-Group-PreOpEvaluation/preoperative-evaluation)
