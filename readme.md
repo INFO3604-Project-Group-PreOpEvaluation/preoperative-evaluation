@@ -9,9 +9,39 @@ The platform facilitates efficient communication  and coordination among **patie
 The system facilitates secure registration and authentication of users, allowing patients to create profiles and submit detailed medical histories through a structured preoperative questionnaire. Once submitted, anaesthesiologists receive notifications to review the information, add evaluative notes, and determine whether the patient is medically fit to proceed with surgery. Only after approval by the anaesthesiologist can doctors access the relevant patient records, review them, and proceed to schedule surgical appointments.
 The website lacked security implementations, so encryption was added to secure patient data. The project implemented AES-GCM to ensure both confidentiality and data integrity for patients. This method was chosen due to its strong security guarantees and efficiency.
 
+## **🛠️ Technologies Used**
+
+The Preoperative Evaluation system utilizes the following technologies:
+
+*   **💻 Flask:** Web framework for backend development.
+*   **🐍Python:** Programming language.
+*   **🎨 Bootstrap:** Front-end framework for responsive and user-friendly interface design.
+*   **🌐 HTML & CSS:** Markup and styling languages for the user interface.
+*   **☁️ Render:** Cloud-based hosting platform for deployment.
+*   **🐘 PostgreSQL:** Relational database management system for secure data storage.
+*   **🔗 SQLAlchemy:** Flask's built-in Object Relational Mapper (ORM) for database interaction using Python.
+*   **🏛️ Flask MVC template:** Used for structuring the application.
+*   **🧑‍💻 GitHub & Gitpod:** Development tools for collaboration, version control, cloud-based development, testing, and code editing.
+
+## **🚀 Deployment**
+
+The deployed application can be accessed at: **[https://preoperative-evaluation-9t5i.onrender.com/](https://preoperative-evaluation-9t5i.onrender.com/)** 🔗.
+
+## **🧪 Testing**
+
+The project underwent various levels of testing to ensure functionality and reliability:
+
+*   **✅ User Acceptance Tests (UAT):** Conducted for patients, anaesthesiologists, and doctors to validate key workflows such as signup, login, questionnaire submission/review, and appointment scheduling.
+*   **🧩 Unit Tests:** Focused on testing individual components (models) of the system, such as patient, anaesthesiologist, doctor, questionnaire, and notification models, to ensure they function as expected.
+*   **🔗 Integration Tests:** Aimed at verifying the interaction and data flow between different parts of the system, ensuring that components work correctly together.
+
+# Application overview
+
 ## **🔑 Key Features**
 
 ### **🧑‍⚕️ Patients**
+
+![Patient](https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExcWV0ZzN0NDlkd2RwcWhybHhwN2V2dzVhNWd5a2gwbGE1cnowcDRsaCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xlPCzuWGPXgdpdYfVI/giphy.gif)
 
 *   **🔒 Secure Registration and Authentication:** Patients can securely register and log in to the system.
 *   **👤 Profile Management:** Patients can create and manage their profiles.
@@ -41,35 +71,7 @@ The website lacked security implementations, so encryption was added to secure p
 *   **🗓️ Appointment Scheduling:** Doctors can approve 👍/deny 👎 patients for surgery and schedule surgical appointments.
 *   **💬 Communication:** Doctors can communicate with both anaesthesiologists and patients.
 
-## **🛠️ Technologies Used**
 
-The Preoperative Evaluation system utilizes the following technologies:
-
-*   **💻 Flask:** Web framework for backend development.
-*   **🐍Python:** Programming language.
-*   **🎨 Bootstrap:** Front-end framework for responsive and user-friendly interface design.
-*   **🌐 HTML & CSS:** Markup and styling languages for the user interface.
-*   **☁️ Render:** Cloud-based hosting platform for deployment.
-*   **🐘 PostgreSQL:** Relational database management system for secure data storage.
-*   **🔗 SQLAlchemy:** Flask's built-in Object Relational Mapper (ORM) for database interaction using Python.
-*   **🏛️ Flask MVC template:** Used for structuring the application.
-*   **🧑‍💻 GitHub & Gitpod:** Development tools for collaboration, version control, cloud-based development, testing, and code editing.
-
-## **🚀 Deployment**
-
-The deployed application can be accessed at: **[https://preoperative-evaluation-9t5i.onrender.com/](https://preoperative-evaluation-9t5i.onrender.com/)** 🔗.
-
-## **🧪 Testing**
-
-The project underwent various levels of testing to ensure functionality and reliability:
-
-*   **✅ User Acceptance Tests (UAT):** Conducted for patients, anaesthesiologists, and doctors to validate key workflows such as signup, login, questionnaire submission/review, and appointment scheduling.
-*   **🧩 Unit Tests:** Focused on testing individual components (models) of the system, such as patient, anaesthesiologist, doctor, questionnaire, and notification models, to ensure they function as expected.
-*   **🔗 Integration Tests:** Aimed at verifying the interaction and data flow between different parts of the system, ensuring that components work correctly together.
-
-# Application overview
-
-![Patient](https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExcWV0ZzN0NDlkd2RwcWhybHhwN2V2dzVhNWd5a2gwbGE1cnowcDRsaCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xlPCzuWGPXgdpdYfVI/giphy.gif)
 
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/INFO3604-Project-Group-PreOpEvaluation/preoperative-evaluation)
