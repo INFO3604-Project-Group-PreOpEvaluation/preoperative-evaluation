@@ -51,6 +51,7 @@ The project underwent various levels of testing to ensure functionality and reli
 *   **💬 Communication:** Patients can communicate with both doctors and anaesthesiologists.
 *   **📅 View Operation Date:** Patients can view their assigned operation date once approved.
 
+---
 ### **👩‍⚕️ Anaesthesiologists**
 
 *   **🔒 Secure Login and Authentication:** Anaesthesiologists can securely log in to the system.
