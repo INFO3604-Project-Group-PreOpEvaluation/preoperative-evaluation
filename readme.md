@@ -45,8 +45,8 @@ The website lacked security implementations, so encryption was added to secure p
 
 The Preoperative Evaluation system utilizes the following technologies:
 
-*   **🐍 Flask:** Web framework for backend development.
-*   **<0xF0><0x9F><0x93><0x8D> Python:** Programming language.
+*   **💻 Flask:** Web framework for backend development.
+*   **🐍Python:** Programming language.
 *   **🎨 Bootstrap:** Front-end framework for responsive and user-friendly interface design.
 *   **🌐 HTML & CSS:** Markup and styling languages for the user interface.
 *   **☁️ Render:** Cloud-based hosting platform for deployment.
