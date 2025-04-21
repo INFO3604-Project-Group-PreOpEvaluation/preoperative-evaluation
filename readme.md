@@ -12,7 +12,7 @@
 [![Trello](https://img.shields.io/badge/Trello-0052CC?logo=trello&logoColor=fff)](#)
 [![Postgres](https://img.shields.io/badge/Postgres-%23316192.svg?logo=postgresql&logoColor=white)](#)
 [![Flask](https://img.shields.io/badge/Flask-000?logo=flask&logoColor=fff)](#)
-[![Website](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)]([https://shields.io/](https://preoperative-evaluation-9t5i.onrender.com/))
+[![Website](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](https://preoperative-evaluation-9t5i.onrender.com/)
 
 </div>
 
