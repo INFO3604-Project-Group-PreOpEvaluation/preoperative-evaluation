@@ -1,10 +1,7 @@
 <h1 align="center">
-  <img src="images/logo0-removebg.png" alt="PreOp Logo" />
+  <img src="images/logo0.png" alt="PreOp Logo" />
 </h1>
-<h2 align="center">
-  <img alt="Making healthcare easy" src="images/text.svg">
-</h2>
-
+---
 <div align="center">
 
 [Releases][release]&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;[Fonts](#patched-fonts)&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;[Font Patcher](#font-patcher)&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;[Wiki Documentation][wiki]&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;[Stickers][stickers]&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;[VimDevIcons][vim-devicons]
