@@ -121,6 +121,16 @@ The project underwent various levels of testing to ensure functionality and reli
 https://github.com/inttter/md-badges
 
 
+# Dependencies
+* Python3/pip3
+* Packages listed in requirements.txt
+
+
+# Installing Dependencies
+```bash
+$ pip install -r requirements.txt
+```
+
 # Flask Commands
 
 wsgi.py is a utility script for performing various tasks related to the project. You can use it to import and test any code in the project. 
@@ -196,3 +206,62 @@ You can run all application tests with the following command
 ```bash
 $ pytest
 ```
+# Troubleshooting
+
+## Views 404ing
+
+If your newly created views are returning 404 ensure that they are added to the list in main.py.
+
+```python
+from App.views import (
+    user_views,
+    index_views
+)
+
+# New views must be imported and added to this list
+views = [
+    user_views,
+    index_views
+]
+```
+
+# Configuration Management
+
+
+Configuration information such as the database url/port, credentials, API keys etc are to be supplied to the application. However, it is bad practice to stage production information in publicly visible repositories.
+Instead, all config is provided by a config file or via [environment variables](https://linuxize.com/post/how-to-set-and-list-environment-variables-in-linux/).
+
+## In Development
+
+When running the project in a development environment (such as gitpod) the app is configured via default_config.py file in the App folder. By default, the config for development uses a sqlite database.
+
+default_config.py
+```python
+SQLALCHEMY_DATABASE_URI = "sqlite:///temp-database.db"
+SECRET_KEY = "secret key"
+JWT_ACCESS_TOKEN_EXPIRES = 7
+ENV = "DEVELOPMENT"
+```
+
+These values would be imported and added to the app in load_config() function in config.py
+
+config.py
+```python
+# must be updated to inlude addtional secrets/ api keys & use a gitignored custom-config file instad
+def load_config():
+    config = {'ENV': os.environ.get('ENV', 'DEVELOPMENT')}
+    delta = 7
+    if config['ENV'] == "DEVELOPMENT":
+        from .default_config import JWT_ACCESS_TOKEN_EXPIRES, SQLALCHEMY_DATABASE_URI, SECRET_KEY
+        config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
+        config['SECRET_KEY'] = SECRET_KEY
+        delta = JWT_ACCESS_TOKEN_EXPIRES
+...
+```
+
+## In Production
+
+When deploying your application to production/staging you must pass
+in configuration information via environment tab of your render project's dashboard.
+
+![perms](./images/fig1.png)
