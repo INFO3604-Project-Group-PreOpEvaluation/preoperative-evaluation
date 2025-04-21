@@ -51,6 +51,8 @@ The project underwent various levels of testing to ensure functionality and reli
 
 *   **✅ User Acceptance Tests (UAT):** Conducted for patients, anesthesiologists, and doctors to validate key workflows such as signup, login, questionnaire submission/review, and appointment scheduling.
 *   **🧩 Unit Tests:** Focused on testing individual components (models) of the system, such as patient, anesthesiologist, doctor, questionnaire, and notification models, to ensure they function as expected.
+
+
 *   **🔗 Integration Tests:** Aimed at verifying the interaction and data flow between different parts of the system, ensuring that components work correctly together.
 
 # Application overview
@@ -117,3 +119,80 @@ The project underwent various levels of testing to ensure functionality and reli
 ### Useful:
 
 https://github.com/inttter/md-badges
+
+
+# Flask Commands
+
+wsgi.py is a utility script for performing various tasks related to the project. You can use it to import and test any code in the project. 
+You just need create a manager command function, for example:
+
+```python
+# inside wsgi.py
+
+user_cli = AppGroup('user', help='User object commands')
+
+@user_cli.cli.command("create-user")
+@click.argument("username")
+@click.argument("password")
+def create_user_command(username, password):
+    create_user(username, password)
+    print(f'{username} created!')
+
+app.cli.add_command(user_cli) # add the group to the cli
+
+```
+
+# Initializing the Database
+When connecting the project to a fresh empty database ensure the appropriate configuration is set then file then run the following command. This must also be executed once when running the app on heroku by opening the heroku console, executing bash and running the command in the dyno.
+
+```bash
+$ flask init
+```
+
+# Running the Project
+
+_For development run the serve command (what you execute):_
+```bash
+$ flask run
+```
+
+_For production using gunicorn (what heroku executes):_
+```bash
+$ gunicorn wsgi:app
+```
+
+# Testing
+
+## Unit & Integration
+Unit and Integration tests are created in the App/test. You can then create commands to run them. Look at the unit test command in wsgi.py for example:
+
+```python
+@test.command("patient", help="Run Patient Tests")
+@click.argument("type", default="all")
+def user_tests_command(type):
+    if type == "unit":
+        sys.exit(pytest.main(["-k", "PatientUnitTests"]))
+    elif type == "int":
+        sys.exit(pytest.main(["-k", "PatientIntegrationTests"]))
+    else:
+        sys.exit(pytest.main(["-k", "Patient"]))
+```
+
+You can then execute all user tests as follows
+
+```bash
+$ flask test patient
+```
+
+You can also supply "unit" or "int" at the end of the comand to execute only unit or integration tests. For example:
+
+```bash
+$ flask test patient unit
+$ flask test patient int
+```
+
+You can run all application tests with the following command
+
+```bash
+$ pytest
+```
