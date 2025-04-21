@@ -4,10 +4,14 @@
 ---
 <div align="center">
 
-[Releases][release]&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;[Fonts](#patched-fonts)&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;[Font Patcher](#font-patcher)&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;[Wiki Documentation][wiki]&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;[Stickers][stickers]&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;[VimDevIcons][vim-devicons]
-
-
-[![GitHub release][img-version-badge]][repo] [![Gitter][img-gitter-badge]][gitter] [![Code of Conduct][coc-badge]][coc] [![PRs Welcome][prs-badge]][prs]  <a href="#patched-fonts" title=""><img src="https://raw.githubusercontent.com/wiki/ryanoasis/nerd-fonts/images/faux-shield-badge-os-logos.svg?sanitize=true" alt="Nerd Fonts - OS Support"></a>
+![language](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+[![CSS](https://img.shields.io/badge/CSS-1572B6?logo=css3&logoColor=fff)](#)
+[![HTML](https://img.shields.io/badge/HTML-%23E34F26.svg?logo=html5&logoColor=white)](#)
+[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=000)](#)
+[![Visual Studio Code](https://custom-icon-badges.demolab.com/badge/Visual%20Studio%20Code-0078d7.svg?logo=vsc&logoColor=white)](#)
+[![Trello](https://img.shields.io/badge/Trello-0052CC?logo=trello&logoColor=fff)](#)
+[![Postgres](https://img.shields.io/badge/Postgres-%23316192.svg?logo=postgresql&logoColor=white)](#)
+[![Flask](https://img.shields.io/badge/Flask-000?logo=flask&logoColor=fff)](#)
 
 
 </div>
@@ -65,6 +69,7 @@ The project underwent various levels of testing to ensure functionality and reli
 *   **💬 Communication:** Patients can communicate with both doctors and anesthesiologists.
 *   **📅 View Operation Date:** Patients can view their assigned operation date once approved.
 
+
 ---
 
 
@@ -78,6 +83,7 @@ The project underwent various levels of testing to ensure functionality and reli
 *   **🧐 Questionnaire Review and Approval:** Anesthesiologists can view patient questionnaire results, add evaluative notes ✍️, and approve 👍 or deny 👎 them based on medical assessments.
 *   **🔔 Notification System:** Anesthesiologists receive notifications for incoming patient questionnaires.
 *   **💬 Communication:** Anesthesiologists can communicate with both doctors and patients.
+
 
 
 ---
@@ -96,6 +102,7 @@ The project underwent various levels of testing to ensure functionality and reli
 *   **💬 Communication:** Doctors can communicate with both anesthesiologists and patients.
 
 
+---
 
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/INFO3604-Project-Group-PreOpEvaluation/preoperative-evaluation)
@@ -105,3 +112,8 @@ The project underwent various levels of testing to ensure functionality and reli
   <img src="https://render.com/images/deploy-to-render-button.svg" alt="Deploy to Render">
 </a>
 
+---
+
+### Useful:
+
+https://github.com/inttter/md-badges
