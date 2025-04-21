@@ -4,7 +4,7 @@
 
 The increasing demands placed on public healthcare institutions, particularly in preoperative assessment, underscore the need for innovative solutions that enhance efficiency, accuracy, and patient-centred care. This project introduces a **web-based “Preoperative Evaluation” system** 💻 designed to **modernize and streamline surgical preparation**  within public healthcare institutions. The system aims to enhance **efficiency, accuracy, and patient-centered care ❤** by facilitating the **digital submission  and review  of preoperative questionnaires**. This allows patients to securely provide their medical histories and receive timely evaluations from anaesthesiologists.
 
-The platform facilitates efficient communication  and coordination among **patients, anaesthesiologists, and doctors ** by enabling the **electronic submission, review, and approval of preoperative questionnaires**. It reduces reliance on paper-based forms , minimizes administrative delays, and ensures healthcare professionals can make informed decisions based on accessible and structured patient data .
+The platform facilitates efficient communication  and coordination among **patients, anaesthesiologists, and doctors** by enabling the **electronic submission, review, and approval of preoperative questionnaires**. It reduces reliance on paper-based forms , minimizes administrative delays, and ensures healthcare professionals can make informed decisions based on accessible and structured patient data .
 
 The system facilitates secure registration and authentication of users, allowing patients to create profiles and submit detailed medical histories through a structured preoperative questionnaire. Once submitted, anaesthesiologists receive notifications to review the information, add evaluative notes, and determine whether the patient is medically fit to proceed with surgery. Only after approval by the anaesthesiologist can doctors access the relevant patient records, review them, and proceed to schedule surgical appointments.
 The website lacked security implementations, so encryption was added to secure patient data. The project implemented AES-GCM to ensure both confidentiality and data integrity for patients. This method was chosen due to its strong security guarantees and efficiency.
@@ -66,6 +66,10 @@ The project underwent various levels of testing to ensure functionality and reli
 *   **✅ User Acceptance Tests (UAT):** Conducted for patients, anaesthesiologists, and doctors to validate key workflows such as signup, login, questionnaire submission/review, and appointment scheduling.
 *   **🧩 Unit Tests:** Focused on testing individual components (models) of the system, such as patient, anaesthesiologist, doctor, questionnaire, and notification models, to ensure they function as expected.
 *   **🔗 Integration Tests:** Aimed at verifying the interaction and data flow between different parts of the system, ensuring that components work correctly together.
+
+# Application overview
+
+https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExcWV0ZzN0NDlkd2RwcWhybHhwN2V2dzVhNWd5a2gwbGE1cnowcDRsaCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xlPCzuWGPXgdpdYfVI/giphy.gif
 
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/INFO3604-Project-Group-PreOpEvaluation/preoperative-evaluation)
